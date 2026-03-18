@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النتائج — قبل وبعد | Results — Before & After | د. محمد القحطاني</title>
+    <meta name="description" content="شاهد نتائج حالات حقيقية قبل وبعد العلاج أشرف عليها د. محمد القحطاني. See real before & after results supervised by Dr. Mohammed AlQahtani.">
+    <link rel="canonical" href="https://mohammedqahtani.com/results.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #FAFAF7;
+            --text: #1A1A1A;
+            --accent: #C9A96E;
+            --secondary: #8B7355;
+            --line: #E8E4DD;
+        }
+
+        html, body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.en { direction: ltr; }
+        body.ar .en-only { display: none !important; }
+        body.en .ar-only { display: none !important; }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            padding: 6px;
+            display: flex;
+            gap: 4px;
+            backdrop-filter: blur(10px);
+        }
+        body.en .lang-toggle { left: auto; right: 20px; }
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            color: #999;
+        }
+        .lang-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        body.en .back-btn { right: auto; left: 20px; }
+
+        /* Header */
+        .results-header {
+            text-align: center;
+            padding: 100px 2rem 40px;
+            background: #F7F3EE;
+        }
+        .results-header h1 {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        body.en .results-header h1 {
+            font-family: 'Playfair Display', serif;
+        }
+        .results-header p {
+            color: #888;
+            font-size: 1.05rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
+            margin: 20px auto 15px;
+        }
+
+        /* Results Grid */
+        .results-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 2rem 80px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .result-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .result-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .result-side {
+            position: relative;
+            overflow: hidden;
+        }
+        .result-side img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .result-label {
+            position: absolute;
+            top: 12px;
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+        .result-label.before {
+            left: 12px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+        }
+        .result-label.after {
+            right: 12px;
+            background: rgba(201, 169, 110, 0.9);
+            color: #fff;
+        }
+        body.en .result-label.before { left: 12px; right: auto; }
+        body.en .result-label.after { right: 12px; left: auto; }
+
+        .result-info {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--line);
+            background: #FAFAF7;
+        }
+        .result-info span {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 2rem;
+        }
+        .empty-state svg {
+            color: var(--accent);
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+        .empty-state h3 {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        body.en .empty-state h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .empty-state p {
+            color: #999;
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 400px;
+            margin: 0 auto 25px;
+        }
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 36px;
+            background: #25D366;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .whatsapp-btn:hover {
+            background: #1fb855;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Footer */
+        .results-footer {
+            text-align: center;
+            padding: 30px 2rem;
+            border-top: 1px solid var(--line);
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .results-header { padding: 90px 1.5rem 30px; }
+            .results-header h1 { font-size: 1.8rem; }
+            .results-container { padding: 30px 1rem 60px; }
+            .result-side img { height: 180px; }
+            .result-info { padding: 12px 14px; flex-direction: column; gap: 4px; }
+        }
+    </style>
+</head>
+<body class="ar">
+
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('ar')">عربي</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+
+    <!-- Back to Home -->
+    <a href="index.html" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span class="ar-only">الرئيسية</span>
+        <span class="en-only">Home</span>
+    </a>
+
+    <!-- Header -->
+    <div class="results-header">
+        <h1>
+            <span class="ar-only">النتائج — قبل وبعد</span>
+            <span class="en-only">Results — Before & After</span>
+        </h1>
+        <div class="section-divider"></div>
+        <p>
+            <span class="ar-only">حالات حقيقية أشرف عليها د. محمد القحطاني بموافقة المرضى</span>
+            <span class="en-only">Real cases supervised by Dr. Mohammed AlQahtani with patient consent</span>
+        </p>
+    </div>
+
+    <!-- Results Content -->
+    <div class="results-container">
+        <div class="results-grid">
+
+            <!-- EMPTY STATE: shown when no photos are added yet -->
+            <div class="empty-state" id="emptyState">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="4" y="10" width="24" height="32" rx="3"/>
+                    <rect x="36" y="10" width="24" height="32" rx="3"/>
+                    <path d="M16 46l0 6M48 46l0 6" stroke-linecap="round"/>
+                    <circle cx="16" cy="24" r="4"/>
+                    <circle cx="48" cy="24" r="4"/>
+                    <path d="M28 26l4-3 4 3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3>
+                    <span class="ar-only">النتائج قريباً</span>
+                    <span class="en-only">Results Coming Soon</span>
+                </h3>
+                <p>
+                    <span class="ar-only">نعمل على إضافة صور قبل وبعد لحالات حقيقية. للاستفسار عن النتائج تواصل معنا مباشرة</span>
+                    <span class="en-only">We're adding real before & after photos soon. For inquiries about results, contact us directly</span>
+                </p>
+                <a href="https://wa.me/966500098821?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D9%85%D8%B4%D8%A7%D9%87%D8%AF%D8%A9%20%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D8%A7%D9%84%D8%B9%D9%84%D8%A7%D8%AC" target="_blank" class="whatsapp-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.603-1.209A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.153 0-4.16-.655-5.828-1.776l-.406-.263-2.994.786.803-2.932-.287-.457A9.952 9.952 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+                    </svg>
+                    <span class="ar-only">تواصل عبر واتساب</span>
+                    <span class="en-only">Contact via WhatsApp</span>
+                </a>
+            </div>
+
+            <!--
+            ==============================================
+            HOW TO ADD BEFORE & AFTER PHOTOS:
+            ==============================================
+            Copy and paste this template for each case.
+            Replace "YOUR_BEFORE_IMAGE_URL" and "YOUR_AFTER_IMAGE_URL"
+            with the actual image URLs or base64 data.
+
+            <div class="result-card">
+                <div class="result-pair">
+                    <div class="result-side">
+                        <span class="result-label before">
+                            <span class="ar-only">قبل</span>
+                            <span class="en-only">BEFORE</span>
+                        </span>
+                        <img src="YOUR_BEFORE_IMAGE_URL" alt="Before treatment">
+                    </div>
+                    <div class="result-side">
+                        <span class="result-label after">
+                            <span class="ar-only">بعد</span>
+                            <span class="en-only">AFTER</span>
+                        </span>
+                        <img src="YOUR_AFTER_IMAGE_URL" alt="After treatment">
+                    </div>
+                </div>
+                <div class="result-info">
+                    <span class="ar-only">وصف الحالة بالعربي</span>
+                    <span class="en-only">Case description in English</span>
+                </div>
+            </div>
+
+            When you add result cards, hide the empty state by adding:
+            style="display:none" to the div with id="emptyState"
+            ==============================================
+            -->
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="results-footer">
+        <span class="ar-only">&copy; 2025 د. محمد القحطاني — جميع الحقوق محفوظة</span>
+        <span class="en-only">&copy; 2025 Dr. Mohammed AlQahtani — All Rights Reserved</span>
+    </div>
+
+    <script>
+        function setLang(lang) {
+            document.body.className = lang;
+            if (lang === 'en') {
+                document.documentElement.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', 'en');
+            } else {
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+            }
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
