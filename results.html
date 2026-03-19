@@ -147,6 +147,33 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.08);
         }
 
+        /* Video Result Card */
+        .result-card.video-card {
+            border: 2px solid var(--accent);
+            position: relative;
+        }
+        .video-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--accent);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+        body.en .video-badge { right: auto; left: 12px; }
+        .result-card.video-card video {
+            width: 100%;
+            display: block;
+            max-height: 500px;
+            object-fit: contain;
+            background: #f0ece4;
+        }
+
         .result-pair {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -319,6 +346,22 @@
     <!-- Results Content -->
     <div class="results-container">
         <div class="results-grid">
+
+                <!-- Video Before/After Card -->
+                <div class="result-card video-card">
+                    <div class="video-badge">
+                        <span class="ar-only">فيديو</span>
+                        <span class="en-only">VIDEO</span>
+                    </div>
+                    <video autoplay loop muted playsinline>
+                        <source src="before-after-video.mp4" type="video/mp4">
+                    </video>
+                    <div class="result-info">
+                        <span class="ar-only">حالة تساقط الشعر — قبل وبعد العلاج الطبي</span>
+                        <span class="en-only">Hair Loss Case — Before & After Medical Treatment</span>
+                        <svg width="16" height="16" fill="none" stroke="#C9A96E" stroke-width="2"><path d="M8 1v14M1 8h14"/></svg>
+                    </div>
+                </div>
 
                 <div class="result-card">
                     <div class="result-pair">
