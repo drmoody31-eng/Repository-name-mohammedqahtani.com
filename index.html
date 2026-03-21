@@ -267,59 +267,16 @@
         }
 
         /* Hero Section - Compact */
+        /* Hero Section - Full Width */
         .hero {
             margin-top: 70px;
-            min-height: 60vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 60px 1.5rem;
-            background: var(--bg);
+            background: linear-gradient(135deg, #1A1A1A 0%, #2C2418 50%, #1A1A1A 100%);
             position: relative;
             overflow: hidden;
-        }
-
-        .hero-split {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-            max-width: 1100px;
-            width: 100%;
-            padding: 0 1rem;
-        }
-
-        body.ar .hero-split {
-            flex-direction: row-reverse;
-        }
-
-        .hero-text {
-            flex: 1;
-            text-align: right;
-        }
-
-        body.en .hero-text {
-            text-align: left;
-        }
-
-        .hero-intro {
-            font-size: 1.05rem;
-            color: var(--secondary);
-            line-height: 1.9;
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .hero-image-container {
-            flex: 0 0 320px;
-        }
-
-        .hero-portrait {
-            width: 320px;
-            height: 420px;
-            object-fit: cover;
-            border-radius: 16px;
-            border: 3px solid var(--line);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            padding: 0;
         }
 
         .hero::before {
@@ -329,37 +286,91 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse at 50% 30%, rgba(201,169,110,0.04) 0%, transparent 70%);
+            background: radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.08) 0%, transparent 60%);
             pointer-events: none;
         }
 
-        .hero-content {
-            text-align: center;
-            max-width: 700px;
+        .hero-split {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            min-height: 85vh;
         }
 
-        .hero-text .hero-divider {
-            margin: 1rem 0 1rem auto;
+        .hero-image-container {
+            flex: 0 0 45%;
+            position: relative;
+            align-self: flex-end;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            min-height: 70vh;
         }
 
-        body.en .hero-text .hero-divider {
-            margin: 1rem auto 1rem 0;
+        .hero-portrait {
+            max-height: 80vh;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            object-position: bottom;
+            filter: brightness(1.05);
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
         }
 
-        .hero-text .hero-buttons {
-            justify-content: flex-end;
+        .hero-text {
+            flex: 1;
+            padding: 3rem 4rem 3rem 2rem;
+            text-align: right;
         }
 
-        body.en .hero-text .hero-buttons {
-            justify-content: flex-start;
+        body.en 
+
+        .hero-greeting {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            color: var(--accent);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .hero-intro {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.85);
+            line-height: 2;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
         }
 
         .hero-divider {
-            width: 30px;
-            height: 0.5px;
+            width: 50px;
+            height: 1px;
             background: var(--accent);
-            margin: 1rem auto;
+            margin: 0 0 1.5rem auto;
             position: relative;
+        }
+
+        body.en .hero-divider {
+            margin: 0 auto 1.5rem 0;
         }
 
         .hero-divider::before,
@@ -382,36 +393,37 @@
             right: -10px;
         }
 
-        .hero h1 {
-            margin-bottom: 0.8rem;
-            font-size: clamp(1.8rem, 5vw, 3rem);
-        }
-
-        .hero-subtitle {
-            font-size: 0.95rem;
-            color: var(--secondary);
-            margin-bottom: 2rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-
-
-        .hero-photo {
-            width: 200px;
-            height: 200px;
-            margin: 2rem auto;
-            border-radius: 50%;
-            border: 8px solid var(--accent);
-            box-shadow: 0 10px 40px rgba(201, 169, 110, 0.25);
-            object-fit: cover;
-            display: block;
-        }
-
         .hero-buttons {
             display: flex;
             gap: 1.5rem;
-            justify-content: center;
+            justify-content: flex-end;
             flex-wrap: wrap;
+        }
+
+        body.en .hero-buttons {
+            justify-content: flex-start;
+        }
+
+        .hero .btn {
+            background: transparent;
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .hero .btn:hover {
+            background: var(--accent);
+            color: #1A1A1A;
+        }
+
+        .hero .btn-secondary {
+            border-color: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.7);
+        }
+
+        .hero .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: transparent;
         }
 
         .btn {
@@ -1338,16 +1350,9 @@
             h2 {
                 font-size: clamp(1.3rem, 3.5vw, 2rem);
             }
-            .hero {
-                min-height: 50vh;
-                padding: 2.5rem 1.2rem;
-            }
 
-            .hero-photo {
-                width: 150px;
-                height: 150px;
-                border-width: 6px;
-            }
+
+
 
             .services-scroll {
                 gap: 1rem;
@@ -1374,7 +1379,50 @@
             section {
                 padding: 2rem 1rem;
             }
-        }
+        
+            .hero {
+                min-height: auto;
+                padding: 2rem 0 0;
+            }
+
+            .hero-split {
+                flex-direction: column-reverse !important;
+                min-height: auto;
+            }
+
+            .hero-text {
+                text-align: center !important;
+                padding: 2rem 1.5rem !important;
+            }
+
+            .hero-divider {
+                margin: 0 auto 1.5rem !important;
+            }
+
+            .hero-buttons {
+                justify-content: center !important;
+            }
+
+            .hero-image-container {
+                flex: 0 0 auto !important;
+                min-height: auto !important;
+                max-height: 50vh;
+            }
+
+            .hero-portrait {
+                max-height: 50vh !important;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-intro {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+
+}
     </style>
 </head>
 <body class="ar">
@@ -1407,23 +1455,25 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-split">
+            <div class="hero-image-container">
+                <img src="dr-mohammed.jpg" alt="Dr. Mohammed AlQahtani" class="hero-portrait">
+            </div>
             <div class="hero-text">
+                <p class="hero-greeting ar-only">حيّاكم الله</p>
+                <p class="hero-greeting en-only">Welcome</p>
                 <div class="hero-divider"></div>
                 <h1 class="ar-only">د. محمد القحطاني</h1>
                 <h1 class="en-only">Dr. Mohammed AlQahtani</h1>
-                <p class="hero-subtitle ar-only">استشاري أمراض جلدية وشعر — عيادات نويا، الرياض</p>
-                <p class="hero-subtitle en-only">Hair Dermatology Consultant — Noya Clinic, Riyadh</p>
-                <p class="hero-intro ar-only">أعالج المريض، لا الدواء. كل حالة فريدة وكل خطة علاجية أصممها مبنية على فهم عميق لحالتك وأسلوب حياتك — مو بس وصفة طبية. في عالم مليان وعود مبالغ فيها، أنا أختار العلم والصدق. ما فيه "أفضل علاج" — فيه الأنسب لك.</p>
-                <p class="hero-intro en-only">I treat the patient, not just the condition. Every treatment plan I design is built on a deep understanding of your case, your lifestyle, and your goals — not just a prescription. In a world full of exaggerated promises, I choose science and honesty. There is no "best treatment" — only the right one for you.</p>
+                <p class="hero-subtitle ar-only">MBBS | البورد السعودي في الجلدية | زمالة الشعر المبنية على البراهين</p>
+                <p class="hero-subtitle en-only">MBBS | Saudi Board in Dermatology | Evidence-Based Hair Fellowship</p>
+                <p class="hero-intro ar-only">استشاري أمراض جلدية وشعر في عيادات نويا بالرياض. بدأت رحلتي في الطب بشغف واحد: أفهم المريض قبل ما أفهم المرض. درست في أفضل البرامج، وتخصصت في أمراض الشعر لأن فيها تحدّي حقيقي — كل حالة لها قصة مختلفة. فلسفتي بسيطة: أتقن المريض، لا الدواء. ما أكتب وصفة وأمشي — أجلس معك، أسمعك، وأفهم حياتك وعاداتك ونظامك الغذائي وحتى ضغوطك النفسية. لأن شعرك يعكس صحتك الداخلية، والعلاج الحقيقي يبدأ من الفهم. في عالم مليان إعلانات ووعود مبالغ فيها، أنا أختار العلم والصدق. ما عندي "علاج سحري" — عندي خبرة، وبيانات، وخطة مصممة لك أنت. لأن ما فيه "أفضل علاج" — فيه الأنسب لحالتك.</p>
+                <p class="hero-intro en-only">Hair Dermatology Consultant at Noya Clinic, Riyadh. I started my medical journey with one passion: understanding the patient before understanding the disease. I trained in the best programs and specialized in hair disorders because they present a real challenge — every case tells a different story. My philosophy is simple: master the patient, not the medication. I don't write a prescription and move on — I sit with you, listen to your story, and understand your lifestyle, habits, diet, and even your stress. Because your hair reflects your inner health, and real treatment begins with understanding. In a world full of advertisements and exaggerated promises, I choose science and honesty. I don't have a "magic cure" — I have experience, data, and a plan designed specifically for you. Because there is no "best treatment" — only the right one for your case.</p>
                 <div class="hero-buttons">
-                    <button class="btn ar-only" onclick="document.getElementById('contact').scrollIntoView()">احجز استشارة</button>
-                    <button class="btn en-only" onclick="document.getElementById('contact').scrollIntoView()">Book Consultation</button>
+                    <button class="btn ar-only" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">احجز استشارة</button>
+                    <button class="btn en-only" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Consultation</button>
                     <a href="results.html" class="btn btn-secondary ar-only" style="text-decoration:none;">شاهد النتائج</a>
                     <a href="results.html" class="btn btn-secondary en-only" style="text-decoration:none;">View Results</a>
                 </div>
-            </div>
-            <div class="hero-image-container">
-                <img src="dr-mohammed.jpg" alt="Dr. Mohammed AlQahtani" class="hero-portrait">
             </div>
         </div>
     </section>
