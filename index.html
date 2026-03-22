@@ -307,6 +307,8 @@
             margin-left: -1rem;
             padding: 0.5rem 0 0 0;
             align-self: end;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero-portrait {
@@ -317,6 +319,31 @@
             display: block;
             filter: brightness(1.1);
             margin-bottom: -4px;
+        }
+
+        .hero-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(255,255,255,0.08) 45%,
+                rgba(255,255,255,0.15) 50%,
+                rgba(255,255,255,0.08) 55%,
+                transparent 70%
+            );
+            animation: hairShine 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes hairShine {
+            0% { left: -100%; }
+            40% { left: 150%; }
+            100% { left: 150%; }
         }
 
 
@@ -2878,10 +2905,8 @@
     </footer>
 
     <!-- Floating CTA Button -->
-    <a href="https://wa.me/966500098821" target="_blank" class="floating-cta">
-        <span class="floating-cta-icon">📞</span>
-        <span>احجز</span>
-    </a>
+    <!-- Floating CTA removed - single book button in contact section -->
+
 
     <!-- Article Reader Modal (Hidden by default, for future blog articles) -->
     <div class="article-reader" id="articleReader">
@@ -2989,9 +3014,9 @@
     // Auto-scroll + manual swipe/drag for all carousel sections
     document.addEventListener('DOMContentLoaded', function() {
         var containers = [
-            { el: document.querySelector('.testimonials-scroll'), speed: 0.15 },
-            { el: document.querySelector('.services-scroll'), speed: 0.2 },
-            { el: document.querySelector('.blog-cards-container'), speed: 0.2 }
+            { el: document.querySelector('.testimonials-scroll'), speed: 0.8 },
+            { el: document.querySelector('.services-scroll'), speed: 0.8 },
+            { el: document.querySelector('.blog-cards-container'), speed: 0.8 }
         ];
 
         containers.forEach(function(cfg) {
@@ -3009,11 +3034,17 @@
             var isDragging = false;
             var startX = 0;
             var startScroll = 0;
+            var acc = 0;
 
-            // Auto-scroll
+            // Auto-scroll with accumulator for sub-pixel precision
             function step() {
                 if (!paused && !isDragging) {
-                    c.scrollLeft += cfg.speed;
+                    acc += cfg.speed;
+                    if (acc >= 1) {
+                        var px = Math.floor(acc);
+                        c.scrollLeft += px;
+                        acc -= px;
+                    }
                     if (c.scrollLeft >= c.scrollWidth / 2) {
                         c.scrollLeft = 0;
                     }
