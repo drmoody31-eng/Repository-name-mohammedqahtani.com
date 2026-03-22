@@ -776,12 +776,27 @@
             background: #EDE8E0;
         }
 
+        .services-scroll-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
         .services-scroll {
             display: flex;
             gap: 1.5rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
-            scroll-behavior: smooth;
+            animation: scrollServices 50s linear infinite;
+            will-change: transform;
+            direction: ltr;
+        }
+
+        .services-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollServices {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .service-item {
@@ -794,6 +809,14 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
+        }
+
+        body.ar .service-item {
+            direction: rtl;
+        }
+
+        body.en .service-item {
+            direction: ltr;
         }
 
         .service-item::before {
@@ -1096,28 +1119,28 @@
         }
 
         /* Blog Cards Container */
+        .blog-scroll-outer {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
         .blog-cards-container {
             display: flex;
             gap: 1.2rem;
-            overflow-x: auto;
-            scroll-behavior: smooth;
+            animation: scrollBlogCards 90s linear infinite;
+            will-change: transform;
             padding: 1rem 0 1.5rem;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) transparent;
+            direction: ltr;
         }
 
-        .blog-cards-container::-webkit-scrollbar {
-            height: 4px;
+        .blog-cards-container:hover {
+            animation-play-state: paused;
         }
 
-        .blog-cards-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .blog-cards-container::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
+        @keyframes scrollBlogCards {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .blog-card {
@@ -1132,10 +1155,17 @@
             flex-shrink: 0;
         }
 
+        body.ar .blog-card {
+            direction: rtl;
+        }
+
+        body.en .blog-card {
+            direction: ltr;
+        }
+
         .blog-card:hover {
             border-color: var(--accent);
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            transform: translateY(-3px);
         }
 
         .blog-card-featured {
@@ -1235,7 +1265,44 @@
         }
 
         .testimonials-preview {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
             margin-bottom: 2rem;
+        }
+
+        .testimonials-scroll {
+            display: flex;
+            gap: 1.5rem;
+            animation: scrollTestimonials 80s linear infinite;
+            will-change: transform;
+            direction: ltr;
+        }
+
+        .testimonials-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollTestimonials {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .testimonial-card {
+            flex: 0 0 300px;
+            padding: 1.5rem;
+            background: #fff;
+            border: 0.5px solid var(--line);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        body.ar .testimonial-card {
+            direction: rtl;
+        }
+
+        body.en .testimonial-card {
+            direction: ltr;
         }
 
         
@@ -1244,7 +1311,6 @@
 
         .testimonial-card:hover {
             box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-            transform: translateY(-2px);
         }
 
         .testimonial-quote-mark {
@@ -1932,6 +1998,7 @@
             <h2 class="blog-ticker-title ar-only">المدونة</h2>
             <h2 class="blog-ticker-title en-only">Blog</h2>
             
+            <div class="blog-scroll-outer">
             <div class="blog-cards-container">
                 <div class="blog-card blog-card-featured" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
@@ -2415,6 +2482,7 @@
                     <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
             </div>
+            </div>
         </div>
     </section>
 
@@ -2425,6 +2493,7 @@
             <h2 class="ar-only">الخدمات</h2>
             <h2 class="en-only">Services</h2>
             
+            <div class="services-scroll-wrapper">
             <div class="services-scroll">
                 <!-- PRP Therapy -->
                 <div class="service-item">
@@ -2577,6 +2646,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
     </section>
 
@@ -2588,6 +2658,7 @@
             <h2 class="en-only">Patient Reviews from Google</h2>
 
             <div class="testimonials-preview">
+              <div class="testimonials-scroll">
 
                 <div class="testimonial-card">
                     <div class="testimonial-quote-mark">"</div>
@@ -2717,6 +2788,7 @@
                     <p class="testimonial-author ar-only">عبدالعزيز عبدالرحمن</p>
                 </div>
 
+              </div>
             </div>
 
             <div style="text-align: center; margin-top: 1rem;">
@@ -2933,5 +3005,24 @@
         function gtag(){dataLayer.push(arguments)}
         gtag('js', new Date());
         gtag('config', 'G-BHWK9615C8');
+    </script>
+
+    <script>
+    // Auto-scroll: duplicate children for seamless infinite loop
+    document.addEventListener('DOMContentLoaded', function() {
+        var containers = [
+            document.querySelector('.testimonials-scroll'),
+            document.querySelector('.services-scroll'),
+            document.querySelector('.blog-cards-container')
+        ];
+        containers.forEach(function(c) {
+            if (!c) return;
+            var items = Array.from(c.children);
+            items.forEach(function(item) {
+                var clone = item.cloneNode(true);
+                c.appendChild(clone);
+            });
+        });
+    });
     </script>
 </body></html>
