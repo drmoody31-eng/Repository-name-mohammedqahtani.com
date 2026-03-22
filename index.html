@@ -785,18 +785,14 @@
         .services-scroll {
             display: flex;
             gap: 1.5rem;
-            animation: scrollServices 50s linear infinite;
-            will-change: transform;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             direction: ltr;
+            scrollbar-width: none;
         }
 
-        .services-scroll:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes scrollServices {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .services-scroll::-webkit-scrollbar {
+            display: none;
         }
 
         .service-item {
@@ -1128,19 +1124,15 @@
         .blog-cards-container {
             display: flex;
             gap: 1.2rem;
-            animation: scrollBlogCards 90s linear infinite;
-            will-change: transform;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             padding: 1rem 0 1.5rem;
             direction: ltr;
+            scrollbar-width: none;
         }
 
-        .blog-cards-container:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes scrollBlogCards {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .blog-cards-container::-webkit-scrollbar {
+            display: none;
         }
 
         .blog-card {
@@ -1274,18 +1266,14 @@
         .testimonials-scroll {
             display: flex;
             gap: 1.5rem;
-            animation: scrollTestimonials 80s linear infinite;
-            will-change: transform;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             direction: ltr;
+            scrollbar-width: none;
         }
 
-        .testimonials-scroll:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes scrollTestimonials {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .testimonials-scroll::-webkit-scrollbar {
+            display: none;
         }
 
         .testimonial-card {
@@ -3008,20 +2996,88 @@
     </script>
 
     <script>
-    // Auto-scroll: duplicate children for seamless infinite loop
+    // Auto-scroll + manual swipe for all carousel sections
     document.addEventListener('DOMContentLoaded', function() {
         var containers = [
-            document.querySelector('.testimonials-scroll'),
-            document.querySelector('.services-scroll'),
-            document.querySelector('.blog-cards-container')
+            { el: document.querySelector('.testimonials-scroll'), speed: 1.2 },
+            { el: document.querySelector('.services-scroll'), speed: 1.0 },
+            { el: document.querySelector('.blog-cards-container'), speed: 0.8 }
         ];
-        containers.forEach(function(c) {
+
+        containers.forEach(function(cfg) {
+            var c = cfg.el;
             if (!c) return;
+
+            // Duplicate children for seamless loop
             var items = Array.from(c.children);
             items.forEach(function(item) {
-                var clone = item.cloneNode(true);
-                c.appendChild(clone);
+                c.appendChild(item.cloneNode(true));
             });
+
+            var paused = false;
+            var resumeTimer = null;
+
+            // Auto-scroll via requestAnimationFrame
+            function step() {
+                if (!paused) {
+                    c.scrollLeft += cfg.speed;
+                    // Seamless loop: when past halfway, reset
+                    if (c.scrollLeft >= c.scrollWidth / 2) {
+                        c.scrollLeft = 0;
+                    }
+                }
+                requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+
+            // Pause on hover
+            c.addEventListener('mouseenter', function() {
+                paused = true;
+                clearTimeout(resumeTimer);
+            });
+            c.addEventListener('mouseleave', function() {
+                resumeTimer = setTimeout(function() { paused = false; }, 1500);
+            });
+
+            // Pause on touch/drag
+            c.addEventListener('touchstart', function() {
+                paused = true;
+                clearTimeout(resumeTimer);
+            }, { passive: true });
+            c.addEventListener('touchend', function() {
+                resumeTimer = setTimeout(function() { paused = false; }, 2500);
+            }, { passive: true });
+
+            // Mouse drag support
+            var isDragging = false, startX = 0, startScroll = 0;
+            c.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                paused = true;
+                clearTimeout(resumeTimer);
+                startX = e.pageX - c.offsetLeft;
+                startScroll = c.scrollLeft;
+                c.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+            c.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var x = e.pageX - c.offsetLeft;
+                c.scrollLeft = startScroll - (x - startX);
+            });
+            c.addEventListener('mouseup', function() {
+                if (!isDragging) return;
+                isDragging = false;
+                c.style.cursor = 'grab';
+                resumeTimer = setTimeout(function() { paused = false; }, 1500);
+            });
+            c.addEventListener('mouseleave', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    c.style.cursor = 'grab';
+                }
+            });
+
+            c.style.cursor = 'grab';
         });
     });
     </script>
