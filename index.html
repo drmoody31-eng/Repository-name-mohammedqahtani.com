@@ -1868,7 +1868,8 @@
                 <li><a href="#faq">أسئلة</a></li>
                 <li><a href="#contact">تواصل</a></li>
             </ul>
-            <button class="language-toggle"><span class="ar-only">EN</span><span class="en-only">AR</span></button>
+            <!-- Language toggle removed - Arabic only -->
+            <button class="language-toggle" style="display:none;"><span class="ar-only">EN</span><span class="en-only">AR</span></button>
             <div class="hamburger">
                 <span></span>
                 <span></span>
@@ -2992,9 +2993,9 @@
     // Auto-scroll + manual swipe/drag for all carousel sections
     document.addEventListener('DOMContentLoaded', function() {
         var containers = [
-            { el: document.querySelector('.testimonials-scroll'), speed: 1.5 },
-            { el: document.querySelector('.services-scroll'), speed: 1.2 },
-            { el: document.querySelector('.blog-cards-container'), speed: 1 }
+            { el: document.querySelector('.testimonials-scroll'), speed: 0.3 },
+            { el: document.querySelector('.services-scroll'), speed: 0.3 },
+            { el: document.querySelector('.blog-cards-container'), speed: 0.3 }
         ];
 
         containers.forEach(function(cfg) {
