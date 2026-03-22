@@ -1920,8 +1920,7 @@
                 <p class="hero-intro ar-only">استشاري أمراض جلدية وشعر في عيادات نويا بالرياض. بدأت رحلتي في الطب بشغف واحد: فهم المريض قبل فهم المرض. تخصصت في أمراض الشعر لأنها من أكثر التخصصات تحديًا — كل حالة لها قصة مختلفة وتحتاج مقاربة فريدة. فلسفتي واضحة: أتقن المريض، لا الدواء. كل خطة علاجية أبنيها على تقييم شامل يأخذ بالاعتبار التاريخ الطبي، نمط الحياة، التغذية، والعوامل النفسية — لأن صحة الشعر انعكاس مباشر للصحة الداخلية. في عالم مليان وعود مبالغ فيها، أؤمن بالعلم والشفافية. لا يوجد "علاج سحري" — يوجد خبرة سريرية، بيانات دقيقة، وخطة مصممة خصيصًا لكل مريض. لأن ما فيه "أفضل علاج" — فيه الأنسب لكل حالة.</p>
                 <p class="hero-intro en-only">Hair Dermatology Consultant at Noya Clinic, Riyadh. My medical journey began with one conviction: understanding the patient before understanding the disease. I specialized in hair disorders because they are among the most complex challenges in dermatology — every case has a unique story and demands a tailored approach. My philosophy is clear: master the patient, not the medication. Every treatment plan is built on a comprehensive evaluation that considers medical history, lifestyle, nutrition, and psychological factors — because hair health is a direct reflection of overall well-being. In a field full of exaggerated promises, I believe in science and transparency. There is no "magic cure" — there is clinical expertise, precise data, and a plan designed specifically for each patient. Because there is no "best treatment" — only the right one for each case.</p>
                 <div class="hero-buttons">
-                    <button class="btn ar-only" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">احجز استشارة</button>
-                    <button class="btn en-only" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Consultation</button>
+                    <a href="https://wa.me/966500098821" target="_blank" class="btn" style="text-decoration:none; display:inline-block;">احجز استشارة</a>
                 </div>
             </div>
         </div>
@@ -2863,10 +2862,8 @@
                 </div>
 
                 <div class="contact-cta">
-                    <p class="contact-cta-text ar-only">احجز استشارة اليوم وابدأ رحلة تحسين صحة شعرك</p>
-                    <p class="contact-cta-text en-only">Book a consultation today and start your hair health journey</p>
-                    <a href="https://wa.me/966500098821" target="_blank" class="btn-cta ar-only" style="text-decoration:none; display:inline-block;">احجز الآن</a>
-                    <a href="https://wa.me/966500098821" target="_blank" class="btn-cta en-only" style="text-decoration:none; display:inline-block;">Book Now</a>
+                    <p class="contact-cta-text">احجز استشارة اليوم وابدأ رحلة تحسين صحة شعرك</p>
+                    <a href="https://wa.me/966500098821" target="_blank" class="btn-cta" style="text-decoration:none; display:inline-block;">احجز الآن</a>
                 </div>
             </div>
         </div>
@@ -2883,8 +2880,7 @@
     <!-- Floating CTA Button -->
     <a href="https://wa.me/966500098821" target="_blank" class="floating-cta">
         <span class="floating-cta-icon">📞</span>
-        <span class="ar-only">احجز</span>
-        <span class="en-only">Book</span>
+        <span>احجز</span>
     </a>
 
     <!-- Article Reader Modal (Hidden by default, for future blog articles) -->
@@ -2993,9 +2989,9 @@
     // Auto-scroll + manual swipe/drag for all carousel sections
     document.addEventListener('DOMContentLoaded', function() {
         var containers = [
-            { el: document.querySelector('.testimonials-scroll'), speed: 0.3 },
-            { el: document.querySelector('.services-scroll'), speed: 0.3 },
-            { el: document.querySelector('.blog-cards-container'), speed: 0.3 }
+            { el: document.querySelector('.testimonials-scroll'), speed: 0.15 },
+            { el: document.querySelector('.services-scroll'), speed: 0.2 },
+            { el: document.querySelector('.blog-cards-container'), speed: 0.2 }
         ];
 
         containers.forEach(function(cfg) {
