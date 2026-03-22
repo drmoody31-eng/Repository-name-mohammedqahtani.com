@@ -398,6 +398,17 @@
             font-size: clamp(2rem, 5vw, 3.2rem);
             margin-bottom: 1.5rem;
             line-height: 1.3;
+            font-weight: 400;
+        }
+
+        body.ar .hero h1 {
+            font-family: 'Aref Ruqaa', serif;
+            font-weight: 400;
+        }
+
+        body.en .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
         }
 
         .hero-subtitle {
@@ -954,12 +965,12 @@
 
         .blog-ticker-title.ar-only {
             font-family: 'Aref Ruqaa', serif;
-            font-weight: 700;
+            font-weight: 400;
         }
 
         .blog-ticker-title.en-only {
             font-family: 'Playfair Display', serif;
-            font-weight: 500;
+            font-weight: 400;
         }
 
         .blog-scroll-wrapper {
@@ -1049,11 +1060,12 @@
 
         /* Service Improvement Percentage */
         .service-study {
-            font-size: 0.55rem;
-            color: rgba(255,255,255,0.4);
+            font-size: 0.6rem;
+            color: rgba(0,0,0,0.35);
             font-style: italic;
-            margin-top: 0.2rem;
+            margin-top: 0.3rem;
             letter-spacing: 0.3px;
+            line-height: 1.3;
         }
 
         .service-improvement {
@@ -1159,6 +1171,52 @@
             transform: rotate(180deg);
         }
 
+        .blog-card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            font-size: 0.82rem;
+            color: #333;
+            line-height: 1.9;
+            direction: rtl;
+        }
+
+        body.en .blog-card-body {
+            direction: ltr;
+        }
+
+        .blog-card[data-expanded="true"] .blog-card-body {
+            max-height: 2000px;
+            padding-top: 0.8rem;
+            border-top: 0.5px solid var(--line);
+            margin-top: 0.8rem;
+        }
+
+        .blog-card[data-expanded="true"] {
+            min-width: 340px;
+            max-width: 500px;
+        }
+
+        .blog-card-featured[data-expanded="true"] {
+            min-width: 360px;
+            max-width: 520px;
+        }
+
+        .blog-toggle-btn {
+            display: block;
+            margin-top: 0.8rem;
+            font-size: 0.7rem;
+            color: var(--accent);
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            font-family: inherit;
+        }
+
+        .blog-toggle-btn:hover {
+            text-decoration: underline;
+        }
         .toggle-text {
             display: inline;
         }
@@ -1786,7 +1844,7 @@
                 </div>
                 <div class="hero-stat-line"></div>
                 <div class="hero-stat">
-                    <div><span class="hero-stat-number">15</span><span class="hero-stat-suffix">+</span></div>
+                    <div><span class="hero-stat-number">9</span><span class="hero-stat-suffix">+</span></div>
                     <div class="hero-stat-label ar-only">سنة خبرة</div>
                     <div class="hero-stat-label en-only">Years Experience</div>
                 </div>
@@ -1816,8 +1874,6 @@
                 <div class="hero-buttons">
                     <button class="btn ar-only" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">احجز استشارة</button>
                     <button class="btn en-only" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Consultation</button>
-                    <a href="results.html" class="btn btn-secondary ar-only" style="text-decoration:none;">شاهد النتائج</a>
-                    <a href="results.html" class="btn btn-secondary en-only" style="text-decoration:none;">View Results</a>
                 </div>
             </div>
         </div>
@@ -1877,172 +1933,486 @@
             <h2 class="blog-ticker-title en-only">Blog</h2>
             
             <div class="blog-cards-container">
-                <div class="blog-card blog-card-featured">
+                <div class="blog-card blog-card-featured" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
                         <div class="blog-card-top">
                             <span class="blog-ticker-category ar-only">التحدي</span>
                             <span class="blog-ticker-category en-only">CHALLENGE</span>
                             <span class="blog-card-date">١٥ مارس ٢٠٢٦</span>
                         </div>
-                        <h3 class="blog-ticker-title-card ar-only">تحدي ٤٠ يوم — أوقف الحرارة</h3>
-                        <h3 class="blog-ticker-title-card en-only">40-Day Challenge — Stop the Heat</h3>
-                        <p class="blog-ticker-excerpt ar-only">شعرك يتكون من بروتين الكيراتين مع روابط هيدروجينية. الحرارة فوق ١٥٠ درجة تكسر هذه الروابط بشكل دائم.</p>
-                        <p class="blog-ticker-excerpt en-only">Your hair is made of keratin protein with hydrogen bonds. Heat above 150°C permanently breaks these bonds.</p>
+                        <h3 class="blog-ticker-title-card ar-only">ليش أدوات الحرارة تدمر شعرك</h3>
+                        <h3 class="blog-ticker-title-card en-only">Why Heat Tools Destroy Your Hair</h3>
+                        <p class="blog-ticker-excerpt ar-only">الحرارة فوق ١٥٠°م تكسر روابط الكيراتين بشكل دائم — والنتيجة فقدان مرونة الشعر وجفاف وتقصف لا يُعالج.</p>
+                        <p class="blog-ticker-excerpt en-only">Heat above 150°C permanently breaks keratin bonds — resulting in permanent elasticity loss and untreatable damage.</p>
                     </div>
+                    <div class="blog-card-body ar-only">
+                        الحرارة فوق ١٥٠°م تكسر روابط الكيراتين بشكل دائم — والنتيجة فقدان مرونة الشعر وجفاف وتقصف لا يُعالج. السشوار الحار يُحدث فقاعات هوائية (Bubble Hair) داخل قشرة الشعر — تلف دائم يظهر تحت المجهر. التجفيف الطبيعي يحافظ على ٧٠٪ أكثر من سلامة الكيوتيكل — يعني لمعان أكثر ومسامية أقل.<br><br>
+                        مكواة الفرد خطر عالي عند ٢٣٠°م، فير التجعيد خطر عالي عند ٢١٠°م، السشوار الحار خطر متوسط فوق ١٥٠°م. الخيار الآمن الوحيد هو السشوار البارد من مسافة ١٥سم.<br><br>
+                        البديل: منشفة مايكروفايبر تمتص ٧٠٪ من الماء بدون احتكاك — خلّ شعرك يجف ٨٠٪ طبيعي. أول أسبوعين شعرك بيحس "مختلف" بدون الحرارة — هذا طبيعي. الكيوتيكل يبدأ يتعافى، واللمعان الحقيقي يبان بعد ٣-٤ أسابيع.<br><br>
+                        المراجع: Lee et al., 2011 — Annals of Dermatology · Ruetsch et al., 2004 — J. of Cosmetic Science · McMullen & Jachowicz, 1998 — JSCC
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
 
-                <div class="blog-card">
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
                         <div class="blog-card-top">
-                            <span class="blog-ticker-category ar-only">علاجات متقدمة</span>
-                            <span class="blog-ticker-category en-only">ADVANCED</span>
-                            <span class="blog-card-date">١٧ مارس ٢٠٢٦</span>
-                        </div>
-                        <h3 class="blog-ticker-title-card ar-only">الإكسوسومات — مستقبل علاج تساقط الشعر؟</h3>
-                        <h3 class="blog-ticker-title-card en-only">Exosomes — The Future of Hair Loss Treatment?</h3>
-                        <p class="blog-ticker-excerpt ar-only">حويصلات نانوية تحمل عوامل نمو وبروتينات. تجارب سريرية أظهرت زيادة 69% في كثافة الشعر.</p>
-                        <p class="blog-ticker-excerpt en-only">Nano-vesicles carrying growth factors and proteins. Clinical trials showed 69% increase in hair density.</p>
-                    </div>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-card-header">
-                        <div class="blog-card-top">
-                            <span class="blog-ticker-category ar-only">علاجات متقدمة</span>
-                            <span class="blog-ticker-category en-only">ADVANCED</span>
-                            <span class="blog-card-date">١٦ مارس ٢٠٢٦</span>
-                        </div>
-                        <h3 class="blog-ticker-title-card ar-only">النانو فات — حقن الدهون الذكية لإنبات الشعر</h3>
-                        <h3 class="blog-ticker-title-card en-only">Nano Fat — Smart Fat Injection for Hair Growth</h3>
-                        <p class="blog-ticker-excerpt ar-only">تقنية تجديدية تعالج الدهون من جسمك وتحويلها لمركز غني بالخلايا الجذعية.</p>
-                        <p class="blog-ticker-excerpt en-only">A regenerative technique that processes your own fat into stem cell concentrate.</p>
-                    </div>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-card-header">
-                        <div class="blog-card-top">
-                            <span class="blog-ticker-category ar-only">علاجات متقدمة</span>
-                            <span class="blog-ticker-category en-only">ADVANCED</span>
+                            <span class="blog-ticker-category ar-only">نصائح يومية</span>
+                            <span class="blog-ticker-category en-only">DAILY TIPS</span>
                             <span class="blog-card-date">١٤ مارس ٢٠٢٦</span>
                         </div>
-                        <h3 class="blog-ticker-title-card ar-only">ريجينيرا أكتيفا — جلسة واحدة بخلاياك الجذعية</h3>
-                        <h3 class="blog-ticker-title-card en-only">Regenera Activa — One Session with Your Own Stem Cells</h3>
-                        <p class="blog-ticker-excerpt ar-only">تقنية مبتكرة تستخدم خزعات مجهرية من فروتك. نسبة نجاح 80-90%.</p>
-                        <p class="blog-ticker-excerpt en-only">Innovative technique using micro-punches from your scalp. 80-90% success rate.</p>
+                        <h3 class="blog-ticker-title-card ar-only">كيف تقرأ مكونات منتجات شعرك</h3>
+                        <h3 class="blog-ticker-title-card en-only">How to Read Hair Product Ingredients</h3>
+                        <p class="blog-ticker-excerpt ar-only">اقلب كل منتج عندك واقرأ أول ٥ مكونات — هذي اللي تشكّل النسبة الأكبر من المنتج.</p>
+                        <p class="blog-ticker-excerpt en-only">Flip any product and read the first 5 ingredients — these make up the largest percentage.</p>
                     </div>
+                    <div class="blog-card-body ar-only">
+                        اقلب كل منتج عندك واقرأ أول ٥ مكونات — هذي اللي تشكّل النسبة الأكبر من المنتج.<br><br>
+                        مكونات خطيرة تتجنبها: Sodium Lauryl Sulfate (SLS) — نفس المادة المستخدمة بالمنظفات الصناعية، يزيل ١٠٠٪ من الزيوت الطبيعية. Sodium Laureth Sulfate (SLES) — أخف شوي بس لسّه قاسي. Parabens — مواد حافظة مشكوك في سلامتها. Isopropyl Alcohol — يجفف الشعر بشكل مفرط.<br><br>
+                        مكونات آمنة دوّر عليها: Cocamidopropyl Betaine — منظف لطيف. Decyl Glucoside — مشتق من النباتات. Aloe Vera — ترطيب وتهدئة. Panthenol (Pro-Vitamin B5) — يرطب ويقوي.<br><br>
+                        قواعد الصلاحية: شامبو وبلسم مفتوح ١٢-١٨ شهر، سيروم وزيوت ٦-١٢ شهر، منتجات طبيعية بدون مواد حافظة ٣-٦ شهور.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
 
-                <div class="blog-card">
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
                         <div class="blog-card-top">
-                            <span class="blog-ticker-category ar-only">مقارنات علمية</span>
-                            <span class="blog-ticker-category en-only">COMPARISON</span>
+                            <span class="blog-ticker-category ar-only">نصائح يومية</span>
+                            <span class="blog-ticker-category en-only">DAILY TIPS</span>
                             <span class="blog-card-date">١٣ مارس ٢٠٢٦</span>
                         </div>
-                        <h3 class="blog-ticker-title-card ar-only">PRP مقابل GFC — أيهما أفضل لشعرك؟</h3>
-                        <h3 class="blog-ticker-title-card en-only">PRP vs GFC — Which Is Better for Your Hair?</h3>
-                        <p class="blog-ticker-excerpt ar-only">المقارنة الكاملة بين PRP وGFC. GFC تركيز أعلى وأعراض جانبية أقل.</p>
-                        <p class="blog-ticker-excerpt en-only">Complete comparison. GFC has higher concentration and fewer side effects.</p>
+                        <h3 class="blog-ticker-title-card ar-only">دليل اختيار الشامبو والبلسم حسب نوع شعرك</h3>
+                        <h3 class="blog-ticker-title-card en-only">Guide to Choosing Shampoo & Conditioner by Hair Type</h3>
+                        <p class="blog-ticker-excerpt ar-only">شعر دهني: شامبو منظّف لطيف يوازن الإفرازات. بلسم خفيف على الأطراف فقط.</p>
+                        <p class="blog-ticker-excerpt en-only">Oily hair: gentle cleansing shampoo that balances sebum. Light conditioner on ends only.</p>
                     </div>
+                    <div class="blog-card-body ar-only">
+                        شعر دهني: شامبو منظّف لطيف يوازن الإفرازات. بلسم خفيف على الأطراف فقط — لا تقرّبه للفروة.<br><br>
+                        شعر جاف أو مجعد: شامبو مرطب بدون سلفات. بلسم غني بزيت الأرغان أو زبدة الشيا. Co-wash بين الغسلات.<br><br>
+                        شعر عادي: شامبو متوازن خالي من السلفات. بلسم متوسط القوام.<br><br>
+                        شعر رقيق أو خفيف: شامبو Volumizing خفيف. تجنب المنتجات الثقيلة والسيليكون المتراكم.<br><br>
+                        شعر مع قشرة: شامبو علاجي (Ketoconazole أو Zinc Pyrithione). بلسم خفيف بعيد عن الفروة.<br><br>
+                        المرجع: Gavazzoni Dias (2015, International Journal of Trichology) · Rele & Mohile (2003, Journal of Cosmetic Science)
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
 
-                <div class="blog-card">
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
                         <div class="blog-card-top">
                             <span class="blog-ticker-category ar-only">نصائح يومية</span>
                             <span class="blog-ticker-category en-only">DAILY TIPS</span>
                             <span class="blog-card-date">١٢ مارس ٢٠٢٦</span>
                         </div>
-                        <h3 class="blog-ticker-title-card ar-only">٥ خطوات — اغسل شعرك صح</h3>
-                        <h3 class="blog-ticker-title-card en-only">5 Steps — Wash Your Hair Right</h3>
-                        <p class="blog-ticker-excerpt ar-only">أغلب الناس يغسلون شعرهم غلط — ماء حار + شامبو كثير + فرك بالمنشفة = تساقط وجفاف.</p>
-                        <p class="blog-ticker-excerpt en-only">Most people wash their hair incorrectly. Hot water + too much shampoo + rubbing = hair loss.</p>
+                        <h3 class="blog-ticker-title-card ar-only">تدليك فروة الرأس — أبسط عادة بأقوى نتيجة</h3>
+                        <h3 class="blog-ticker-title-card en-only">Scalp Massage — Simplest Habit, Strongest Results</h3>
+                        <p class="blog-ticker-excerpt ar-only">دراسة يابانية أثبتت إن ٤ دقائق تدليك يومي لمدة ٢٤ أسبوع يعطي شعر أسمك بشكل ملحوظ.</p>
+                        <p class="blog-ticker-excerpt en-only">Japanese study proved that 4 minutes of daily massage for 24 weeks gives noticeably thicker hair.</p>
                     </div>
+                    <div class="blog-card-body ar-only">
+                        دراسة يابانية (Koyama 2016) أثبتت إن ٤ دقائق تدليك يومي لمدة ٢٤ أسبوع يعطي شعر أسمك بشكل ملحوظ. تدفق الدم يزيد ٢٥-٤٠٪ للبصيلات، والكورتيزول (هرمون التوتر) ينخفض ٣١٪.<br><br>
+                        الطريقة — ٥ دقائق: الجبهة وخط الشعر دقيقة واحدة، أعلى الرأس والتاج دقيقتين (الأهم)، الجوانب وخلف الأذنين دقيقة، الرقبة والقفا دقيقة.<br><br>
+                        لا تستخدم أظافرك — أطراف الأصابع فقط. لا تضغط بقوة — ضغط متوسط لطيف. حرّك الفروة مو الشعر. فرشاة السيليكون للفروة (١٠-٢٠ ريال من أي صيدلية) ممتازة أثناء الشامبو.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
 
-                <div class="blog-card">
-                    <div class="blog-card-header">
-                        <div class="blog-card-top">
-                            <span class="blog-ticker-category ar-only">حقائق علمية</span>
-                            <span class="blog-ticker-category en-only">SCIENCE</span>
-                            <span class="blog-card-date">١٠ مارس ٢٠٢٦</span>
-                        </div>
-                        <h3 class="blog-ticker-title-card ar-only">لماذا الفيتامينات وحدها لا تعالج التساقط الوراثي</h3>
-                        <h3 class="blog-ticker-title-card en-only">Why Vitamins Alone Don't Treat Genetic Hair Loss</h3>
-                        <p class="blog-ticker-excerpt ar-only">من أكثر المفاهيم الخاطئة انتشاراً. التساقط الوراثي يحتاج علاج مختلف تماماً.</p>
-                        <p class="blog-ticker-excerpt en-only">One of the most common misconceptions. Genetic hair loss requires a completely different approach.</p>
-                    </div>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-card-header">
-                        <div class="blog-card-top">
-                            <span class="blog-ticker-category ar-only">علاجات</span>
-                            <span class="blog-ticker-category en-only">TREATMENTS</span>
-                            <span class="blog-card-date">٨ مارس ٢٠٢٦</span>
-                        </div>
-                        <h3 class="blog-ticker-title-card ar-only">الحقيقة عن المينوكسيديل</h3>
-                        <h3 class="blog-ticker-title-card en-only">The Truth About Minoxidil</h3>
-                        <p class="blog-ticker-excerpt ar-only">المينوكسيديل علاج فعّال — لكنه مو العلاج الوحيد. فيه أدوية كثيرة تعطي نتائج أفضل حسب حالتك.</p>
-                        <p class="blog-ticker-excerpt en-only">Minoxidil is effective — but not the only one. Many treatments give better results depending on your case.</p>
-                    </div>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-card-header">
-                        <div class="blog-card-top">
-                            <span class="blog-ticker-category ar-only">موسمي</span>
-                            <span class="blog-ticker-category en-only">SEASONAL</span>
-                            <span class="blog-card-date">٥ مارس ٢٠٢٦</span>
-                        </div>
-                        <h3 class="blog-ticker-title-card ar-only">روتين شعرك في رمضان</h3>
-                        <h3 class="blog-ticker-title-card en-only">Your Hair Routine in Ramadan</h3>
-                        <p class="blog-ticker-excerpt ar-only">رمضان يحتاج تعديل بسيط في روتين شعرك. الجفاف وتغير نمط الأكل والنوم كلها تأثر.</p>
-                        <p class="blog-ticker-excerpt en-only">Ramadan requires simple adjustments. Dryness and changes in eating patterns affect your hair.</p>
-                    </div>
-                </div>
-
-                <div class="blog-card">
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
                         <div class="blog-card-top">
                             <span class="blog-ticker-category ar-only">نصائح يومية</span>
                             <span class="blog-ticker-category en-only">DAILY TIPS</span>
-                            <span class="blog-card-date">٣ مارس ٢٠٢٦</span>
+                            <span class="blog-card-date">١١ مارس ٢٠٢٦</span>
                         </div>
-                        <h3 class="blog-ticker-title-card ar-only">وسادتك تكسر شعرك — الحل بسيط</h3>
-                        <h3 class="blog-ticker-title-card en-only">Your Pillow Breaks Your Hair — The Fix Is Simple</h3>
-                        <p class="blog-ticker-excerpt ar-only">الوسادة القطنية تسبب احتكاك عالي طوال الليل. ٦-٨ ساعات = تكسر وتقصف.</p>
-                        <p class="blog-ticker-excerpt en-only">Cotton pillowcases cause high friction all night. 6-8 hours = breakage and tangles.</p>
+                        <h3 class="blog-ticker-title-card ar-only">طريقة غسيل الشعر الصحيحة</h3>
+                        <h3 class="blog-ticker-title-card en-only">The Correct Way to Wash Your Hair</h3>
+                        <p class="blog-ticker-excerpt ar-only">٩٠٪ من الناس يغسلون شعرهم غلط. مو كمية الشامبو هي المشكلة — الطريقة هي اللي تفرق.</p>
+                        <p class="blog-ticker-excerpt en-only">90% of people wash their hair incorrectly. It's not the amount of shampoo — it's the method that matters.</p>
                     </div>
+                    <div class="blog-card-body ar-only">
+                        ٩٠٪ من الناس يغسلون شعرهم غلط. مو كمية الشامبو هي المشكلة — الطريقة هي اللي تفرق.<br><br>
+                        ٣ غلطات شائعة: حط الشامبو مباشرة على الشعر بدل ما ترغيه بين كفيّك أول، تدليك الأطراف بالشامبو (الشامبو للفروة فقط والبلسم للأطراف فقط)، والشطف السريع (بقايا المنتج تسبب حكة وقشرة).<br><br>
+                        الطريقة الصحيحة: بلّت شعرك بماء دافئ (مو حار) دقيقتين كاملة. كمية شامبو بحجم ريال — رغّها بين كفيّك. دلّك الفروة بأطراف أصابعك ٣ دقائق. اشطف بماء دافئ — تأكد ما بقي شي. بلسم على النص والأطراف فقط — اتركه ٣-٥ دقائق ثم اشطف بماء بارد لإغلاق الكيوتيكل.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
 
-                <div class="blog-card">
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">نصائح يومية</span>
+                            <span class="blog-ticker-category en-only">DAILY TIPS</span>
+                            <span class="blog-card-date">١٠ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">وسادتك تكسر شعرك وأنت نايم</h3>
+                        <h3 class="blog-ticker-title-card en-only">Your Pillow Breaks Your Hair While You Sleep</h3>
+                        <p class="blog-ticker-excerpt ar-only">تتقلّب بالليل ٣٠-٤٠ مرة. كل تقلّبة = سحب واحتكاك. الوسادة القطنية معامل احتكاكها أعلى بـ ٤٣٪.</p>
+                        <p class="blog-ticker-excerpt en-only">You toss 30-40 times per night. Each turn = pulling and friction. Cotton friction coefficient is 43% higher.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        تتقلّب بالليل ٣٠-٤٠ مرة. كل تقلّبة = سحب واحتكاك. الوسادة القطنية معامل احتكاكها أعلى بـ ٤٣٪ من الحرير.<br><br>
+                        الحل الأول: غطاء وسادة حرير طبيعي (Mulberry Silk) — بروتين السيريسين الطبيعي فيه له خصائص مرطبة. الساتان بديل ممتاز وأرخص.<br><br>
+                        الحل الثاني: بونيه ساتان — الأفضل للشعر المجعد والكيرلي. يغطي الشعر بالكامل ويمنع أي احتكاك.<br><br>
+                        الحل الثالث: طريقة الأناناس (Pineapple Method) للشعر الطويل — ربطة ساتان فضفاضة فوق الرأس.<br><br>
+                        مهم: لا تنام وشعرك مبلول — الشعر المبلول يفقد ٥٠٪ من قوته الميكانيكية.<br><br>
+                        المراجع: Kamath & Weigmann, 1986 — Journal of the SCC · Harwood et al., 2020 — Textile Research Journal
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">عناية</span>
+                            <span class="blog-ticker-category en-only">CARE</span>
+                            <span class="blog-card-date">٩ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">الترطيب العميق — متى ولماذا</h3>
+                        <h3 class="blog-ticker-title-card en-only">Deep Conditioning — When & Why</h3>
+                        <p class="blog-ticker-excerpt ar-only">الشعر الجاف مو مجرد مشكلة تجميلية — هو علامة على أن الشعرة فقدت طبقة الليبيدات الخارجية.</p>
+                        <p class="blog-ticker-excerpt en-only">Dry hair isn't just cosmetic — it's a sign the hair lost its outer lipid layer that protects it.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        الشعر الجاف مو مجرد مشكلة تجميلية — هو علامة على أن الشعرة فقدت طبقة الليبيدات الخارجية اللي تحميها من الكسر والتلف.<br><br>
+                        البلسم العادي يغلق الشعرة من الخارج. الترطيب العميق — قناع أو كريم بمكونات نافذة مثل الكيراتين، زيت الأرغان، أو البروتين المحلل — يعوّض ما فقدته الشعرة من الداخل.<br><br>
+                        اختبار سريع: اغمر شعرة في ماء — إذا طاحت بسرعة لتحت وانكسرت بسهولة، شعرك محتاج رطوبة. لو طافت ورفضت تنزل، شعرك مسامية منخفضة ويحتاج حرارة خفيفة تفتح الكيوتيكل.<br><br>
+                        الطريقة: قناع ترطيب عميق، اتركه ٢٠-٣٠ دقيقة تحت قبعة حرارة أو منشفة دافية، ثم اشطف بماء بارد لإغلاق الشعرة.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">نصائح يومية</span>
+                            <span class="blog-ticker-category en-only">DAILY TIPS</span>
+                            <span class="blog-card-date">٨ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">التمشيط الصحيح — كيف تتجنب تكسّر الشعر</h3>
+                        <h3 class="blog-ticker-title-card en-only">Correct Brushing — How to Avoid Hair Breakage</h3>
+                        <p class="blog-ticker-excerpt ar-only">٨٠٪ من تكسّر الشعر سببه طريقة التمشيط الغلط — مو المنتجات.</p>
+                        <p class="blog-ticker-excerpt en-only">80% of hair breakage is caused by incorrect brushing method — not products.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        ٨٠٪ من تكسّر الشعر سببه طريقة التمشيط الغلط — مو المنتجات. التمشيط من الجذور للأطراف يضاعف قوة الشد على الشعرة ٣ مرات (Robbins 2012). الشعر المبلول أضعف ٢٠٪ لأن الكيراتين الرطب أسهل ينكسر.<br><br>
+                        الطريقة الصحيحة: ابدأ من الأطراف وفك التشابك من تحت. اطلع تدريجياً كل مرة ٥ سم. امسك الشعر فوق العقدة عشان ما تشد الجذور. لا تمشط شعرك وهو مبلول ١٠٠٪ — خلّه يجف ٧٠٪.<br><br>
+                        أفضل وقت: قبل الاستحمام على شعر جاف لفك العقد — ثم بعد الجفاف ٧٠٪ بمشط واسع.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">عناية</span>
+                            <span class="blog-ticker-category en-only">CARE</span>
+                            <span class="blog-card-date">٧ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">البلسم بدون شطف (Leave-in Conditioner)</h3>
+                        <h3 class="blog-ticker-title-card en-only">Leave-in Conditioner</h3>
+                        <p class="blog-ticker-excerpt ar-only">البلسم العادي تشطفه — الـ Leave-in يبقى على شعرك ويحميه طوال اليوم.</p>
+                        <p class="blog-ticker-excerpt en-only">Regular conditioner you rinse out — Leave-in stays and protects your hair all day.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        البلسم العادي تشطفه — الـ Leave-in يبقى على شعرك ويحميه طوال اليوم. يقلل قوة التمشيط المطلوبة ويمنع تكسر الشعر المبلل. يغلّف الشعرة بطبقة رقيقة تحميها من الحرارة والرطوبة والاحتكاك. يقلل الهيشان ٤٠-٦٠٪.<br><br>
+                        طريقة الاستخدام: بعد الغسيل وشعرك رطب ٧٠-٨٠٪، كمية بحجم حبة الفول وزّعها بين كفيّك، طبّق على النص والأطراف فقط (أبداً على الفروة)، مشّط بمشط واسع لتوزيع متساوي، خلّه يجف طبيعي.<br><br>
+                        مكونات مفيدة: Glycerin — يسحب الرطوبة من الجو لشعرك. Panthenol / Pro-Vitamin B5 — يقوي ويرطب. Cetyl Alcohol — مو كحول ضار — مادة مرطبة.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">حقائق علمية</span>
+                            <span class="blog-ticker-category en-only">SCIENCE</span>
+                            <span class="blog-card-date">٦ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">حماية الشعر من الشمس</h3>
+                        <h3 class="blog-ticker-title-card en-only">Protecting Hair from the Sun</h3>
+                        <p class="blog-ticker-excerpt ar-only">أشعة UV ما تحرق بشرتك بس — تدمر شعرك بنفس الآلية. UVB تكسر روابط ثنائي الكبريتيد.</p>
+                        <p class="blog-ticker-excerpt en-only">UV rays don't just burn your skin — they damage your hair the same way. UVB breaks disulfide bonds.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        أشعة UV ما تحرق بشرتك بس — تدمر شعرك بنفس الآلية. UVB تكسر روابط ثنائي الكبريتيد في الكيراتين. UVA تخترق أعمق وتفكك الميلانين فيبهت لون الشعر. الشعر المعالج (مصبوغ أو مفرود) أكثر عرضة للضرر ٣ مرات.<br><br>
+                        طرق الحماية: بخاخ حماية شعر مع SPF قبل الخروج. قبعة أو شماغ أو غترة كحاجز فيزيائي. تجنب الشمس المباشرة بين ١٠ صباح و٤ عصر. خط الفرق أكثر منطقة معرّضة — ركّز عليها.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">حقائق علمية</span>
+                            <span class="blog-ticker-category en-only">SCIENCE</span>
+                            <span class="blog-card-date">٥ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">حقيقة سيرومات الشعر — وش يشتغل فعلاً</h3>
+                        <h3 class="blog-ticker-title-card en-only">Truth About Hair Serums — What Actually Works</h3>
+                        <p class="blog-ticker-excerpt ar-only">٩٠٪ من سيرومات الشعر = ماء + سيليكون + عطر. ٧٨٪ من منتجات "نمو الشعر" ما فيها أي مكون فعّال.</p>
+                        <p class="blog-ticker-excerpt en-only">90% of hair serums = water + silicone + fragrance. 78% of "hair growth" products have no effective active ingredient.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        ٩٠٪ من سيرومات الشعر = ماء + سيليكون + عطر. ٧٨٪ من منتجات "نمو الشعر" ما فيها أي مكون فعّال بتركيز كافي.<br><br>
+                        ٥ علامات إن السيروم تسويقي فقط: ما يذكرون التركيز، وعود خيالية مثل "ينبت بأسبوع"، يعتمدون على إعلانات المشاهير، أول مكون ماء وثاني سيليكون، وما فيه ولا دراسة واحدة.<br><br>
+                        المكونات اللي فعلاً تشتغل: مينوكسيديل ٥٪ — أقوى دليل (FDA). ريدنسيل ٣٪ — واعد. بروكابيل ٣٪ — جيد. كافيين ٠.٢٪+ — متوسط. زيت روزماري ٢٪ — مشابه لمينوكسيديل ٢٪ (Panahi 2015).<br><br>
+                        المراجع: Suchonwanit et al., 2021 — J Cosmet Dermatol · Panahi Y. et al., 2015 — SKINmed
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">نصائح يومية</span>
+                            <span class="blog-ticker-category en-only">DAILY TIPS</span>
+                            <span class="blog-card-date">٤ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">جدول غسيل الشعر المناسب</h3>
+                        <h3 class="blog-ticker-title-card en-only">Proper Hair Washing Schedule</h3>
+                        <p class="blog-ticker-excerpt ar-only">الغسيل الزائد يزيل الزهم الطبيعي. تقليل الغسيل من يومي لكل ٣ أيام قلّل الدهون بنسبة ٣٨٪.</p>
+                        <p class="blog-ticker-excerpt en-only">Over-washing removes natural sebum. Reducing from daily to every 3 days cut oil by 38% in a month.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        الغسيل الزائد يزيل الزهم الطبيعي (Sebum) اللي فروتك تفرزه عشان تحمي الشعر. الفروة تعوّض بإنتاج زهم أكثر = شعر دهني أسرع = حلقة مفرغة. تقليل الغسيل من يومي لكل ٣ أيام قلّل الدهون بنسبة ٣٨٪ بعد شهر.<br><br>
+                        شعر دهني: كل يومين بشامبو خفيف خالي سلفات. شعر عادي: كل ٢-٣ أيام. شعر جاف أو مجعد: مرتين بالأسبوع فقط مع Co-wash بين الغسلات. شعر رقيق أو خفيف: كل يومين بشامبو Volumizing خفيف.<br><br>
+                        لو شعرك اتعود على الغسيل اليومي، قلّل تدريجياً — فروتك تحتاج وقت تتأقلم.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
                         <div class="blog-card-top">
                             <span class="blog-ticker-category ar-only">تغذية</span>
                             <span class="blog-ticker-category en-only">NUTRITION</span>
-                            <span class="blog-card-date">١ مارس ٢٠٢٦</span>
+                            <span class="blog-card-date">٣ مارس ٢٠٢٦</span>
                         </div>
-                        <h3 class="blog-ticker-title-card ar-only">سموذي الشعر الصحي — ٣ وصفات</h3>
-                        <h3 class="blog-ticker-title-card en-only">Hair Health Smoothie — 3 Recipes</h3>
-                        <p class="blog-ticker-excerpt ar-only">غذّي شعرك من الداخل. ٣ وصفات سموذي توفر الحديد والبروتين والزنك والبيوتين.</p>
-                        <p class="blog-ticker-excerpt en-only">Nourish your hair from within. 3 smoothie recipes providing iron, protein, zinc, and biotin.</p>
+                        <h3 class="blog-ticker-title-card ar-only">تغذية الشعر من الداخل — ٤ عناصر أساسية</h3>
+                        <h3 class="blog-ticker-title-card en-only">Nourish Hair from Within — 4 Essential Elements</h3>
+                        <p class="blog-ticker-excerpt ar-only">كل المنتجات اللي تحطها على شعرك ما بتنفع لو جسمك ناقصه هالعناصر. شعرك ٩٥٪ كيراتين.</p>
+                        <p class="blog-ticker-excerpt en-only">All products you apply won't work if your body lacks these nutrients. Your hair is 95% keratin.</p>
                     </div>
+                    <div class="blog-card-body ar-only">
+                        كل المنتجات اللي تحطها على شعرك ما بتنفع لو جسمك ناقصه هالعناصر. شعرك ٩٥٪ كيراتين — وهو بروتين.<br><br>
+                        البروتين: ٠.٨ إلى ١.٢ غ/كغ من وزنك يومياً. بيض، دجاج، سلمون، عدس.<br><br>
+                        البيوتين (فيتامين B7): ٣٠ ميكروغرام يومياً. صفار البيض، لوز، بطاطا حلوة. تحذير: البيوتين بجرعات عالية يؤثر على نتائج تحاليل الدم — أوقفه قبل أي تحليل بـ ٤٨-٧٢ ساعة.<br><br>
+                        الحديد: الفيريتين تحت ٤٠ = تساقط. لحم أحمر، سبانخ، عدس. دراسة Park et al. (2013).<br><br>
+                        الزنك: ١١ ملغ للرجال، ٨ ملغ للنساء. لحم بقر، بذور يقطين، كاجو.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
 
-                <div class="blog-card">
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">تغذية</span>
+                            <span class="blog-ticker-category en-only">NUTRITION</span>
+                            <span class="blog-card-date">٢ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">فيتامين D والشعر</h3>
+                        <h3 class="blog-ticker-title-card en-only">Vitamin D and Hair</h3>
+                        <p class="blog-ticker-excerpt ar-only">٨٣٪ من السعوديين يعانون نقص فيتامين D — رغم إننا بأكثر بلد فيه شمس.</p>
+                        <p class="blog-ticker-excerpt en-only">83% of Saudis have vitamin D deficiency — despite being in one of the sunniest countries.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        ٨٣٪ من السعوديين يعانون نقص فيتامين D (دراسة Al-Daghri) — رغم إننا بأكثر بلد فيه شمس. فيتامين D يحفّز البصيلات للدخول في مرحلة النمو (Anagen). نقصه مرتبط بتساقط الشعر الكربي.<br><br>
+                        المصادر: ١٥ دقيقة شمس الصباح (٧-٩) مع ذراعين ووجه مكشوف. سلمون، بيض، منتجات ألبان مدعمة. مكمل D3 يُؤخذ مع أكل فيه دهون.<br><br>
+                        الجرعة حسب المستوى: طبيعي (فوق ٣٠) — ١٠٠٠-٢٠٠٠ وحدة يومياً. نقص (١٠-٣٠) — ٤٠٠٠-٥٠٠٠ وحدة يومياً. نقص شديد (تحت ١٠) — ٥٠,٠٠٠ وحدة أسبوعياً تحت إشراف طبيب.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
                     <div class="blog-card-header">
                         <div class="blog-card-top">
                             <span class="blog-ticker-category ar-only">وصفات طبيعية</span>
                             <span class="blog-ticker-category en-only">NATURAL</span>
+                            <span class="blog-card-date">١ مارس ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">توازن الـ pH وغسلة خل التفاح</h3>
+                        <h3 class="blog-ticker-title-card en-only">pH Balance & Apple Cider Vinegar Rinse</h3>
+                        <p class="blog-ticker-excerpt ar-only">فروة الرأس الصحية pH تتراوح بين ٤.٥ و ٥.٥ (حمضية قليلاً). الشامبو العادي يرفع الـ pH.</p>
+                        <p class="blog-ticker-excerpt en-only">Healthy scalp pH is between 4.5 and 5.5 (slightly acidic). Regular shampoo raises pH.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        فروة الرأس الصحية pH تتراوح بين ٤.٥ و ٥.٥ (حمضية قليلاً). الشامبو العادي يرفع الـ pH ويفتح الكيوتيكل — والنتيجة شعر باهت، جاف، ومتشابك.<br><br>
+                        خل التفاح يرجع الحموضة ويغلق الشعرة = لمعان + نعومة + أقل تشابك. له أيضاً خصائص مضادة للفطريات.<br><br>
+                        الطريقة: ملعقة كبيرة خل تفاح + كوب ماء. يُستخدم كشطف أخير بعد الشامبو والبلسم. لا تشطف بعده. مرة كل أسبوع أو أسبوعين كافي.<br><br>
+                        تحذير: لا تستخدمه كل يوم ولا تحطه على فروة فيها جروح أو حساسية.<br><br>
+                        المرجع: Gavazzoni Dias, 2015 — International Journal of Trichology
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">حقائق علمية</span>
+                            <span class="blog-ticker-category en-only">SCIENCE</span>
+                            <span class="blog-card-date">٢٨ فبراير ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">ثعلبة الشد — تسريحات تدمر شعرك</h3>
+                        <h3 class="blog-ticker-title-card en-only">Traction Alopecia — Hairstyles That Destroy Your Hair</h3>
+                        <p class="blog-ticker-excerpt ar-only">ثعلبة الشد من أكثر أنواع التساقط اللي نشوفها بالعيادة — والمصيبة إن المريض هو اللي يسببها.</p>
+                        <p class="blog-ticker-excerpt en-only">Traction alopecia is one of the most common hair loss types in the clinic — and the patient causes it themselves.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        ثعلبة الشد (Traction Alopecia) من أكثر أنواع التساقط اللي نشوفها بالعيادة — والمصيبة إن المريض هو اللي يسببها لنفسه بدون ما يدري.<br><br>
+                        الشد المتكرر يدمر بصيلات الشعر بشكل دائم — لو ما توقفت بدري، التساقط يصير نهائي. أكثر المناطق تضرراً: خط الشعر الأمامي والجوانب.<br><br>
+                        التسريحات المسببة: ذيل الحصان المشدود، الضفائر القريبة من الفروة، الكعكة العالية المشدودة، الباندانا الضيقة.<br><br>
+                        الحل: استخدم ربطات ساتان أو حرير فضفاضة. غيّر مكان الربطة كل يوم. لا تشد شعرك لدرجة تحس بألم. أعطِ شعرك أيام بدون أي ربطة.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">حقائق علمية</span>
+                            <span class="blog-ticker-category en-only">SCIENCE</span>
                             <span class="blog-card-date">٢٧ فبراير ٢٠٢٦</span>
                         </div>
-                        <h3 class="blog-ticker-title-card ar-only">غسلة خل التفاح — اللمعان الطبيعي</h3>
-                        <h3 class="blog-ticker-title-card en-only">Apple Cider Vinegar Rinse — Natural Shine</h3>
-                        <p class="blog-ticker-excerpt ar-only">وصفة بسيطة بنتيجة مبهرة: ملعقة خل تفاح عضوي + كوب ماء بارد. لمعان طبيعي فوري.</p>
-                        <p class="blog-ticker-excerpt en-only">A simple recipe: 1 tbsp organic apple cider vinegar + 1 cup cold water. Instant natural shine.</p>
+                        <h3 class="blog-ticker-title-card ar-only">الشامبو الجاف — الحقيقة الكاملة</h3>
+                        <h3 class="blog-ticker-title-card en-only">Dry Shampoo — The Complete Truth</h3>
+                        <p class="blog-ticker-excerpt ar-only">الشامبو الجاف يمتص الزيوت الزائدة من سطح الفروة. يعطي شعرك شكل نظيف بدون غسيل.</p>
+                        <p class="blog-ticker-excerpt en-only">Dry shampoo absorbs excess oil from the scalp surface. Gives your hair a clean look without washing.</p>
                     </div>
+                    <div class="blog-card-body ar-only">
+                        الشامبو الجاف يمتص الزيوت الزائدة من سطح الفروة بمواد مثل النشا — يعطي شعرك شكل نظيف بدون غسيل.<br><br>
+                        من يستفيد: اللي يغسلون شعرهم كل يومين-ثلاثة ويحتاجون يمدّدون بين الغسلات، أصحاب الشعر الدهني، وأيام العجلة.<br><br>
+                        من يتجنبه: أصحاب الفروة الحساسة أو القشرة. لا تستخدمه كل يوم — يتراكم ويسد المسام.<br><br>
+                        تحذير مهم: بعض منتجات الشامبو الجاف وُجد فيها بنزين (مادة مسرطنة). دوّر على منتجات خالية من البنزين.<br><br>
+                        الاستخدام الصحيح: رش من مسافة ٢٠-٣٠ سم، ركّز على الجذور فقط، دلّك بأطراف أصابعك، لا تستخدمه أكثر من يومين متتالية بدون غسيل حقيقي.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">عناية</span>
+                            <span class="blog-ticker-category en-only">CARE</span>
+                            <span class="blog-card-date">٢٦ فبراير ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">تقنية الطبقات LOC / LCO</h3>
+                        <h3 class="blog-ticker-title-card en-only">LOC / LCO Technique</h3>
+                        <p class="blog-ticker-excerpt ar-only">مو كل منتج تحطه على شعرك يرطبه — الترتيب يفرق. LOC أو LCO حسب نوع شعرك.</p>
+                        <p class="blog-ticker-excerpt en-only">Not every product you apply hydrates it — the order matters. LOC or LCO depending on your hair type.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        مو كل منتج تحطه على شعرك يرطبه — الترتيب يفرق.<br><br>
+                        LOC = Liquid (ماء أو بخاخ) ثم Oil (زيت) ثم Cream (كريم). أفضل للشعر المجعد والسميك.<br><br>
+                        LCO = Liquid ثم Cream ثم Oil. أفضل للشعر الرقيق والناعم.<br><br>
+                        القاعدة الذهبية: الماء يرطب، الزيت يقفل، الكريم يثبت. بدون الماء أولاً — الزيت والكريم ما يسوون شي.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">حقائق علمية</span>
+                            <span class="blog-ticker-category en-only">SCIENCE</span>
+                            <span class="blog-card-date">٢٥ فبراير ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">مسامية الشعر (Hair Porosity)</h3>
+                        <h3 class="blog-ticker-title-card en-only">Hair Porosity</h3>
+                        <p class="blog-ticker-excerpt ar-only">مسامية الشعر = قدرة شعرتك على امتصاص الرطوبة والاحتفاظ فيها. وهي اللي تحدد أي منتجات تناسبك.</p>
+                        <p class="blog-ticker-excerpt en-only">Hair porosity = your hair's ability to absorb and retain moisture. It determines which products suit you.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        مسامية الشعر = قدرة شعرتك على امتصاص الرطوبة والاحتفاظ فيها. وهي اللي تحدد أي منتجات تناسبك.<br><br>
+                        مسامية منخفضة: الكيوتيكل مقفل بإحكام — الشعر يقاوم الرطوبة. يحتاج حرارة خفيفة لفتح الكيوتيكل + منتجات خفيفة.<br><br>
+                        مسامية متوسطة: الأفضل — يمتص ويحتفظ بالرطوبة بتوازن. أسهل نوع بالعناية.<br><br>
+                        مسامية عالية: الكيوتيكل مفتوح — يمتص بسرعة ويفقد بسرعة. يحتاج طبقات (LOC/LCO) + بروتين لسد الثغرات.<br><br>
+                        اختبار بسيط: حط شعرة نظيفة في كوب ماء — لو طافت فوق = منخفضة، وسط الكوب = متوسطة، غرقت بسرعة = عالية.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">عناية</span>
+                            <span class="blog-ticker-category en-only">CARE</span>
+                            <span class="blog-card-date">٢٤ فبراير ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">زيت قبل الغسلة (Pre-wash Oil)</h3>
+                        <h3 class="blog-ticker-title-card en-only">Pre-wash Oil</h3>
+                        <p class="blog-ticker-excerpt ar-only">دراسة Rele & Mohile: زيت جوز الهند هو الزيت الوحيد اللي يقلل فقدان البروتين بشكل ملحوظ.</p>
+                        <p class="blog-ticker-excerpt en-only">Study Rele & Mohile: Coconut oil is the only oil that significantly reduces protein loss.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        دراسة Rele & Mohile (2003): زيت جوز الهند هو الزيت الوحيد اللي يقلل فقدان البروتين بشكل ملحوظ — سواء قبل الغسلة أو بعدها.<br><br>
+                        كيف يشتغل: زيت جوز الهند يدخل جوا الشعرة ويمسك بالبروتين — يحميها من Hygral Fatigue (التورم والانكماش المتكرر أثناء الغسيل).<br><br>
+                        الطريقة: وزّع الزيت من النص للأطراف. دلّك الفروة بلطف. اتركه ٣٠ دقيقة إلى ساعة (أو طوال الليل). اغسل بشامبو لطيف.<br><br>
+                        ملاحظة عن السدر: السدر ينظف بهدوء بدون كيماويات — كويس كغسلة خفيفة، بس مو بديل كامل عن الشامبو.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">نصائح يومية</span>
+                            <span class="blog-ticker-category en-only">DAILY TIPS</span>
+                            <span class="blog-card-date">٢٣ فبراير ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">التنظيف المزدوج للفروة (Double Cleansing)</h3>
+                        <h3 class="blog-ticker-title-card en-only">Scalp Double Cleansing</h3>
+                        <p class="blog-ticker-excerpt ar-only">فروتك تتعرض لطبقات من المنتجات والأوساخ والزيوت طوال اليوم. غسلة وحدة ما تشيل كل شي.</p>
+                        <p class="blog-ticker-excerpt en-only">Your scalp is exposed to layers of products, dirt, and oils all day. One wash doesn't remove everything.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        فروتك تتعرض لطبقات من المنتجات والأوساخ والزيوت طوال اليوم. غسلة وحدة بالشامبو ما تشيل كل شي.<br><br>
+                        الفكرة: غسلة أولى بمنظف زيتي يذوّب المنتجات والزيوت المتراكمة، ثم غسلة ثانية بشامبو لطيف ينظف الفروة بعمق.<br><br>
+                        متى تحتاجه: لو تستخدم منتجات ستايلنق (جل، واكس، سبراي)، لو فروتك دهنية، لو تحس شعرك ثقيل حتى بعد الغسيل. مرة واحدة بالأسبوع كغسلة عميقة كافية.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
+                </div>
+
+                <div class="blog-card" data-expanded="false" onclick="this.dataset.expanded = this.dataset.expanded === 'true' ? 'false' : 'true'">
+                    <div class="blog-card-header">
+                        <div class="blog-card-top">
+                            <span class="blog-ticker-category ar-only">تغذية</span>
+                            <span class="blog-ticker-category en-only">NUTRITION</span>
+                            <span class="blog-card-date">٢٢ فبراير ٢٠٢٦</span>
+                        </div>
+                        <h3 class="blog-ticker-title-card ar-only">الماء وأثره على الشعر</h3>
+                        <h3 class="blog-ticker-title-card en-only">Water and Its Effect on Hair</h3>
+                        <p class="blog-ticker-excerpt ar-only">شعرك ٢٥٪ ماء. لو جسمك ناقص ترطيب، شعرك أول ضحية.</p>
+                        <p class="blog-ticker-excerpt en-only">Your hair is 25% water. If your body is dehydrated, your hair is the first victim.</p>
+                    </div>
+                    <div class="blog-card-body ar-only">
+                        شعرك ٢٥٪ ماء. لو جسمك ناقص ترطيب، شعرك أول ضحية — لأن الجسم يوجّه الماء للأعضاء الحيوية أول.<br><br>
+                        الكمية المطلوبة: ٨ أكواب يومياً كحد أدنى (٢-٣ لتر). زد الكمية لو تتعرض لحرارة أو تمارس رياضة.<br><br>
+                        علامات الجفاف اللي تبان على شعرك: جفاف وخشونة الملمس، تقصف الأطراف، فقدان اللمعان، هيشان زائد.
+                    </div>
+                    <button class="blog-toggle-btn ar-only">اقرأ المزيد ▾</button>
+                    <button class="blog-toggle-btn en-only">Read More ▾</button>
                 </div>
             </div>
         </div>
@@ -2211,49 +2581,149 @@
     </section>
 
 
-    <!-- Testimonials - Collapsible -->
+    <!-- Testimonials - Real Google Reviews -->
     <section class="testimonial-section" id="reviews">
         <div class="section-container">
-            <h2 class="ar-only">تقييمات المرضى</h2>
-            <h2 class="en-only">Patient Reviews</h2>
+            <h2 class="ar-only">آراء المرضى من Google</h2>
+            <h2 class="en-only">Patient Reviews from Google</h2>
 
             <div class="testimonials-preview">
+
                 <div class="testimonial-card">
                     <div class="testimonial-quote-mark">"</div>
                     <p class="testimonial-card-stars">★★★★★</p>
-                    <p class="testimonial-text ar-only">الدكتور محمد متخصص حقاً وودود جداً. لاحظت نتائج مذهلة في أقل من 3 أشهر!</p>
-                    <p class="testimonial-text en-only">Dr. Mohammed is truly an expert and very friendly. I noticed amazing results in less than 3 months!</p>
+                    <p class="testimonial-text ar-only">أول زيارة لي لعيادة نويا مرتبة ونظيفة واضح فيها مستوى الاهتمام و تحسين بشعور الاسترخاء والراحه فيها. موعدي كان عند د. محمد القحطاني رائع وخلوق أسلوبه راقٍ واهتمامه بمراجعيه واضح أراجع عنده تقريبا من سنه ونص انتقلت معه إلى عيادة نويا ومستحيل اكمل جلساتي عند غيره لاحظت فرق واضح في شعري وحريص يعطيك الي يناسبك مو مادي أو يكثر إجراءات بدون فائدة، أتمنى له كل التوفيق والنجاح.</p>
                     <div class="testimonial-divider"></div>
-                    <p class="testimonial-author ar-only">أحمد محمد</p>
-                    <p class="testimonial-author en-only">Ahmed Mohammed</p>
-                </div>
-            </div>
-
-            <div class="testimonial-card">
-                    <div class="testimonial-quote-mark">"</div>
-                    <p class="testimonial-card-stars">★★★★★</p>
-                    <p class="testimonial-text ar-only">أفضل عيادة لعلاج الشعر في الرياض. الدكتور يستمع لاحتياجاتك ويقدم أفضل حل.</p>
-                    <p class="testimonial-text en-only">Best hair clinic in Riyadh. The doctor listens to your needs and provides the best solution.</p>
-                    <div class="testimonial-divider"></div>
-                    <p class="testimonial-author ar-only">فاطمة السعيد</p>
-                    <p class="testimonial-author en-only">Fatima Al-Said</p>
+                    <p class="testimonial-author ar-only">Asma</p>
                 </div>
 
                 <div class="testimonial-card">
                     <div class="testimonial-quote-mark">"</div>
                     <p class="testimonial-card-stars">★★★★★</p>
-                    <p class="testimonial-text ar-only">عملت معه منذ سنة والنتائج أفضل من توقعاتي. أنصح به بشدة.</p>
-                    <p class="testimonial-text en-only">I've been with him for a year and the results exceeded my expectations. Highly recommended.</p>
+                    <p class="testimonial-text ar-only">الصراحة العيادة صدمتني ما اتوقعت ابدا هذا المستوى. من الاستقبال ل الطاقم والتمريض. جيت عشان موعدي مع دكتور محمد القحطاني اتابع معه من يوم ماكان بالحبيب لشعري. الدكتور رائع كمستوى ومتابعة للشعر، وشعري اتحسن بكثير من قبل وبعد العلاج. واهم نقطة انه العلاجات مو copy paste كل احد. يحدد لك على حسب حالتك واحتياجك.</p>
                     <div class="testimonial-divider"></div>
-                    <p class="testimonial-author ar-only">محمود عبده</p>
-                    <p class="testimonial-author en-only">Mahmoud Abdo</p>
+                    <p class="testimonial-author ar-only">Mashael</p>
                 </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">ما شاء الله تعامل جدًا راقي في عيادة الدكتور محمد القحطاني، كل شيء مرتب ومريح والمنسقة دانه قمة في الذوق والتعاون، فعلًا تجربة جميلة. يعطيكم العافية</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">ii raniiro</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">بكل ثقة أقول إن الدكتور محمد القحطاني من أفضل الأطباء المتخصصين في علاج مشاكل الشعر. لاحظت فرقًا كبيرًا ونتائج واضحة بشكل ملحوظ، سواء من ناحية تحسّن الكثافة أو جودة الشعر بشكل عام، وهذا يعكس خبرته العالية واحترافيته في التشخيص والعلاج.</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">Bassam Bin Mohammed</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">اتابع مع الدكتور محمد القحطاني تقريبا 9 اشهر من كان بعيادته السابقة الحمدالله رب العالمين وماشاء الله تبارك الرحمن شغله خفيف ويده خفيفه وسريع وياربي لك الحمد شفت نتائج حلوه بشعري واضح معاي بشعري</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">مراجع/ة</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">الدكتور محمد القحطاني ماشاء الله تبارك الله عليه عن تجربه معاه فناااان ويده خفيفه لما اخذت ابرة الشعر ماحسيت، ولا انسى المنسقه دانه كانت جداً لبقه ومتعاونه لابعد درجة ربي يعطيها العافيه (انصحكم وبشده).</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">Fares</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">تجربة رائعة مع الدكتور محمد القحطاني دكتور متمكن، شرحه واضح، ويهتم بالتفاصيل ويعطيك الخطة العلاجية المناسبة بكل أمانة واحترافية حسّيت براحة من أول زيارة. كذلك شكر خاص لمنسقته دانة على حسن التعامل، سرعة الرد، والتنظيم الممتاز للمواعيد.</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">Abdullah Aleliwi</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">زيارتي كانت رائعه للدكتور محمد القحطاني يحدد لك ويشرح لك وش يحتاج شعرك كل شخص حسب حالته واخلاقه وتعامله راقي ويده خفيفه ماحسيت بألم الابر ابدا متمكن الله يبارك له في عمله</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">saaraheid eid</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">اجمل العيادات اللي توفقت فيها وزادها كمااااال الدكتور محمد القحطاني سحررررررر في علاج مشاكل الشعر ..عياده رائعه مكان وخدمات والتعامل وسهوله التواصل والحجز شكر من القلب للمنسقه دانة</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">أميرة الورد</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">أفضل عيادة بالنسبة لي بالرياض والمعروف لايعرف.. شكر خاص لدكاترة نويا اللي اتابع معاهم وشفت فرق كبييير ( دكتور يزيد الحصان ودكتورة ابتسام الجريان ودكتور محمد القحطاني ) وشكراً لمنسقات نويا أفضل منسقات تعاملت معاهم</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">Dareen A. AlQahtani</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">كانت تجربة رائعة مع الدكتور محمد ، والمنسقة دانا يعطيها العافية.</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">Nawaf X</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">احب اشكر المنسقة دانه الجميلة على تعاونها وحرصها واسلوبها اللي مافيه احد مثله وكمان اشكر الدكتور محمد القحطاني كانت اول زيارة له واشكره من كل قلبي على تطمينه لي بوضعي الصحي لشعري العيادة مميزة باصحابها شكرا لكم</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">Hana GZ</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">عيادة رائعة بكل معنى الكلمة، الاهتمام بالعملاء ممتاز من لحظة الدخول. حضرت لهذه العيادة خصيصًا بسبب الدكتور محمد القحطاني بعد تجربة سابقة لي معه في عيادة أخرى، تعامله جداً مريح ويشرح بكل وضوح واهتمام. كذلك المنسقة الدانة من أفضل الأشخاص اللي تعاملت معهم.</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">JAZ</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">د محمد القحطاني للشعر خيااااال ماشاءالله و النتيجة فوق الخيال اتابع معاه من كان في لاهير كملت معاه شغل بشعري سنة و نصف شغل و نفسية الدكتور و حبه لمراجعينه خلتني التزم ولا اغيره صراحة</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">D</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">صراحة ممتازه الدكتور محمد القحطاني سوالي الاجراء بدون بنج ويده خفيفه وان شالله بعيد التجربه ، و منسقته العسل الدانه هي خلت تجربتي مريحة وسهله</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">Arwa kutbi</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-card-stars">★★★★★</p>
+                    <p class="testimonial-text ar-only">كنت اراجع مع د محمد القحطاني في عيادة سابقة والحمد لله طلعت بنتائج مرضية وبستمر معه و أتمنى له التوفيق في عيادات نويا واشكر المنسقة الدانة على تعاملها الاكثر من رائع</p>
+                    <div class="testimonial-divider"></div>
+                    <p class="testimonial-author ar-only">عبدالعزيز عبدالرحمن</p>
+                </div>
+
             </div>
 
-            <div style="text-align: center; margin-top: 1.5rem;">
-
-</div>
-        
+            <div style="text-align: center; margin-top: 1rem;">
+                <p class="ar-only" style="color: var(--accent-gold); font-size: 0.85rem;">تقييمات حقيقية من Google Maps - عيادات نويا النخيل</p>
+                <p class="en-only" style="color: var(--accent-gold); font-size: 0.85rem;">Real reviews from Google Maps - Noya Clinic Al-Nakheel</p>
+            </div>
+        </div>
     </section>
 
     <!-- FAQ Section -->
