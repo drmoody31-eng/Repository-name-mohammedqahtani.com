@@ -777,9 +777,7 @@
         }
 
         .services-scroll-wrapper {
-            position: relative;
             width: 100%;
-            overflow: hidden;
         }
 
         .services-scroll {
@@ -1116,9 +1114,7 @@
 
         /* Blog Cards Container */
         .blog-scroll-outer {
-            position: relative;
             width: 100%;
-            overflow: hidden;
         }
 
         .blog-cards-container {
@@ -1257,9 +1253,6 @@
         }
 
         .testimonials-preview {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
             margin-bottom: 2rem;
         }
 
@@ -2996,12 +2989,12 @@
     </script>
 
     <script>
-    // Auto-scroll + manual swipe for all carousel sections
+    // Auto-scroll + manual swipe/drag for all carousel sections
     document.addEventListener('DOMContentLoaded', function() {
         var containers = [
-            { el: document.querySelector('.testimonials-scroll'), speed: 1.2 },
-            { el: document.querySelector('.services-scroll'), speed: 1.0 },
-            { el: document.querySelector('.blog-cards-container'), speed: 0.8 }
+            { el: document.querySelector('.testimonials-scroll'), speed: 3 },
+            { el: document.querySelector('.services-scroll'), speed: 2.5 },
+            { el: document.querySelector('.blog-cards-container'), speed: 2 }
         ];
 
         containers.forEach(function(cfg) {
@@ -3016,12 +3009,14 @@
 
             var paused = false;
             var resumeTimer = null;
+            var isDragging = false;
+            var startX = 0;
+            var startScroll = 0;
 
-            // Auto-scroll via requestAnimationFrame
+            // Auto-scroll
             function step() {
-                if (!paused) {
+                if (!paused && !isDragging) {
                     c.scrollLeft += cfg.speed;
-                    // Seamless loop: when past halfway, reset
                     if (c.scrollLeft >= c.scrollWidth / 2) {
                         c.scrollLeft = 0;
                     }
@@ -3030,52 +3025,55 @@
             }
             requestAnimationFrame(step);
 
-            // Pause on hover
-            c.addEventListener('mouseenter', function() {
+            function pauseScroll() {
                 paused = true;
                 clearTimeout(resumeTimer);
-            });
-            c.addEventListener('mouseleave', function() {
-                resumeTimer = setTimeout(function() { paused = false; }, 1500);
-            });
-
-            // Pause on touch/drag
-            c.addEventListener('touchstart', function() {
-                paused = true;
+            }
+            function resumeScroll(delay) {
                 clearTimeout(resumeTimer);
-            }, { passive: true });
-            c.addEventListener('touchend', function() {
-                resumeTimer = setTimeout(function() { paused = false; }, 2500);
-            }, { passive: true });
+                resumeTimer = setTimeout(function() { paused = false; }, delay || 2000);
+            }
 
-            // Mouse drag support
-            var isDragging = false, startX = 0, startScroll = 0;
+            // ---- Mouse drag ----
             c.addEventListener('mousedown', function(e) {
                 isDragging = true;
-                paused = true;
-                clearTimeout(resumeTimer);
-                startX = e.pageX - c.offsetLeft;
+                pauseScroll();
+                startX = e.pageX;
                 startScroll = c.scrollLeft;
                 c.style.cursor = 'grabbing';
+                c.style.userSelect = 'none';
                 e.preventDefault();
             });
-            c.addEventListener('mousemove', function(e) {
+
+            document.addEventListener('mousemove', function(e) {
                 if (!isDragging) return;
-                var x = e.pageX - c.offsetLeft;
-                c.scrollLeft = startScroll - (x - startX);
+                var dx = e.pageX - startX;
+                c.scrollLeft = startScroll - dx;
             });
-            c.addEventListener('mouseup', function() {
+
+            document.addEventListener('mouseup', function() {
                 if (!isDragging) return;
                 isDragging = false;
                 c.style.cursor = 'grab';
-                resumeTimer = setTimeout(function() { paused = false; }, 1500);
+                c.style.userSelect = '';
+                resumeScroll(2000);
             });
-            c.addEventListener('mouseleave', function() {
-                if (isDragging) {
-                    isDragging = false;
-                    c.style.cursor = 'grab';
-                }
-            });
+
+            // ---- Touch swipe ----
+            c.addEventListener('touchstart', function(e) {
+                pauseScroll();
+                startX = e.touches[0].pageX;
+                startScroll = c.scrollLeft;
+            }, { passive: true });
+
+            c.addEventListener('touchmove', function(e) {
+                var dx = e.touches[0].pageX - startX;
+                c.scrollLeft = startScroll - dx;
+            }, { passive: true });
+
+            c.addEventListener('touchend', function() {
+                resumeScroll(2500);
+            }, { passive: true });
 
             c.style.cursor = 'grab';
         });
