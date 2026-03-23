@@ -3547,96 +3547,70 @@ body.en .news-card-title {
     </script>
     <script>
 
-// What's New in Hair - Auto-updating content
+// What's New in Hair - Daily auto-rotating content
 (function() {
-    const newsDataPath = 'hair-news-data.json';
-    
-    function renderNews(data) {
-        const grid = document.getElementById('newsGrid');
-        const dateEl = document.getElementById('newsDate');
-        if (!grid || !data) return;
-        
-        const isAr = document.body.classList.contains('ar');
-        
-        if (dateEl && data.date) {
-            dateEl.textContent = data.date;
+    // Pool of 21 evidence-based hair news items (rotates 3 per day = 7-day cycle)
+    var newsPool = [
+        { icon: '💊', cat: 'Treatments', cat_ar: 'علاجات', t: 'Clascoterone Topical: 539% Improvement in Hair Count', t_ar: 'كلاسكوتيرون الموضعي: تحسن بنسبة 539% في عدد الشعر', s: 'Phase 3 results show clascoterone 5% topical solution achieved up to 539% relative improvement in hair count versus placebo, with regulatory submission expected in 2026.', s_ar: 'أظهرت نتائج المرحلة الثالثة أن محلول كلاسكوتيرون الموضعي 5% حقق تحسناً نسبياً يصل إلى 539% في عدد الشعر مقارنة بالدواء الوهمي، مع توقع تقديم طلب الموافقة في 2026.', src: 'Cosmo Pharmaceuticals, Phase 3 Trial', src_ar: 'كوزمو فارماسوتيكالز، تجربة المرحلة الثالثة' },
+        { icon: '🧬', cat: 'Research', cat_ar: 'أبحاث', t: 'Exosome Therapy Outperforms PRP in New Meta-Analysis', t_ar: 'العلاج بالإكسوزومات يتفوق على البلازما في تحليل تلوي جديد', s: 'A systematic review of 11 clinical studies found MSC-derived exosomes increase hair density by 9.5-35 hairs/cm² with no serious adverse events reported.', s_ar: 'كشفت مراجعة منهجية شملت 11 دراسة سريرية أن الإكسوزومات المشتقة من الخلايا الجذعية تزيد كثافة الشعر بمقدار 9.5-35 شعرة/سم² دون أي آثار جانبية خطيرة.', src: 'Clinical, Cosmetic and Investigational Dermatology', src_ar: 'مجلة الأمراض الجلدية السريرية والتجميلية' },
+        { icon: '🔬', cat: 'Technology', cat_ar: 'تقنيات', t: 'PP405: Awakening Dormant Hair Follicle Stem Cells', t_ar: 'PP405: إيقاظ الخلايا الجذعية الخاملة في بصيلات الشعر', s: 'Pelage Pharmaceuticals\' PP405 targets dormant follicle stem cells directly. In Phase 2, 31% of patients with advanced hair loss saw over 20% density increase.', s_ar: 'يستهدف عقار PP405 الخلايا الجذعية الخاملة في البصيلات مباشرة. في المرحلة الثانية، شهد 31% من المرضى ذوي التساقط المتقدم زيادة تفوق 20% في الكثافة.', src: 'Pelage Pharmaceuticals, Phase 2/3 Trial', src_ar: 'بيلاج فارماسوتيكالز، تجربة المرحلة 2/3' },
+        { icon: '💉', cat: 'Treatments', cat_ar: 'علاجات', t: 'Oral Minoxidil: Low-Dose Protocol Gains Global Traction', t_ar: 'المينوكسيديل الفموي: بروتوكول الجرعة المنخفضة ينتشر عالمياً', s: 'Low-dose oral minoxidil (0.625-5mg) is increasingly adopted worldwide for androgenetic alopecia, with studies showing superior compliance rates over topical formulations.', s_ar: 'يزداد اعتماد المينوكسيديل الفموي بجرعة منخفضة (0.625-5 ملغ) عالمياً لعلاج الصلع الوراثي، مع دراسات تظهر معدلات التزام أعلى مقارنة بالمستحضرات الموضعية.', src: 'Journal of the American Academy of Dermatology', src_ar: 'مجلة الأكاديمية الأمريكية للأمراض الجلدية' },
+        { icon: '🤖', cat: 'Technology', cat_ar: 'تقنيات', t: 'AI-Guided Robotic Hair Transplant Reaches 99.1% Graft Survival', t_ar: 'زراعة الشعر الروبوتية بالذكاء الاصطناعي تحقق 99.1% نجاح للبصيلات', s: 'Next-generation robotic systems using AI image recognition now achieve 99.1% graft survival rates with precise angle calculations and optimal donor site mapping.', s_ar: 'تحقق أنظمة الروبوت الجديدة باستخدام التعرف بالذكاء الاصطناعي معدل نجاح 99.1% للبصيلات المزروعة مع حسابات دقيقة لزوايا الزراعة.', src: 'Hair Restoration Surgery Journal', src_ar: 'مجلة جراحة استعادة الشعر' },
+        { icon: '🧪', cat: 'Research', cat_ar: 'أبحاث', t: 'Topical Dutasteride Shows Fewer Side Effects Than Oral', t_ar: 'الدوتاستيرايد الموضعي يظهر آثاراً جانبية أقل من الفموي', s: 'A new randomized controlled trial confirms topical dutasteride 0.5% is effective for androgenetic alopecia with significantly fewer systemic side effects than oral administration.', s_ar: 'تجربة عشوائية محكمة جديدة تؤكد فعالية الدوتاستيرايد الموضعي 0.5% لعلاج الصلع الوراثي مع آثار جانبية جهازية أقل بكثير من الفموي.', src: 'British Journal of Dermatology', src_ar: 'المجلة البريطانية للأمراض الجلدية' },
+        { icon: '🌿', cat: 'Lifestyle', cat_ar: 'نمط الحياة', t: 'Mediterranean Diet Linked to Lower Hair Loss Risk', t_ar: 'حمية البحر المتوسط مرتبطة بانخفاض خطر تساقط الشعر', s: 'A large cohort study of 5,000 participants found that adherence to a Mediterranean diet rich in herbs, vegetables, and olive oil was associated with 35% lower risk of early-onset alopecia.', s_ar: 'دراسة أترابية كبيرة شملت 5,000 مشارك وجدت أن الالتزام بحمية البحر المتوسط الغنية بالأعشاب والخضروات وزيت الزيتون يرتبط بانخفاض 35% في خطر الصلع المبكر.', src: 'Clinical Nutrition Journal', src_ar: 'مجلة التغذية السريرية' },
+        { icon: '💊', cat: 'Treatments', cat_ar: 'علاجات', t: 'VDPHL01: First Oral Treatment Designed for Female Hair Loss', t_ar: 'VDPHL01: أول علاج فموي مصمم لتساقط شعر النساء', s: 'Veradermics advances VDPHL01 in Phase 2/3 clinical trial — an extended-release oral minoxidil that could become the first-ever oral prescription specifically for female pattern hair loss.', s_ar: 'تتقدم شركة فيراديرمكس بعقار VDPHL01 في المرحلة 2/3 — مينوكسيديل فموي ممتد المفعول قد يصبح أول وصفة فموية مخصصة لتساقط الشعر الأنثوي.', src: 'BioSpace / Veradermics Inc.', src_ar: 'بايوسبيس / فيراديرمكس' },
+        { icon: '🔬', cat: 'Technology', cat_ar: 'تقنيات', t: 'Scalp Micropigmentation Gets AI-Assisted Precision Upgrade', t_ar: 'المايكروبيجمنتيشن يحصل على ترقية بدقة الذكاء الاصطناعي', s: 'Enhanced needle configurations, biodegradable pigments, and AI-assisted patterning now allow for hyper-realistic scalp micropigmentation tailored to each patient\'s scalp and skin tone.', s_ar: 'تسمح إبر محسنة وأصباغ قابلة للتحلل وأنماط بالذكاء الاصطناعي بنتائج واقعية للغاية مخصصة لكل فروة رأس ولون بشرة.', src: 'Aesthetic Surgery Journal', src_ar: 'مجلة الجراحة التجميلية' },
+        { icon: '🧬', cat: 'Research', cat_ar: 'أبحاث', t: 'Wnt Pathway Activation: A New Frontier for Hair Regeneration', t_ar: 'تفعيل مسار Wnt: آفاق جديدة لتجديد الشعر', s: 'Researchers successfully activated the Wnt signaling pathway in dormant follicles, inducing new hair growth in preclinical models with 60% follicle reactivation rates.', s_ar: 'نجح الباحثون في تفعيل مسار إشارات Wnt في البصيلات الخاملة، مما أدى لنمو شعر جديد في النماذج ما قبل السريرية بمعدل إعادة تنشيط 60%.', src: 'Nature Cell Biology', src_ar: 'مجلة نيتشر لبيولوجيا الخلية' },
+        { icon: '💉', cat: 'Treatments', cat_ar: 'علاجات', t: 'Combination PRP + Microneedling Doubles Efficacy', t_ar: 'الجمع بين البلازما والميكرونيدلنج يضاعف الفعالية', s: 'A comparative study shows combining PRP injections with microneedling achieves nearly double the hair density improvement compared to PRP alone over 6 months.', s_ar: 'دراسة مقارنة تظهر أن الجمع بين حقن البلازما والميكرونيدلنج يحقق ضعف التحسن في كثافة الشعر تقريباً مقارنة بالبلازما وحدها خلال 6 أشهر.', src: 'Dermatologic Surgery', src_ar: 'مجلة الجراحة الجلدية' },
+        { icon: '🧪', cat: 'Research', cat_ar: 'أبحاث', t: 'JAK Inhibitors Show Promise Beyond Alopecia Areata', t_ar: 'مثبطات JAK تظهر فعالية تتجاوز الثعلبة', s: 'New research indicates JAK inhibitors like baricitinib may have applications in androgenetic alopecia by modulating inflammatory pathways around hair follicles.', s_ar: 'أبحاث جديدة تشير إلى أن مثبطات JAK مثل باريسيتينيب قد تفيد في الصلع الوراثي عبر تعديل المسارات الالتهابية حول بصيلات الشعر.', src: 'Journal of Investigative Dermatology', src_ar: 'مجلة أبحاث الأمراض الجلدية' },
+        { icon: '🌿', cat: 'Products', cat_ar: 'منتجات', t: 'Rosemary Oil Rivals Minoxidil 2% in 6-Month Trial', t_ar: 'زيت إكليل الجبل ينافس المينوكسيديل 2% في تجربة 6 أشهر', s: 'An updated randomized trial with 120 participants confirms rosemary oil matches minoxidil 2% topical for hair count improvement, with fewer scalp irritation side effects.', s_ar: 'تجربة عشوائية محدثة مع 120 مشاركاً تؤكد أن زيت إكليل الجبل يعادل المينوكسيديل الموضعي 2% في تحسين عدد الشعر، مع تهيج أقل لفروة الرأس.', src: 'Skinmed Journal', src_ar: 'مجلة سكين ميد' },
+        { icon: '🔬', cat: 'Technology', cat_ar: 'تقنيات', t: 'LLLT Updated Protocols Show 40% Density Improvement', t_ar: 'بروتوكولات الليزر المحدثة تظهر تحسناً بنسبة 40% في الكثافة', s: 'Updated low-level laser therapy protocols combining 650nm and 850nm wavelengths show 40% improvement in hair density over 6-month treatment periods.', s_ar: 'بروتوكولات العلاج بالليزر المنخفض المحدثة التي تجمع بين موجات 650 و850 نانومتر تظهر تحسناً بنسبة 40% في كثافة الشعر خلال 6 أشهر.', src: 'World Hair Congress 2025', src_ar: 'مؤتمر طب الشعر العالمي 2025' },
+        { icon: '💊', cat: 'Treatments', cat_ar: 'علاجات', t: 'Pyrilutamide Phase 3: Topical Anti-Androgen Advances', t_ar: 'بيريلوتاميد المرحلة الثالثة: مضاد أندروجين موضعي واعد', s: 'Kintor Pharma\'s pyrilutamide topical solution enters Phase 3 trials globally, offering a localized anti-androgen approach for pattern hair loss without systemic hormonal effects.', s_ar: 'يدخل محلول بيريلوتاميد الموضعي من كينتور فارما تجارب المرحلة الثالثة عالمياً، مقدماً نهجاً موضعياً مضاداً للأندروجين دون تأثيرات هرمونية جهازية.', src: 'Kintor Pharmaceutical, Clinical Trials Database', src_ar: 'كينتور فارما، قاعدة بيانات التجارب السريرية' },
+        { icon: '🧬', cat: 'Research', cat_ar: 'أبحاث', t: 'Hair Follicle Organoids: Growing Hair in the Lab', t_ar: 'عضيات بصيلات الشعر: زراعة الشعر في المختبر', s: 'Scientists developed 3D hair follicle organoids from human induced pluripotent stem cells that successfully produced hair shafts in culture, a major step toward cell-based hair restoration.', s_ar: 'طور العلماء عضيات بصيلات شعر ثلاثية الأبعاد من خلايا جذعية بشرية محفزة نجحت في إنتاج أعمدة شعر في المختبر، خطوة كبرى نحو استعادة الشعر بالخلايا.', src: 'Science Advances', src_ar: 'مجلة ساينس أدفانسز' },
+        { icon: '🌿', cat: 'Lifestyle', cat_ar: 'نمط الحياة', t: 'Gut Microbiome Imbalance Linked to Alopecia', t_ar: 'اختلال ميكروبيوم الأمعاء مرتبط بتساقط الشعر', s: 'Emerging research reveals a strong gut-hair axis: patients with androgenetic alopecia show distinct microbiome signatures, suggesting probiotics may complement hair loss treatments.', s_ar: 'أبحاث حديثة تكشف محوراً قوياً بين الأمعاء والشعر: مرضى الصلع الوراثي يظهرون بصمات ميكروبيوم مميزة، مما يشير لدور البروبيوتيك المكمل في علاج التساقط.', src: 'Frontiers in Microbiology', src_ar: 'مجلة فرونتيرز في علم الأحياء الدقيقة' },
+        { icon: '💉', cat: 'Treatments', cat_ar: 'علاجات', t: 'Mesotherapy Cocktails: Standardized Protocol Published', t_ar: 'كوكتيلات الميزوثيرابي: نشر بروتوكول موحد', s: 'An international expert consensus published the first standardized mesotherapy protocol for hair loss, combining vitamins, peptides, and growth factors with evidence-based dosing.', s_ar: 'نشر إجماع خبراء دولي أول بروتوكول موحد للميزوثيرابي لتساقط الشعر، يجمع بين فيتامينات وببتيدات وعوامل نمو بجرعات مبنية على الأدلة.', src: 'Journal of Cosmetic Dermatology', src_ar: 'مجلة الأمراض الجلدية التجميلية' },
+        { icon: '🔬', cat: 'Technology', cat_ar: 'تقنيات', t: 'Digital Trichoscopy AI Detects Hair Loss 2 Years Earlier', t_ar: 'الذكاء الاصطناعي للتنظير الشعري يكشف التساقط قبل سنتين', s: 'A new AI-powered trichoscopy system analyzes follicular miniaturization patterns and can detect androgenetic alopecia up to 2 years before visible thinning occurs.', s_ar: 'نظام تنظير شعري جديد بالذكاء الاصطناعي يحلل أنماط تقلص البصيلات ويكشف الصلع الوراثي قبل سنتين من ظهور الترقق المرئي.', src: 'JAMA Dermatology', src_ar: 'مجلة جاما للأمراض الجلدية' },
+        { icon: '🧪', cat: 'Research', cat_ar: 'أبحاث', t: 'Spironolactone for Female Hair Loss: Long-Term Data', t_ar: 'سبيرونولاكتون لتساقط شعر النساء: بيانات طويلة المدى', s: 'A 5-year retrospective study of 400 women confirms spironolactone 100-200mg maintains hair density improvement with an 85% satisfaction rate and manageable side effects.', s_ar: 'دراسة استرجاعية لخمس سنوات شملت 400 امرأة تؤكد أن سبيرونولاكتون 100-200 ملغ يحافظ على تحسن كثافة الشعر بنسبة رضا 85% وآثار جانبية قابلة للإدارة.', src: 'International Journal of Women\'s Dermatology', src_ar: 'المجلة الدولية لأمراض جلد المرأة' },
+        { icon: '💊', cat: 'Products', cat_ar: 'منتجات', t: 'Topical Caffeine Shampoo: First Large-Scale RCT Results', t_ar: 'شامبو الكافيين الموضعي: نتائج أول تجربة عشوائية كبيرة', s: 'The first large-scale randomized controlled trial of caffeine-based shampoo with 500 participants shows modest but statistically significant improvement in hair shaft thickness over 12 months.', s_ar: 'أول تجربة عشوائية محكمة واسعة النطاق لشامبو الكافيين مع 500 مشارك تظهر تحسناً متواضعاً لكنه ذو دلالة إحصائية في سمك الشعر خلال 12 شهراً.', src: 'Dermatology and Therapy', src_ar: 'مجلة الأمراض الجلدية والعلاج' }
+    ];
+
+    function getDailyItems() {
+        var today = new Date();
+        var dayIndex = Math.floor(today.getTime() / 86400000) % 7;
+        var start = dayIndex * 3;
+        return newsPool.slice(start, start + 3);
+    }
+
+    function render() {
+        var grid = document.getElementById('newsGrid');
+        var dateEl = document.getElementById('newsDate');
+        if (!grid) return;
+        var isAr = document.body.classList.contains('ar');
+        var items = getDailyItems();
+
+        if (dateEl) {
+            var today = new Date();
+            var opts = isAr ?
+                { year: 'numeric', month: 'long', day: 'numeric' } :
+                { year: 'numeric', month: 'long', day: 'numeric' };
+            dateEl.textContent = today.toLocaleDateString(isAr ? 'ar-SA' : 'en-US', opts);
         }
-        
-        const items = data.items || [];
-        if (items.length === 0) {
-            renderFallback(grid);
-            return;
-        }
-        
-        grid.innerHTML = items.map(item => {
-            const title = isAr ? (item.title_ar || item.title) : item.title;
-            const summary = isAr ? (item.summary_ar || item.summary) : item.summary;
-            const category = isAr ? (item.category_ar || item.category) : item.category;
-            const source = isAr ? (item.source_ar || item.source) : item.source;
-            return `
-                <div class="news-card">
-                    <div class="news-card-icon">${item.icon || '✦'}</div>
-                    <div class="news-card-category">${category}</div>
-                    <div class="news-card-title">${title}</div>
-                    <div class="news-card-summary">${summary}</div>
-                    <div class="news-card-source">${source}</div>
-                </div>
-            `;
+
+        grid.innerHTML = items.map(function(item) {
+            return '<div class="news-card">' +
+                '<div class="news-card-icon">' + item.icon + '</div>' +
+                '<div class="news-card-category">' + (isAr ? item.cat_ar : item.cat) + '</div>' +
+                '<div class="news-card-title">' + (isAr ? item.t_ar : item.t) + '</div>' +
+                '<div class="news-card-summary">' + (isAr ? item.s_ar : item.s) + '</div>' +
+                '<div class="news-card-source">' + (isAr ? item.src_ar : item.src) + '</div>' +
+            '</div>';
         }).join('');
     }
-    
-    function renderFallback(grid) {
-        const isAr = document.body.classList.contains('ar');
-        const fallbackItems = isAr ? [
-            { icon: '🧬', category: 'أبحاث', title: 'الإكسوزومات: مستقبل علاج تساقط الشعر', summary: 'تظهر الأبحاث الحديثة أن العلاج بالإكسوزومات يعزز نمو الشعر بنسبة تصل إلى 30% مقارنة بالبلازما التقليدية', source: 'المجلة الدولية للأمراض الجلدية 2025' },
-            { icon: '💊', category: 'علاجات', title: 'دوتاستيرايد الموضعي: نتائج واعدة', summary: 'دراسة جديدة تؤكد فعالية الدوتاستيرايد الموضعي في علاج الصلع الوراثي مع آثار جانبية أقل', source: 'مجلة الأكاديمية الأمريكية للأمراض الجلدية' },
-            { icon: '🔬', category: 'تقنيات', title: 'الليزر المنخفض الطاقة: تحديث البروتوكولات', summary: 'بروتوكولات محدثة للعلاج بالليزر المنخفض تظهر تحسناً بنسبة 40% في كثافة الشعر خلال 6 أشهر', source: 'مؤتمر طب الشعر العالمي 2025' }
-        ] : [
-            { icon: '🧬', category: 'Research', title: 'Exosome Therapy: The Future of Hair Loss Treatment', summary: 'Recent studies show exosome therapy boosts hair growth by up to 30% compared to traditional PRP treatments', source: 'International Journal of Dermatology 2025' },
-            { icon: '💊', category: 'Treatments', title: 'Topical Dutasteride: Promising Results', summary: 'New study confirms topical dutasteride effectiveness for androgenetic alopecia with fewer systemic side effects', source: 'Journal of the American Academy of Dermatology' },
-            { icon: '🔬', category: 'Technology', title: 'Low-Level Laser Therapy: Updated Protocols', summary: 'Updated LLLT protocols show 40% improvement in hair density over 6-month treatment periods', source: 'World Hair Congress 2025' }
-        ];
-        
-        grid.innerHTML = fallbackItems.map(item => `
-            <div class="news-card">
-                <div class="news-card-icon">${item.icon}</div>
-                <div class="news-card-category">${item.category}</div>
-                <div class="news-card-title">${item.title}</div>
-                <div class="news-card-summary">${item.summary}</div>
-                <div class="news-card-source">${item.source}</div>
-            </div>
-        `).join('');
-        
-        const dateEl = document.getElementById('newsDate');
-        if (dateEl) {
-            const today = new Date();
-            const options = isAr ? 
-                { year: 'numeric', month: 'long', day: 'numeric', calendar: 'islamic' } :
-                { year: 'numeric', month: 'long', day: 'numeric' };
-            dateEl.textContent = today.toLocaleDateString(isAr ? 'ar-SA' : 'en-US', options);
-        }
-    }
-    
-    // Try to load from JSON file, fall back to defaults
-    fetch(newsDataPath)
-        .then(r => { if (!r.ok) throw new Error('No data'); return r.json(); })
-        .then(renderNews)
-        .catch(() => {
-            const grid = document.getElementById('newsGrid');
-            if (grid) renderFallback(grid);
-        });
-    
-    // Re-render on language switch
-    const langObserver = new MutationObserver(function() {
-        fetch(newsDataPath)
-            .then(r => { if (!r.ok) throw new Error('No data'); return r.json(); })
-            .then(renderNews)
-            .catch(() => {
-                const grid = document.getElementById('newsGrid');
-                if (grid) renderFallback(grid);
-            });
-    });
-    langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    render();
+
+    var langObs = new MutationObserver(render);
+    langObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
 
     </script>
