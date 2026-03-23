@@ -1911,11 +1911,17 @@
 
             .hero-image-container {
                 order: 1;
-                max-height: 50vh;
+                max-height: none;
+                overflow: visible;
+                align-items: center;
+                justify-content: center;
+                margin-left: 0;
             }
 
             .hero-portrait {
-                max-width: 280px !important;
+                max-width: 300px !important;
+                width: 80%;
+                object-fit: contain;
             }
 
             .hero h1 {
