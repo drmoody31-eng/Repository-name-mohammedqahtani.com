@@ -1,0 +1,39 @@
+{
+  "date": "March 23, 2026",
+  "date_ar": "٢٣ مارس ٢٠٢٦",
+  "items": [
+    {
+      "icon": "💊",
+      "category": "Treatments",
+      "category_ar": "علاجات",
+      "title": "Clascoterone Topical: 539% Improvement in Hair Count",
+      "title_ar": "كلاسكوتيرون الموضعي: تحسن بنسبة 539% في عدد الشعر",
+      "summary": "Phase 3 results show clascoterone 5% topical solution achieved up to 539% relative improvement in hair count versus placebo. Regulatory submission expected in spring 2026.",
+      "summary_ar": "أظهرت نتائج المرحلة الثالثة أن محلول كلاسكوتيرون الموضعي 5% حقق تحسناً نسبياً يصل إلى 539% في عدد الشعر مقارنة بالدواء الوهمي. من المتوقع تقديم طلب الموافقة التنظيمية في ربيع 2026.",
+      "source": "Cosmo Pharmaceuticals, Phase 3 Trial 2025",
+      "source_ar": "كوزمو فارماسوتيكالز، تجربة المرحلة الثالثة 2025"
+    },
+    {
+      "icon": "🧬",
+      "category": "Research",
+      "category_ar": "أبحاث",
+      "title": "Exosome Therapy: Systematic Review Confirms Efficacy",
+      "title_ar": "العلاج بالإكسوزومات: مراجعة منهجية تؤكد الفعالية",
+      "summary": "A 2025 systematic review of 11 clinical studies found MSC-derived exosomes increase hair density by 9.5-35 hairs/cm² with no serious adverse events reported.",
+      "summary_ar": "كشفت مراجعة منهجية لعام 2025 شملت 11 دراسة سريرية أن الإكسوزومات المشتقة من الخلايا الجذعية تزيد كثافة الشعر بمقدار 9.5-35 شعرة/سم² دون أي آثار جانبية خطيرة.",
+      "source": "Clinical, Cosmetic and Investigational Dermatology, 2025",
+      "source_ar": "مجلة الأمراض الجلدية السريرية والتجميلية، 2025"
+    },
+    {
+      "icon": "🔬",
+      "category": "Technology",
+      "category_ar": "تقنيات",
+      "title": "PP405: Awakening Dormant Hair Follicle Stem Cells",
+      "title_ar": "PP405: إيقاظ الخلايا الجذعية الخاملة في بصيلات الشعر",
+      "summary": "Pelage Pharmaceuticals' PP405 targets dormant follicle stem cells directly. In Phase 2, 31% of patients with advanced hair loss saw over 20% density increase. Phase 3 trials begin in 2026.",
+      "summary_ar": "يستهدف عقار PP405 من شركة بيلاج الخلايا الجذعية الخاملة في البصيلات مباشرة. في المرحلة الثانية، شهد 31% من المرضى ذوي التساقط المتقدم زيادة تفوق 20% في الكثافة. تبدأ تجارب المرحلة الثالثة في 2026.",
+      "source": "Pelage Pharmaceuticals, Phase 2/3 Trial 2026",
+      "source_ar": "بيلاج فارماسوتيكالز، تجربة المرحلة 2/3 لعام 2026"
+    }
+  ]
+}
