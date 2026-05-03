@@ -776,6 +776,69 @@ body.show-en { direction: ltr !important; text-align: start; }
 }
 [lang="ar"] .divider-soft { font-family: 'Aref Ruqaa', serif; font-style: normal; }
 
+
+.results-banner {
+  text-align: center;
+  background: linear-gradient(135deg, var(--light-bg) 0%, var(--bg) 100%);
+  border: 1px solid var(--line);
+  padding: 56px 32px;
+  margin: 64px 0;
+  position: relative;
+  overflow: hidden;
+}
+.results-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.results-banner .eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+[lang="ar"] .results-banner .eyebrow {
+  font-family: 'Aref Ruqaa', serif;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+.results-banner h2 {
+  font-size: clamp(26px, 3.6vw, 34px);
+  margin: 0 0 16px;
+  color: var(--text);
+  font-weight: 400;
+}
+.results-banner p {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin: 0 auto 32px;
+  max-width: 540px;
+  line-height: 1.7;
+}
+.btn-gallery {
+  display: inline-block;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  padding: 14px 36px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all var(--transition);
+}
+.btn-gallery:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
 </style>
 </head>
 <body>
@@ -1298,6 +1361,25 @@ body.show-en { direction: ltr !important; text-align: start; }
     <span class="ar-only"><strong>وقت كافٍ لكل حالة:</strong> لا أستعجل في الاستشارة. أستمع لقصتك، أراجع تاريخك الطبي والعائلي، وأبني معك خطة تناسب وضعك تحديداً — لا قالباً جاهزاً.</span>
     <span class="en-only"><strong>Time for every case:</strong> I don't rush consultations. I listen to your story, review your medical and family history, and build a plan that fits your specific situation — not a template.</span>
   </p>
+
+  <div class="results-banner">
+    <span class="eyebrow">
+      <span class="ar-only">— أعمالنا تتكلم عنا —</span>
+      <span class="en-only">— our work speaks for itself —</span>
+    </span>
+    <h2>
+      <span class="ar-only">شاهد نتائج مرضى سابقين</span>
+      <span class="en-only">See Real Patient Results</span>
+    </h2>
+    <p>
+      <span class="ar-only">أكثر من 5,000 حالة معالجة، كل واحدة بقصتها الخاصة. جميع الصور بموافقة موثقة من المرضى.</span>
+      <span class="en-only">Over 5,000 cases treated, each with its own story. All photos shared with documented patient consent.</span>
+    </p>
+    <a href="/results.html" class="btn-gallery">
+      <span class="ar-only">المعرض الكامل ←</span>
+      <span class="en-only">View Full Gallery →</span>
+    </a>
+  </div>
 
   <div class="divider-soft">
     <span class="ar-only">— ما يحدث في استشارتك الأولى —</span>
