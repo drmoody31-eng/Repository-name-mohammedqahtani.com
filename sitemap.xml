@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mohammedqahtani.com/</loc>
-    <lastmod>2026-05-02</lastmod>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,76 +13,17 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/prp/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/prp/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/prp/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/exosomes/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/exosomes/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/exosomes/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/gfc/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/gfc/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/gfc/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/stem-cells/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/stem-cells/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/stem-cells/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/regenera-activa/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/regenera-activa/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/regenera-activa/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/nano-fat/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/nano-fat/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/nano-fat/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/lllt/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/lllt/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/lllt/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/mesotherapy/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/mesotherapy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/mesotherapy/?lang=en"/>
-  </url>
-  <url>
-    <loc>https://mohammedqahtani.com/procedures/pdrn/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/pdrn/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/pdrn/?lang=en"/>
-  </url>
+  <url><loc>https://mohammedqahtani.com/procedures/prp/</loc><lastmod>2026-05-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/exosomes/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/gfc/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/stem-cells/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/regenera-activa/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/nano-fat/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/lllt/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/mesotherapy/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/procedures/pdrn/</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/medications/minoxidil/</loc><lastmod>2026-05-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/medications/finasteride/</loc><lastmod>2026-05-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/medications/dutasteride/</loc><lastmod>2026-05-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mohammedqahtani.com/medications/topical-antiandrogens/</loc><lastmod>2026-05-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 </urlset>

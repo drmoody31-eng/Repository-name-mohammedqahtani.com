@@ -2360,6 +2360,15 @@ body.en .news-card-title {
                         <li><a href="/procedures/pdrn/">البولينيوكليوتيدات (PDRN)</a></li>
                     </ul>
                 </li>
+                <li class="has-dropdown">
+                    <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false" id="medications-trigger">الأدوية <span class="caret">▾</span></button>
+                    <ul class="dropdown" role="menu" aria-labelledby="medications-trigger">
+                        <li><a href="/medications/minoxidil/">المينوكسيديل</a></li>
+                        <li><a href="/medications/finasteride/">الفيناسترايد</a></li>
+                        <li><a href="/medications/dutasteride/">الدوتاستيريد</a></li>
+                        <li><a href="/medications/topical-antiandrogens/">مضادات الأندروجين الموضعية</a></li>
+                    </ul>
+                </li>
                 <li><a href="results.html">النتائج</a></li>
                 <li><a href="#reviews">آراء</a></li>
                 <li><a href="#faq">أسئلة</a></li>
@@ -3512,12 +3521,18 @@ body.en .news-card-title {
         gtag('js', new Date());
         gtag('config', 'G-BHWK9615C8');
 
-        // Procedures dropdown + mobile hamburger menu (added for procedure pages)
+        // Procedures + Medications dropdowns + mobile hamburger menu
         (function(){
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
-            const procTrigger = document.getElementById('procedures-trigger');
-            const procDropdown = procTrigger ? procTrigger.nextElementSibling : null;
+            const dropdownTriggers = document.querySelectorAll('.nav-trigger[aria-haspopup="true"]');
+
+            function closeAllDropdowns() {
+                dropdownTriggers.forEach(function(t){
+                    t.setAttribute('aria-expanded','false');
+                    if (t.nextElementSibling) t.nextElementSibling.classList.remove('open');
+                });
+            }
 
             if (hamburger && navLinks) {
                 hamburger.addEventListener('click', function(e){
@@ -3527,19 +3542,25 @@ body.en .news-card-title {
                 });
             }
 
-            if (procTrigger && procDropdown) {
-                procTrigger.addEventListener('click', function(e){
+            dropdownTriggers.forEach(function(trigger){
+                const dd = trigger.nextElementSibling;
+                trigger.addEventListener('click', function(e){
                     e.stopPropagation();
-                    const isOpen = procDropdown.classList.toggle('open');
-                    procTrigger.setAttribute('aria-expanded', String(isOpen));
+                    const wasOpen = dd.classList.contains('open');
+                    closeAllDropdowns();
+                    if (!wasOpen) {
+                        dd.classList.add('open');
+                        trigger.setAttribute('aria-expanded','true');
+                    }
                 });
-            }
+            });
 
             document.addEventListener('click', function(e){
-                if (procDropdown && !procDropdown.contains(e.target) && e.target !== procTrigger) {
-                    procDropdown.classList.remove('open');
-                    if (procTrigger) procTrigger.setAttribute('aria-expanded','false');
-                }
+                let insideAny = false;
+                dropdownTriggers.forEach(function(t){
+                    if (t.contains(e.target) || (t.nextElementSibling && t.nextElementSibling.contains(e.target))) insideAny = true;
+                });
+                if (!insideAny) closeAllDropdowns();
                 if (hamburger && navLinks && !hamburger.contains(e.target) && !navLinks.contains(e.target)) {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('open');
@@ -3548,8 +3569,7 @@ body.en .news-card-title {
 
             document.addEventListener('keydown', function(e){
                 if (e.key === 'Escape') {
-                    if (procDropdown) procDropdown.classList.remove('open');
-                    if (procTrigger) procTrigger.setAttribute('aria-expanded','false');
+                    closeAllDropdowns();
                     if (hamburger) hamburger.classList.remove('active');
                     if (navLinks) navLinks.classList.remove('open');
                 }
