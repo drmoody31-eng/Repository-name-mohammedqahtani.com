@@ -383,6 +383,145 @@
             transition: all var(--transition);
         }
 
+        /* Procedures dropdown — added for new procedure pages */
+        .nav-links .has-dropdown {
+            position: relative;
+        }
+        .nav-links .nav-trigger {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+            transition: color var(--transition);
+        }
+        .nav-links .nav-trigger::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 0.5px;
+            background: var(--accent);
+            transition: width var(--transition);
+        }
+        .nav-links .nav-trigger:hover::after,
+        .nav-links .has-dropdown:hover .nav-trigger::after {
+            width: 100%;
+        }
+        .nav-links .nav-trigger .caret {
+            color: var(--accent);
+            font-size: 0.7rem;
+            transition: transform var(--transition);
+        }
+        .nav-links .nav-trigger[aria-expanded="true"] .caret {
+            transform: rotate(180deg);
+        }
+        .nav-links .dropdown {
+            position: absolute;
+            top: calc(100% + 14px);
+            inset-inline-start: -16px;
+            min-width: 280px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            box-shadow: 0 12px 32px rgba(26, 26, 26, 0.08);
+            padding: 8px;
+            list-style: none;
+            margin: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px);
+            transition: all var(--transition);
+            z-index: 1000;
+        }
+        .nav-links .has-dropdown:hover .dropdown,
+        .nav-links .has-dropdown .dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .nav-links .dropdown li { margin: 0; }
+        .nav-links .dropdown a {
+            display: block;
+            padding: 10px 14px;
+            color: var(--text);
+            font-size: 0.85rem;
+            border-radius: 2px;
+            transition: background var(--transition);
+        }
+        .nav-links .dropdown a::after { display: none; }
+        .nav-links .dropdown a:hover {
+            background: var(--light-bg);
+            color: var(--text);
+        }
+        /* Mobile menu: nav-links opens via hamburger */
+        @media (max-width: 768px) {
+            .nav-links.open {
+                display: flex !important;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1.2rem;
+                border-bottom: 1px solid var(--line);
+                box-shadow: 0 8px 24px rgba(26, 26, 26, 0.08);
+                z-index: 999;
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+            }
+            .nav-links.open .has-dropdown { width: 100%; }
+            .nav-links.open .nav-trigger {
+                width: 100%;
+                justify-content: space-between;
+                font-size: 1rem;
+                padding: 0.4rem 0;
+            }
+            .nav-links.open .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                background: transparent;
+                padding: 0.4rem 0 0 1rem;
+                width: 100%;
+                display: none;
+            }
+            .nav-links.open .has-dropdown .dropdown.open {
+                display: block;
+            }
+            .nav-links.open .dropdown a {
+                padding: 0.6rem 0;
+            }
+            .nav-links.open > li > a {
+                font-size: 1rem;
+                padding: 0.4rem 0;
+                display: block;
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(4px, 4px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+        }
+
         /* Hero Section - Compact */
         /* Hero Section - Full Width */
         .hero {
@@ -2207,6 +2346,20 @@ body.en .news-card-title {
             <ul class="nav-links">
                 <li><a href="#showcase">النتائج</a></li>
                 <li><a href="#services">خدمات</a></li>
+                <li class="has-dropdown">
+                    <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false" id="procedures-trigger">الإجراءات <span class="caret">▾</span></button>
+                    <ul class="dropdown" role="menu" aria-labelledby="procedures-trigger">
+                        <li><a href="/procedures/prp/">حقن البلازما (PRP)</a></li>
+                        <li><a href="/procedures/exosomes/">الإكسوسومات</a></li>
+                        <li><a href="/procedures/gfc/">عوامل النمو المركّزة (GFC)</a></li>
+                        <li><a href="/procedures/stem-cells/">العلاج بالخلايا الجذعية</a></li>
+                        <li><a href="/procedures/regenera-activa/">ريجينيرا أكتيفا</a></li>
+                        <li><a href="/procedures/nano-fat/">النانو فات</a></li>
+                        <li><a href="/procedures/lllt/">الليزر منخفض المستوى (LLLT)</a></li>
+                        <li><a href="/procedures/mesotherapy/">الميزوثيرابي</a></li>
+                        <li><a href="/procedures/pdrn/">البولينيوكليوتيدات (PDRN)</a></li>
+                    </ul>
+                </li>
                 <li><a href="results.html">النتائج</a></li>
                 <li><a href="#reviews">آراء</a></li>
                 <li><a href="#faq">أسئلة</a></li>
@@ -3358,6 +3511,50 @@ body.en .news-card-title {
         function gtag(){dataLayer.push(arguments)}
         gtag('js', new Date());
         gtag('config', 'G-BHWK9615C8');
+
+        // Procedures dropdown + mobile hamburger menu (added for procedure pages)
+        (function(){
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const procTrigger = document.getElementById('procedures-trigger');
+            const procDropdown = procTrigger ? procTrigger.nextElementSibling : null;
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', function(e){
+                    e.stopPropagation();
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('open');
+                });
+            }
+
+            if (procTrigger && procDropdown) {
+                procTrigger.addEventListener('click', function(e){
+                    e.stopPropagation();
+                    const isOpen = procDropdown.classList.toggle('open');
+                    procTrigger.setAttribute('aria-expanded', String(isOpen));
+                });
+            }
+
+            document.addEventListener('click', function(e){
+                if (procDropdown && !procDropdown.contains(e.target) && e.target !== procTrigger) {
+                    procDropdown.classList.remove('open');
+                    if (procTrigger) procTrigger.setAttribute('aria-expanded','false');
+                }
+                if (hamburger && navLinks && !hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('open');
+                }
+            });
+
+            document.addEventListener('keydown', function(e){
+                if (e.key === 'Escape') {
+                    if (procDropdown) procDropdown.classList.remove('open');
+                    if (procTrigger) procTrigger.setAttribute('aria-expanded','false');
+                    if (hamburger) hamburger.classList.remove('active');
+                    if (navLinks) navLinks.classList.remove('open');
+                }
+            });
+        })();
     </script>
 
     <script>
