@@ -1528,6 +1528,41 @@ body.show-en { direction: ltr !important; text-align: start; }
 <a href="https://wa.me/966500098821?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%AA%D9%88%D8%A7%D8%B5%D9%84%20%D9%85%D8%B9%D9%83%D9%85%20%D8%B9%D9%86%20%D8%B7%D8%B1%D9%8A%D9%82%20%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9%20%D8%A7%D9%84%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A%20%D9%84%D9%84%D8%AF%D9%83%D8%AA%D9%88%D8%B1%D8%8C%20%D9%88%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9." target="_blank" rel="noopener" class="whatsapp-sticky" aria-label="WhatsApp" title="WhatsApp"><span>💬</span></a>
 
 <script>
+/* ---------- Ad attribution: rewrite WhatsApp pre-fill from URL params ----------
+   Examples:
+     /consultation/                       → default text
+     /consultation/?src=snap&ad=01a       → "...إعلان سناب... [AD-01-A]"
+     /consultation/?src=snap&ad=01b       → "...إعلان سناب... [AD-01-B]"
+   Add new sources by extending the SOURCE_MESSAGES map below.
+--------------------------------------------------------------------------------- */
+(function rewriteWhatsAppForAds(){
+  var SOURCE_MESSAGES = {
+    snap:   'السلام عليكم، جاي من إعلان سناب — أبي أستشير عن تساقط الشعر',
+    google: 'السلام عليكم، جاي من إعلان قوقل — أبي أستشير عن تساقط الشعر',
+    meta:   'السلام عليكم، جاي من إعلان ميتا — أبي أستشير عن تساقط الشعر',
+    tiktok: 'السلام عليكم، جاي من إعلان تيك توك — أبي أستشير عن تساقط الشعر'
+  };
+  var params = new URLSearchParams(window.location.search);
+  var src = (params.get('src') || '').toLowerCase();
+  var ad  = (params.get('ad')  || '').trim();
+  var base = SOURCE_MESSAGES[src];
+  if (!base) return; // no recognised source → keep default text
+  function formatAdCode(code){
+    var m = code.match(/^(\d+)([a-zA-Z]+)$/);
+    return '[AD-' + (m ? m[1] + '-' + m[2].toUpperCase() : code.toUpperCase()) + ']';
+  }
+  var fullText = ad ? base + ' ' + formatAdCode(ad) : base;
+  document.querySelectorAll('a[href*="wa.me/"]').forEach(function(a){
+    try {
+      var u = new URL(a.href);
+      u.searchParams.set('text', fullText);
+      a.href = u.toString();
+    } catch (e) {
+      a.href = a.href.replace(/([?&])text=[^&]*/, '$1text=' + encodeURIComponent(fullText));
+    }
+  });
+})();
+
 const langBtn = document.getElementById('lang-toggle');
 const html = document.documentElement;
 const body = document.body;
