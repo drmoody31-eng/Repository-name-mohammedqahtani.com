@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# Disallow legacy/staging paths
+Disallow: /_archive_treatments_2026-05-14/
+Disallow: /treatments/
+
+# Sitemap
 Sitemap: https://mohammedqahtani.com/sitemap.xml
