@@ -1,39 +1,39 @@
 {
-  "date": "March 23, 2026",
-  "date_ar": "٢٣ مارس ٢٠٢٦",
-  "items": [
-    {
-      "icon": "💊",
-      "category": "Treatments",
-      "category_ar": "علاجات",
-      "title": "Clascoterone Topical: 539% Improvement in Hair Count",
-      "title_ar": "كلاسكوتيرون الموضعي: تحسن بنسبة 539% في عدد الشعر",
-      "summary": "Phase 3 results show clascoterone 5% topical solution achieved up to 539% relative improvement in hair count versus placebo. Regulatory submission expected in spring 2026.",
-      "summary_ar": "أظهرت نتائج المرحلة الثالثة أن محلول كلاسكوتيرون الموضعي 5% حقق تحسناً نسبياً يصل إلى 539% في عدد الشعر مقارنة بالدواء الوهمي. من المتوقع تقديم طلب الموافقة التنظيمية في ربيع 2026.",
-      "source": "Cosmo Pharmaceuticals, Phase 3 Trial 2025",
-      "source_ar": "كوزمو فارماسوتيكالز، تجربة المرحلة الثالثة 2025"
-    },
-    {
-      "icon": "🧬",
-      "category": "Research",
-      "category_ar": "أبحاث",
-      "title": "Exosome Therapy: Systematic Review Confirms Efficacy",
-      "title_ar": "العلاج بالإكسوزومات: مراجعة منهجية تؤكد الفعالية",
-      "summary": "A 2025 systematic review of 11 clinical studies found MSC-derived exosomes increase hair density by 9.5-35 hairs/cm² with no serious adverse events reported.",
-      "summary_ar": "كشفت مراجعة منهجية لعام 2025 شملت 11 دراسة سريرية أن الإكسوزومات المشتقة من الخلايا الجذعية تزيد كثافة الشعر بمقدار 9.5-35 شعرة/سم² دون أي آثار جانبية خطيرة.",
-      "source": "Clinical, Cosmetic and Investigational Dermatology, 2025",
-      "source_ar": "مجلة الأمراض الجلدية السريرية والتجميلية، 2025"
-    },
-    {
-      "icon": "🔬",
-      "category": "Technology",
-      "category_ar": "تقنيات",
-      "title": "PP405: Awakening Dormant Hair Follicle Stem Cells",
-      "title_ar": "PP405: إيقاظ الخلايا الجذعية الخاملة في بصيلات الشعر",
-      "summary": "Pelage Pharmaceuticals' PP405 targets dormant follicle stem cells directly. In Phase 2, 31% of patients with advanced hair loss saw over 20% density increase. Phase 3 trials begin in 2026.",
-      "summary_ar": "يستهدف عقار PP405 من شركة بيلاج الخلايا الجذعية الخاملة في البصيلات مباشرة. في المرحلة الثانية، شهد 31% من المرضى ذوي التساقط المتقدم زيادة تفوق 20% في الكثافة. تبدأ تجارب المرحلة الثالثة في 2026.",
-      "source": "Pelage Pharmaceuticals, Phase 2/3 Trial 2026",
-      "source_ar": "بيلاج فارماسوتيكالز، تجربة المرحلة 2/3 لعام 2026"
-    }
-  ]
+"date": "May 26, 2026",
+"date_ar": "٢٦ مايو ٢٠٢٦",
+"items": [
+{
+"icon": "💊",
+"category": "Treatments",
+"category_ar": "علاجات",
+"title": "VDPHL01: Oral Hair-Growth Drug Hits Phase 2/3 Endpoints",
+"title_ar": "VDPHL01: دواء فموي جديد لتحفيز نمو الشعر يحقق نتائج إيجابية في المرحلة ٢/٣",
+"summary": "Veradermics reported positive topline results from its Phase 2/3 '302' trial of oral VDPHL01 in men with male pattern hair loss, showing early and consistent hair growth versus placebo. Topline data from the parallel '304' trial are expected in the second half of 2026.",
+"summary_ar": "أعلنت شركة فيراديرميكس عن نتائج إيجابية مبدئية من تجربة المرحلة ٢/٣ '٣٠٢' لدواء VDPHL01 الفموي في الذكور المصابين بالصلع الوراثي، مع نمو شعر مبكر وثابت مقارنة بالدواء الوهمي. النتائج الأولية للتجربة الموازية '٣٠٤' متوقعة في النصف الثاني من ٢٠٢٦.",
+"source": "Veradermics, Phase 2/3 Trial Announcement (April 2026)",
+"source_ar": "فيراديرميكس، إعلان تجربة المرحلة ٢/٣ (أبريل ٢٠٢٦)"
+},
+{
+"icon": "🔬",
+"category": "Treatments",
+"category_ar": "علاجات",
+"title": "Pyrilutamide (KX-826) Meets Phase 3 Primary Endpoint",
+"title_ar": "بيريلوتاميد (KX-826) يحقق النقطة النهائية الأساسية في المرحلة الثالثة",
+"summary": "Kintor Pharmaceutical reported that pyrilutamide 1% topical solution, an androgen receptor antagonist for androgenetic alopecia, met its Phase 3 primary endpoint in a 666-patient trial in China. An NDA filing with China's NMPA is planned.",
+"summary_ar": "أعلنت شركة كينتور فارما أن محلول بيريلوتاميد ١٪ الموضعي، وهو مضاد لمستقبلات الأندروجين لعلاج الصلع الوراثي، حقق النقطة النهائية الأساسية في تجربة المرحلة الثالثة على ٦٦٦ مريض في الصين. ومن المخطط تقديم طلب الموافقة لدى الهيئة الصينية NMPA.",
+"source": "Kintor Pharmaceutical, Phase 3 Announcement (March 2026)",
+"source_ar": "كينتور فارما، إعلان المرحلة الثالثة (مارس ٢٠٢٦)"
+},
+{
+"icon": "🧬",
+"category": "Research",
+"category_ar": "أبحاث",
+"title": "FDA Accepts IND for Xvie — First Extracellular Vesicle Injectable for AGA",
+"title_ar": "FDA يقبل طلب IND لعلاج Xvie — أول حقن بالحويصلات خارج الخلوية للصلع الوراثي",
+"summary": "The FDA accepted an Investigational New Drug application for Xvie, an amniotic fluid–derived extracellular vesicle injectable designed to support follicular biology. It is the first regenerative agent of its kind to enter U.S. clinical development for androgenetic alopecia.",
+"summary_ar": "قبلت هيئة الغذاء والدواء الأمريكية طلب IND لعلاج Xvie، وهو حقن مشتق من السائل الأمنيوسي يحتوي على حويصلات خارج خلوية مصممة لدعم بيولوجيا البصيلات. وهو أول علاج تجديدي من نوعه يدخل التطوير السريري الأمريكي لعلاج الصلع الوراثي.",
+"source": "Dermatology Times, FDA IND Acceptance (March 2026)",
+"source_ar": "ديرماتولوجي تايمز، قبول طلب IND من إدارة الغذاء والدواء (مارس ٢٠٢٦)"
+}
+]
 }
