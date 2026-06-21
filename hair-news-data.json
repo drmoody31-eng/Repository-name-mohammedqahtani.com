@@ -1,39 +1,39 @@
 {
-"date": "May 26, 2026",
-"date_ar": "٢٦ مايو ٢٠٢٦",
+"date": "June 20, 2026",
+"date_ar": "٢٠ يونيو ٢٠٢٦",
 "items": [
 {
 "icon": "💊",
 "category": "Treatments",
 "category_ar": "علاجات",
-"title": "VDPHL01: Oral Hair-Growth Drug Hits Phase 2/3 Endpoints",
-"title_ar": "VDPHL01: دواء فموي جديد لتحفيز نمو الشعر يحقق نتائج إيجابية في المرحلة ٢/٣",
-"summary": "Veradermics reported positive topline results from its Phase 2/3 '302' trial of oral VDPHL01 in men with male pattern hair loss, showing early and consistent hair growth versus placebo. Topline data from the parallel '304' trial are expected in the second half of 2026.",
-"summary_ar": "أعلنت شركة فيراديرميكس عن نتائج إيجابية مبدئية من تجربة المرحلة ٢/٣ '٣٠٢' لدواء VDPHL01 الفموي في الذكور المصابين بالصلع الوراثي، مع نمو شعر مبكر وثابت مقارنة بالدواء الوهمي. النتائج الأولية للتجربة الموازية '٣٠٤' متوقعة في النصف الثاني من ٢٠٢٦.",
-"source": "Veradermics, Phase 2/3 Trial Announcement (April 2026)",
-"source_ar": "فيراديرميكس، إعلان تجربة المرحلة ٢/٣ (أبريل ٢٠٢٦)"
-},
-{
-"icon": "🔬",
-"category": "Treatments",
-"category_ar": "علاجات",
-"title": "Pyrilutamide (KX-826) Meets Phase 3 Primary Endpoint",
-"title_ar": "بيريلوتاميد (KX-826) يحقق النقطة النهائية الأساسية في المرحلة الثالثة",
-"summary": "Kintor Pharmaceutical reported that pyrilutamide 1% topical solution, an androgen receptor antagonist for androgenetic alopecia, met its Phase 3 primary endpoint in a 666-patient trial in China. An NDA filing with China's NMPA is planned.",
-"summary_ar": "أعلنت شركة كينتور فارما أن محلول بيريلوتاميد ١٪ الموضعي، وهو مضاد لمستقبلات الأندروجين لعلاج الصلع الوراثي، حقق النقطة النهائية الأساسية في تجربة المرحلة الثالثة على ٦٦٦ مريض في الصين. ومن المخطط تقديم طلب الموافقة لدى الهيئة الصينية NMPA.",
-"source": "Kintor Pharmaceutical, Phase 3 Announcement (March 2026)",
-"source_ar": "كينتور فارما، إعلان المرحلة الثالثة (مارس ٢٠٢٦)"
+"title": "Clascoterone 5% Posts Positive 12-Month Phase 3 Safety Data for Male AGA",
+"title_ar": "كلاسكوتيرون ٥٪ يحقق نتائج سلامة إيجابية بعد ١٢ شهراً في المرحلة الثالثة للصلع الوراثي عند الرجال",
+"summary": "Cosmo Pharmaceuticals reported positive 12-month safety data for clascoterone 5% topical solution in male androgenetic alopecia, following Phase 3 results that showed large relative improvements in target-area hair count versus vehicle across roughly 1,465 patients. The drug blocks DHT directly at the hair-follicle receptor without systemic absorption and could be the first new AGA mechanism in over 30 years. Parallel FDA and EMA submissions are planned, with a U.S. filing targeted for early 2027.",
+"summary_ar": "أعلنت شركة كوزمو فارماسيوتيكالز عن نتائج سلامة إيجابية بعد ١٢ شهراً لمحلول كلاسكوتيرون ٥٪ الموضعي في علاج الصلع الوراثي عند الرجال، عقب نتائج المرحلة الثالثة التي أظهرت تحسناً نسبياً كبيراً في عدد الشعر بمنطقة العلاج مقارنة بالدواء الوهمي لدى نحو ١٤٦٥ مريضاً. يعمل الدواء عبر حجب هرمون DHT مباشرة عند مستقبل بصيلة الشعر دون امتصاص جهازي، وقد يكون أول آلية علاجية جديدة للصلع الوراثي منذ أكثر من ٣٠ عاماً. ومن المخطط تقديم طلبات الموافقة لدى FDA وEMA، مع استهداف التقديم في الولايات المتحدة مطلع ٢٠٢٧.",
+"source": "Dermatology Times / Cosmo Pharmaceuticals (2026)",
+"source_ar": "ديرماتولوجي تايمز / كوزمو فارما (٢٠٢٦)"
 },
 {
 "icon": "🧬",
 "category": "Research",
 "category_ar": "أبحاث",
-"title": "FDA Accepts IND for Xvie — First Extracellular Vesicle Injectable for AGA",
-"title_ar": "FDA يقبل طلب IND لعلاج Xvie — أول حقن بالحويصلات خارج الخلوية للصلع الوراثي",
-"summary": "The FDA accepted an Investigational New Drug application for Xvie, an amniotic fluid–derived extracellular vesicle injectable designed to support follicular biology. It is the first regenerative agent of its kind to enter U.S. clinical development for androgenetic alopecia.",
-"summary_ar": "قبلت هيئة الغذاء والدواء الأمريكية طلب IND لعلاج Xvie، وهو حقن مشتق من السائل الأمنيوسي يحتوي على حويصلات خارج خلوية مصممة لدعم بيولوجيا البصيلات. وهو أول علاج تجديدي من نوعه يدخل التطوير السريري الأمريكي لعلاج الصلع الوراثي.",
-"source": "Dermatology Times, FDA IND Acceptance (March 2026)",
-"source_ar": "ديرماتولوجي تايمز، قبول طلب IND من إدارة الغذاء والدواء (مارس ٢٠٢٦)"
+"title": "PP405 Regenerative Topical Shows Efficacy in Phase 2a — New Hair From Dormant Follicles",
+"title_ar": "PP405 الموضعي التجديدي يُظهر فعالية في المرحلة ٢أ — نمو شعر جديد من بصيلات خاملة",
+"summary": "Pelage Pharmaceuticals reported positive Phase 2a results for PP405, a topical that reactivates dormant hair-follicle stem cells. At week 8, 31% of treated men with more advanced loss showed a greater than 20% increase in hair density versus 0% on placebo, with evidence of new growth from previously inactive follicles — a potentially faster, regenerative response than current therapies. Phase 3 studies are planned for 2026.",
+"summary_ar": "أعلنت شركة بيلاج فارماسيوتيكالز عن نتائج إيجابية للمرحلة ٢أ لعلاج PP405 الموضعي الذي يعيد تنشيط الخلايا الجذعية الخاملة في بصيلات الشعر. عند الأسبوع الثامن، أظهر ٣١٪ من الرجال المصابين بصلع أكثر تقدماً زيادة تفوق ٢٠٪ في كثافة الشعر مقابل ٠٪ في مجموعة الدواء الوهمي، مع دلائل على نمو شعر جديد من بصيلات كانت خاملة سابقاً — وهي استجابة تجديدية قد تكون أسرع من العلاجات الحالية. ومن المخطط بدء دراسات المرحلة الثالثة خلال عام ٢٠٢٦.",
+"source": "Pelage Pharmaceuticals / Dermatology Times (2026)",
+"source_ar": "بيلاج فارماسيوتيكالز / ديرماتولوجي تايمز (٢٠٢٦)"
+},
+{
+"icon": "🔬",
+"category": "Treatments",
+"category_ar": "علاجات",
+"title": "AbbVie Files Upadacitinib (RINVOQ) With FDA for Severe Alopecia Areata",
+"title_ar": "أبفي تقدّم طلباً لـ FDA لاعتماد أوباداسيتينيب (رينفوك) لعلاج داء الثعلبة الشديد",
+"summary": "AbbVie submitted an FDA application for upadacitinib (RINVOQ) to treat adults and adolescents with severe alopecia areata. The filing is based on the Phase 3 UP-AA program, in which the oral JAK inhibitor met its primary endpoint of a SALT score of 20 or less (at least 80% scalp coverage) at week 24. The application was submitted on April 28, 2026.",
+"summary_ar": "قدّمت شركة أبفي طلباً إلى هيئة الغذاء والدواء الأمريكية لاعتماد دواء أوباداسيتينيب (رينفوك) لعلاج البالغين والمراهقين المصابين بداء الثعلبة الشديد. ويستند الطلب إلى برنامج المرحلة الثالثة UP-AA، حيث حقق مثبط إنزيم JAK الفموي نقطته النهائية الأساسية بخفض مقياس شدة الثعلبة (SALT) إلى ٢٠ أو أقل (تغطية فروة الرأس بنسبة ٨٠٪ أو أكثر) عند الأسبوع ٢٤. وقد قُدّم الطلب في ٢٨ أبريل ٢٠٢٦.",
+"source": "AbbVie, FDA Submission (April 2026)",
+"source_ar": "أبفي، طلب اعتماد لدى FDA (أبريل ٢٠٢٦)"
 }
 ]
 }
