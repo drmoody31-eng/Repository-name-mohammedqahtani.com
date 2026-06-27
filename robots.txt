@@ -5,5 +5,15 @@ Allow: /
 Disallow: /_archive_treatments_2026-05-14/
 Disallow: /treatments/
 
+# Hide medication (prescription drug) pages from Google
+Disallow: /medications/
+
+# Ads policy crawler ignores "User-agent: *", so name it explicitly
+User-agent: AdsBot-Google
+Disallow: /medications/
+
+User-agent: AdsBot-Google-Mobile
+Disallow: /medications/
+
 # Sitemap
 Sitemap: https://mohammedqahtani.com/sitemap.xml
