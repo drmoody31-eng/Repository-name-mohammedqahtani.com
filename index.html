@@ -14,7 +14,7 @@ assets/procedure-preparation.webp
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preload" href="assets/hero-poster.jpg" as="image">
 
 <style>
@@ -43,6 +43,7 @@ assets/procedure-preparation.webp
 --ease: cubic-bezier(.22, 1, .36, 1);
 --font-ar: "IBM Plex Sans Arabic", "Noto Sans Arabic", Arial, sans-serif;
 --font-en: "Manrope", Arial, sans-serif;
+--font-display: "Alexandria", "IBM Plex Sans Arabic", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -642,12 +643,13 @@ html[dir="rtl"] .section-kicker { font-family: var(--font-ar); letter-spacing: .
 .section-title {
 margin: 0;
 max-width: 1050px;
+font-family: var(--font-display);
 font-size: clamp(42px, 6vw, 88px);
-font-weight: 300;
-line-height: 1.06;
-letter-spacing: -.052em;
+font-weight: 700;
+line-height: 1.12;
+letter-spacing: -.02em;
 }
-html[dir="rtl"] .section-title { line-height: 1.18; letter-spacing: -.04em; }
+html[dir="rtl"] .section-title { line-height: 1.34; letter-spacing: 0; }
 .section-intro {
 max-width: 680px;
 margin: 28px 0 0;
@@ -1031,7 +1033,7 @@ align-items: end;
 gap: 18px;
 color: var(--ivory);
 }
-.doctor-portrait-label strong { font-size: 18px; font-weight: 400; }
+.doctor-portrait-label strong { font-family: var(--font-display); font-size: 21px; font-weight: 600; }
 .doctor-portrait-label span { color: rgba(255,255,255,.58); font-family: var(--font-en); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
 .doctor-bio { grid-area: bio; }
 .doctor-bio .section-title { font-size: clamp(48px, 6vw, 92px); }
@@ -1049,8 +1051,8 @@ padding: 22px;
 border-inline-end: 1px solid var(--line-dark);
 border-bottom: 1px solid var(--line-dark);
 }
-.credential span { color: var(--accent); font-family: var(--font-en); font-size: 9px; letter-spacing: .14em; }
-.credential strong { display: block; margin-top: 18px; font-size: 14px; font-weight: 400; line-height: 1.7; }
+.credential span { color: var(--accent); font-family: var(--font-en); font-size: 12px; font-weight: 700; letter-spacing: .16em; }
+.credential strong { display: block; margin-top: 16px; font-family: var(--font-display); font-size: clamp(18px, 1.6vw, 24px); font-weight: 700; line-height: 1.6; }
 .doctor-actions { display: flex; flex-wrap: wrap; gap: 16px 22px; align-items: center; margin-top: 38px; }
 .doctor-note { color: var(--muted-dark); font-size: 12px; line-height: 1.7; }
 
@@ -1507,6 +1509,50 @@ align-items: start;
 .concise-site .final-cta { min-height: 64svh; }
 }
 
+
+/* ===== results (before/after) ===== */
+.results-section { background: var(--paper); color: var(--ink); }
+.results-head { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 30px; align-items: end; margin-bottom: 54px; }
+.results-more { white-space: nowrap; }
+.results-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: clamp(18px, 2.4vw, 34px); }
+.ba-card { margin: 0; }
+.ba-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ba-shot { position: relative; border-radius: 22px; overflow: hidden; background: #e8e4dc; aspect-ratio: 4 / 4.6; }
+.ba-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ba-tag { position: absolute; top: 12px; inset-inline-start: 12px; z-index: 2; padding: 6px 13px; border-radius: 999px; background: rgba(10,12,16,.72); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .1em; backdrop-filter: blur(6px); }
+.ba-tag-after { background: var(--accent); color: var(--ink); }
+.ba-card figcaption { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; margin-top: 14px; }
+.ba-card figcaption strong { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+.ba-card figcaption > span { color: var(--muted-light); font-size: 12.5px; }
+.results-disclaimer { margin: 26px 0 0; color: var(--muted-light); font-size: 12px; }
+
+/* ===== blog ===== */
+.blog-section { background: var(--paper-2, #efece6); color: var(--ink); }
+.blog-head { margin-bottom: 44px; }
+.blog-rail { display: grid; grid-auto-flow: column; grid-auto-columns: min(420px, 82vw); gap: 16px; overflow-x: auto; padding-bottom: 18px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; align-items: start; }
+.blog-rail::-webkit-scrollbar { height: 8px; }
+.blog-rail::-webkit-scrollbar-thumb { background: rgba(10,12,16,.18); border-radius: 99px; }
+.blog-card { scroll-snap-align: start; border: 1px solid var(--line-light, rgba(10,12,16,.12)); border-radius: 22px; background: #fbfaf7; transition: border-color .3s, transform .3s, box-shadow .3s; }
+.blog-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 14px 34px -18px rgba(10,12,16,.25); }
+.blog-card summary { list-style: none; cursor: pointer; padding: 24px 24px 20px; display: block; }
+.blog-card summary::-webkit-details-marker { display: none; }
+.blog-meta { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; }
+.blog-cat { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.blog-date { color: var(--muted-light); font-size: 11px; }
+.blog-title { display: block; margin-top: 12px; font-family: var(--font-display); font-size: 19.5px; font-weight: 700; line-height: 1.55; }
+.blog-excerpt { display: block; margin-top: 9px; color: var(--muted-light); font-size: 13px; line-height: 1.8; }
+.blog-more { display: inline-block; margin-top: 14px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+.blog-card[open] .blog-more { opacity: .45; }
+.blog-body { padding: 0 24px 26px; color: #3d4149; font-size: 13.5px; line-height: 2; border-top: 1px dashed rgba(10,12,16,.14); margin: 0 0; padding-top: 18px; }
+.reviews-note { margin: 22px 0 0; color: var(--muted-light); font-size: 12px; }
+
+@media (max-width: 880px) {
+.results-head { grid-template-columns: 1fr; align-items: start; }
+.results-grid { grid-template-columns: 1fr; }
+.blog-rail { grid-auto-columns: min(340px, 86vw); }
+.review-card { min-height: 0; }
+}
+
 </style>
 </head>
 <body class="concise-site">
@@ -1539,7 +1585,9 @@ align-items: start;
 <a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span></a>
 <a href="#conditions"><span class="lang-ar">الحالات</span><span class="lang-en">Conditions</span></a>
 <a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span></a>
+<a href="#results"><span class="lang-ar">النتائج</span><span class="lang-en">Results</span></a>
 <a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span></a>
+<a href="#blog"><span class="lang-ar">المدونة</span><span class="lang-en">Blog</span></a>
 <a href="#faq"><span class="lang-ar">الأسئلة</span><span class="lang-en">FAQ</span></a>
 </nav>
 
@@ -1562,8 +1610,10 @@ align-items: start;
 <a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span><span>01</span></a>
 <a href="#conditions"><span class="lang-ar">الحالات</span><span class="lang-en">Conditions</span><span>02</span></a>
 <a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span><span>03</span></a>
-<a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span><span>04</span></a>
-<a href="#faq"><span class="lang-ar">الأسئلة</span><span class="lang-en">FAQ</span><span>05</span></a>
+<a href="#results"><span class="lang-ar">النتائج</span><span class="lang-en">Results</span><span>04</span></a>
+<a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span><span>05</span></a>
+<a href="#blog"><span class="lang-ar">المدونة</span><span class="lang-en">Blog</span><span>06</span></a>
+<a href="#faq"><span class="lang-ar">الأسئلة</span><span class="lang-en">FAQ</span><span>07</span></a>
 </nav>
 <div class="mobile-menu-footer">
 <span class="lang-ar">عيادات نويا، الرياض · +966 500 098 821</span>
@@ -1796,6 +1846,35 @@ aria-hidden="true">
 </div>
 </section>
 
+
+<section class="section results-section theme-light" id="results" aria-labelledby="results-title">
+<div class="results-head">
+<div>
+<div class="section-kicker" data-reveal><span class="lang-ar">النتائج</span><span class="lang-en">Results</span></div>
+<h2 class="section-title" id="results-title" data-reveal data-reveal-delay="1"><span class="lang-ar">قبل. وبعد.</span><span class="lang-en">Before. And after.</span></h2>
+<p class="section-intro" data-reveal data-reveal-delay="2"><span class="lang-ar">حالات حقيقية من العيادة — تشخيص دقيق ثم خطة والتزام.</span><span class="lang-en">Real cases from the clinic — precise diagnosis, then a plan and commitment.</span></p>
+</div>
+<a class="btn-line results-more" href="https://mohammedqahtani.com/results.html" data-reveal data-reveal-delay="2"><span class="lang-ar">شاهد المزيد من النتائج</span><span class="lang-en">See more results</span></a>
+</div>
+<div class="results-grid">
+<figure class="ba-card" data-reveal>
+<div class="ba-pair">
+<div class="ba-shot"><img src="assets/ba-c0-0.webp" alt="قبل العلاج — حالة رجالية" loading="lazy"><span class="ba-tag"><span class="lang-ar">قبل</span><span class="lang-en">BEFORE</span></span></div>
+<div class="ba-shot"><img src="assets/ba-c0-1.webp" alt="بعد العلاج — حالة رجالية" loading="lazy"><span class="ba-tag ba-tag-after"><span class="lang-ar">بعد</span><span class="lang-en">AFTER</span></span></div>
+</div>
+<figcaption><strong><span class="lang-ar">حالة رجالية</span><span class="lang-en">Male case</span></strong><span class="lang-ar">خطة علاجية بعد تشخيص بالتريكوسكوب</span><span class="lang-en">Treatment plan after trichoscopy diagnosis</span></figcaption>
+</figure>
+<figure class="ba-card" data-reveal data-reveal-delay="1">
+<div class="ba-pair">
+<div class="ba-shot"><img src="assets/ba-c1-0.webp" alt="قبل العلاج — حالة نسائية" loading="lazy"><span class="ba-tag"><span class="lang-ar">قبل</span><span class="lang-en">BEFORE</span></span></div>
+<div class="ba-shot"><img src="assets/ba-c1-1.webp" alt="بعد العلاج — حالة نسائية" loading="lazy"><span class="ba-tag ba-tag-after"><span class="lang-ar">بعد</span><span class="lang-en">AFTER</span></span></div>
+</div>
+<figcaption><strong><span class="lang-ar">حالة نسائية</span><span class="lang-en">Female case</span></strong><span class="lang-ar">متابعة بالقياس والتصوير الموحّد</span><span class="lang-en">Measured, standardized follow-up</span></figcaption>
+</figure>
+</div>
+<p class="results-disclaimer"><span class="lang-ar">* النتائج تختلف من شخص لآخر حسب الحالة والالتزام بالعلاج.</span><span class="lang-en">* Results vary from person to person depending on condition and adherence.</span></p>
+</section>
+
 <section class="section section-dark doctor-section theme-dark" id="about" aria-labelledby="doctor-title">
 <div class="doctor-portrait" data-reveal="right">
 <img src="dr-mohammed.jpg" alt="Dr. Mohammed AlQahtani during a clinical procedure">
@@ -1848,19 +1927,244 @@ aria-hidden="true">
 <div class="reviews-grid">
 <article class="review-card" data-reveal>
 <div class="review-mark" aria-hidden="true">“</div>
-<blockquote><span class="lang-ar">شرح واضح وخطة تناسب الحالة.</span><span class="lang-en">Clear explanations and a plan tailored to the case.</span></blockquote>
-<div class="review-author"><strong>Mashael</strong><span><span class="lang-ar">مراجعة Google</span><span class="lang-en">Google review</span></span></div>
+<blockquote><span class="lang-ar">الصراحة العيادة صدمتني ما اتوقعت ابدا هذا المستوى. من الاستقبال ل الطاقم والتمريض. جيت عشان موعدي مع دكتور محمد القحطاني اتابع معه من يوم ماكان بالحبيب لشعري. الدكتور رائع كمستوى ومتابعة للشعر، وشعري اتحسن بكثير من قبل وبعد العلاج. واهم نقطة انه العلاجات مو copy paste كل احد. يحدد لك على حسب حالتك واحتياجك.</span><span class="lang-en">A clinic beyond what I expected — from reception to nursing. I follow up with Dr. Mohammed AlQahtani since his previous clinic. Excellent level and follow-up; my hair improved a lot between before and after treatment. Most importantly, treatments are not copy-paste — he decides based on your case and needs. (translated)</span></blockquote>
+<div class="review-author"><strong>Mashael</strong><span><span class="lang-ar">مراجعة Google — عيادات نويا</span><span class="lang-en">Google review — Noya Clinic</span></span></div>
 </article>
 <article class="review-card" data-reveal data-reveal-delay="1">
 <div class="review-mark" aria-hidden="true">“</div>
-<blockquote><span class="lang-ar">اهتمام بالتفاصيل واحترافية.</span><span class="lang-en">Attention to detail and professionalism.</span></blockquote>
-<div class="review-author"><strong>Abdullah Aleliwi</strong><span><span class="lang-ar">مراجعة Google</span><span class="lang-en">Google review</span></span></div>
+<blockquote><span class="lang-ar">بكل ثقة أقول إن الدكتور محمد القحطاني من أفضل الأطباء المتخصصين في علاج مشاكل الشعر. لاحظت فرقًا كبيرًا ونتائج واضحة بشكل ملحوظ، سواء من ناحية تحسّن الكثافة أو جودة الشعر بشكل عام، وهذا يعكس خبرته العالية واحترافيته في التشخيص والعلاج.</span><span class="lang-en">I can confidently say Dr. Mohammed AlQahtani is one of the best doctors specialized in treating hair problems. I noticed a big difference and clearly visible results. (translated)</span></blockquote>
+<div class="review-author"><strong>Bassam Bin Mohammed</strong><span><span class="lang-ar">مراجعة Google — عيادات نويا</span><span class="lang-en">Google review — Noya Clinic</span></span></div>
 </article>
 <article class="review-card" data-reveal data-reveal-delay="2">
 <div class="review-mark" aria-hidden="true">“</div>
-<blockquote><span class="lang-ar">لا إجراءات غير ضرورية.</span><span class="lang-en">No unnecessary procedures.</span></blockquote>
-<div class="review-author"><strong>Asma</strong><span><span class="lang-ar">مراجعة Google</span><span class="lang-en">Google review</span></span></div>
+<blockquote><span class="lang-ar">تجربة رائعة مع الدكتور محمد القحطاني دكتور متمكن، شرحه واضح، ويهتم بالتفاصيل ويعطيك الخطة العلاجية المناسبة بكل أمانة واحترافية حسّيت براحة من أول زيارة. كذلك شكر خاص لمنسقته دانة على حسن التعامل، سرعة الرد، والتنظيم الممتاز للمواعيد.</span><span class="lang-en">A wonderful experience with Dr. Mohammed AlQahtani — a capable doctor, clear explanations, attention to detail, and an honest, professional treatment plan. I felt at ease from the first visit. (translated)</span></blockquote>
+<div class="review-author"><strong>Abdullah Aleliwi</strong><span><span class="lang-ar">مراجعة Google — عيادات نويا</span><span class="lang-en">Google review — Noya Clinic</span></span></div>
 </article>
+<article class="review-card" data-reveal>
+<div class="review-mark" aria-hidden="true">“</div>
+<blockquote><span class="lang-ar">صراحة ممتازه الدكتور محمد القحطاني سوالي الاجراء بدون بنج ويده خفيفه وان شالله بعيد التجربه ، و منسقته العسل الدانه هي خلت تجربتي مريحة وسهله</span><span class="lang-en">Honestly excellent — Dr. Mohammed AlQahtani did the procedure without anesthesia and with a light hand, and I will repeat the experience. (translated)</span></blockquote>
+<div class="review-author"><strong>Arwa kutbi</strong><span><span class="lang-ar">مراجعة Google — عيادات نويا</span><span class="lang-en">Google review — Noya Clinic</span></span></div>
+</article>
+<article class="review-card" data-reveal data-reveal-delay="1">
+<div class="review-mark" aria-hidden="true">“</div>
+<blockquote><span class="lang-ar">زيارتي كانت رائعه للدكتور محمد القحطاني يحدد لك ويشرح لك وش يحتاج شعرك كل شخص حسب حالته واخلاقه وتعامله راقي ويده خفيفه ماحسيت بألم الابر ابدا متمكن الله يبارك له في عمله</span><span class="lang-en">My visit to Dr. Mohammed AlQahtani was wonderful. He determines and explains what your hair needs, each person by their case. Refined manners, light hand — I felt no pain from the needles at all. (translated)</span></blockquote>
+<div class="review-author"><strong>saaraheid eid</strong><span><span class="lang-ar">مراجعة Google — عيادات نويا</span><span class="lang-en">Google review — Noya Clinic</span></span></div>
+</article>
+<article class="review-card" data-reveal data-reveal-delay="2">
+<div class="review-mark" aria-hidden="true">“</div>
+<blockquote><span class="lang-ar">الدكتور محمد القحطاني ماشاء الله تبارك الله عليه عن تجربه معاه فناااان ويده خفيفه لما اخذت ابرة الشعر ماحسيت، ولا انسى المنسقه دانه كانت جداً لبقه ومتعاونه لابعد درجة ربي يعطيها العافيه (انصحكم وبشده).</span><span class="lang-en">From my experience with Dr. Mohammed AlQahtani — an artist with a light hand. When I took the hair injection I felt nothing. (translated)</span></blockquote>
+<div class="review-author"><strong>Fares</strong><span><span class="lang-ar">مراجعة Google — عيادات نويا</span><span class="lang-en">Google review — Noya Clinic</span></span></div>
+</article>
+</div>
+<p class="reviews-note"><span class="lang-ar">تقييمات حقيقية من Google Maps — عيادات نويا النخيل، الرياض.</span><span class="lang-en">Real reviews from Google Maps — Noya Clinic Al-Nakheel, Riyadh.</span></p>
+</section>
+
+
+<section class="section blog-section theme-light" id="blog" aria-labelledby="blog-title">
+<div class="blog-head">
+<div class="section-kicker" data-reveal><span class="lang-ar">المدونة</span><span class="lang-en">Blog</span></div>
+<h2 class="section-title" id="blog-title" data-reveal data-reveal-delay="1"><span class="lang-ar">مقالات من العيادة.</span><span class="lang-en">Articles from the clinic.</span></h2>
+<p class="section-intro" data-reveal data-reveal-delay="2"><span class="lang-ar">نصائح عملية مبنية على العلم — اسحب لتصفح المقالات، واضغط أي بطاقة لقراءتها كاملة.</span><span class="lang-en">Practical, science-based advice — swipe to browse, tap any card to read it in full.</span></p>
+</div>
+<div class="blog-rail" data-reveal>
+<details class="blog-card" open>
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">التحدي</span><span class="lang-en">CHALLENGE</span></span><span class="blog-date">١٥ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">ليش أدوات الحرارة تدمر شعرك</span><span class="lang-en">Why Heat Tools Destroy Your Hair</span></span>
+<span class="blog-excerpt"><span class="lang-ar">الحرارة فوق ١٥٠°م تكسر روابط الكيراتين بشكل دائم — والنتيجة فقدان مرونة الشعر وجفاف وتقصف لا يُعالج.</span><span class="lang-en">Heat above 150°C permanently breaks keratin bonds — resulting in permanent elasticity loss and untreatable damage.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">الحرارة فوق ١٥٠°م تكسر روابط الكيراتين بشكل دائم — والنتيجة فقدان مرونة الشعر وجفاف وتقصف لا يُعالج. السشوار الحار يُحدث فقاعات هوائية (Bubble Hair) داخل قشرة الشعر — تلف دائم يظهر تحت المجهر. التجفيف الطبيعي يحافظ على ٧٠٪ أكثر من سلامة الكيوتيكل — يعني لمعان أكثر ومسامية أقل.<br><br> مكواة الفرد خطر عالي عند ٢٣٠°م، فير التجعيد خطر عالي عند ٢١٠°م، السشوار الحار خطر متوسط فوق ١٥٠°م. الخيار الآمن الوحيد هو السشوار البارد من مسافة ١٥سم.<br><br> البديل: منشفة مايكروفايبر تمتص ٧٠٪ من الماء بدون احتكاك — خلّ شعرك يجف ٨٠٪ طبيعي. أول أسبوعين شعرك بيحس &quot;مختلف&quot; بدون الحرارة — هذا طبيعي. الكيوتيكل يبدأ يتعافى، واللمعان الحقيقي يبان بعد ٣-٤ أسابيع.<br><br> المراجع: Lee et al., 2011 — Annals of Dermatology · Ruetsch et al., 2004 — J. of Cosmetic Science · McMullen &amp; Jachowicz, 1998 — JSCC</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">١٤ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">كيف تقرأ مكونات منتجات شعرك</span><span class="lang-en">How to Read Hair Product Ingredients</span></span>
+<span class="blog-excerpt"><span class="lang-ar">اقلب كل منتج عندك واقرأ أول ٥ مكونات — هذي اللي تشكّل النسبة الأكبر من المنتج.</span><span class="lang-en">Flip any product and read the first 5 ingredients — these make up the largest percentage.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">اقلب كل منتج عندك واقرأ أول ٥ مكونات — هذي اللي تشكّل النسبة الأكبر من المنتج.<br><br> مكونات خطيرة تتجنبها: Sodium Lauryl Sulfate (SLS) — نفس المادة المستخدمة بالمنظفات الصناعية، يزيل ١٠٠٪ من الزيوت الطبيعية. Sodium Laureth Sulfate (SLES) — أخف شوي بس لسّه قاسي. Parabens — مواد حافظة مشكوك في سلامتها. Isopropyl Alcohol — يجفف الشعر بشكل مفرط.<br><br> مكونات آمنة دوّر عليها: Cocamidopropyl Betaine — منظف لطيف. Decyl Glucoside — مشتق من النباتات. Aloe Vera — ترطيب وتهدئة. Panthenol (Pro-Vitamin B5) — يرطب ويقوي.<br><br> قواعد الصلاحية: شامبو وبلسم مفتوح ١٢-١٨ شهر، سيروم وزيوت ٦-١٢ شهر، منتجات طبيعية بدون مواد حافظة ٣-٦ شهور.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">١٣ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">دليل اختيار الشامبو والبلسم حسب نوع شعرك</span><span class="lang-en">Guide to Choosing Shampoo &amp; Conditioner by Hair Type</span></span>
+<span class="blog-excerpt"><span class="lang-ar">شعر دهني: شامبو منظّف لطيف يوازن الإفرازات. بلسم خفيف على الأطراف فقط.</span><span class="lang-en">Oily hair: gentle cleansing shampoo that balances sebum. Light conditioner on ends only.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">شعر دهني: شامبو منظّف لطيف يوازن الإفرازات. بلسم خفيف على الأطراف فقط — لا تقرّبه للفروة.<br><br> شعر جاف أو مجعد: شامبو مرطب بدون سلفات. بلسم غني بزيت الأرغان أو زبدة الشيا. Co-wash بين الغسلات.<br><br> شعر عادي: شامبو متوازن خالي من السلفات. بلسم متوسط القوام.<br><br> شعر رقيق أو خفيف: شامبو Volumizing خفيف. تجنب المنتجات الثقيلة والسيليكون المتراكم.<br><br> شعر مع قشرة: شامبو علاجي (Ketoconazole أو Zinc Pyrithione). بلسم خفيف بعيد عن الفروة.<br><br> المرجع: Gavazzoni Dias (2015, International Journal of Trichology) · Rele &amp; Mohile (2003, Journal of Cosmetic Science)</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">١٢ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">تدليك فروة الرأس — أبسط عادة بأقوى نتيجة</span><span class="lang-en">Scalp Massage — Simplest Habit, Strongest Results</span></span>
+<span class="blog-excerpt"><span class="lang-ar">دراسة يابانية أثبتت إن ٤ دقائق تدليك يومي لمدة ٢٤ أسبوع يعطي شعر أسمك بشكل ملحوظ.</span><span class="lang-en">Japanese study proved that 4 minutes of daily massage for 24 weeks gives noticeably thicker hair.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">دراسة يابانية (Koyama 2016) أثبتت إن ٤ دقائق تدليك يومي لمدة ٢٤ أسبوع يعطي شعر أسمك بشكل ملحوظ. تدفق الدم يزيد ٢٥-٤٠٪ للبصيلات، والكورتيزول (هرمون التوتر) ينخفض ٣١٪.<br><br> الطريقة — ٥ دقائق: الجبهة وخط الشعر دقيقة واحدة، أعلى الرأس والتاج دقيقتين (الأهم)، الجوانب وخلف الأذنين دقيقة، الرقبة والقفا دقيقة.<br><br> لا تستخدم أظافرك — أطراف الأصابع فقط. لا تضغط بقوة — ضغط متوسط لطيف. حرّك الفروة مو الشعر. فرشاة السيليكون للفروة (١٠-٢٠ ريال من أي صيدلية) ممتازة أثناء الشامبو.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">١١ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">طريقة غسيل الشعر الصحيحة</span><span class="lang-en">The Correct Way to Wash Your Hair</span></span>
+<span class="blog-excerpt"><span class="lang-ar">٩٠٪ من الناس يغسلون شعرهم غلط. مو كمية الشامبو هي المشكلة — الطريقة هي اللي تفرق.</span><span class="lang-en">90% of people wash their hair incorrectly. It&#x27;s not the amount of shampoo — it&#x27;s the method that matters.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">٩٠٪ من الناس يغسلون شعرهم غلط. مو كمية الشامبو هي المشكلة — الطريقة هي اللي تفرق.<br><br> ٣ غلطات شائعة: حط الشامبو مباشرة على الشعر بدل ما ترغيه بين كفيّك أول، تدليك الأطراف بالشامبو (الشامبو للفروة فقط والبلسم للأطراف فقط)، والشطف السريع (بقايا المنتج تسبب حكة وقشرة).<br><br> الطريقة الصحيحة: بلّت شعرك بماء دافئ (مو حار) دقيقتين كاملة. كمية شامبو بحجم ريال — رغّها بين كفيّك. دلّك الفروة بأطراف أصابعك ٣ دقائق. اشطف بماء دافئ — تأكد ما بقي شي. بلسم على النص والأطراف فقط — اتركه ٣-٥ دقائق ثم اشطف بماء بارد لإغلاق الكيوتيكل.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">١٠ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">وسادتك تكسر شعرك وأنت نايم</span><span class="lang-en">Your Pillow Breaks Your Hair While You Sleep</span></span>
+<span class="blog-excerpt"><span class="lang-ar">تتقلّب بالليل ٣٠-٤٠ مرة. كل تقلّبة = سحب واحتكاك. الوسادة القطنية معامل احتكاكها أعلى بـ ٤٣٪.</span><span class="lang-en">You toss 30-40 times per night. Each turn = pulling and friction. Cotton friction coefficient is 43% higher.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">تتقلّب بالليل ٣٠-٤٠ مرة. كل تقلّبة = سحب واحتكاك. الوسادة القطنية معامل احتكاكها أعلى بـ ٤٣٪ من الحرير.<br><br> الحل الأول: غطاء وسادة حرير طبيعي (Mulberry Silk) — بروتين السيريسين الطبيعي فيه له خصائص مرطبة. الساتان بديل ممتاز وأرخص.<br><br> الحل الثاني: بونيه ساتان — الأفضل للشعر المجعد والكيرلي. يغطي الشعر بالكامل ويمنع أي احتكاك.<br><br> الحل الثالث: طريقة الأناناس (Pineapple Method) للشعر الطويل — ربطة ساتان فضفاضة فوق الرأس.<br><br> مهم: لا تنام وشعرك مبلول — الشعر المبلول يفقد ٥٠٪ من قوته الميكانيكية.<br><br> المراجع: Kamath &amp; Weigmann, 1986 — Journal of the SCC · Harwood et al., 2020 — Textile Research Journal</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">عناية</span><span class="lang-en">CARE</span></span><span class="blog-date">٩ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">الترطيب العميق — متى ولماذا</span><span class="lang-en">Deep Conditioning — When &amp; Why</span></span>
+<span class="blog-excerpt"><span class="lang-ar">الشعر الجاف مو مجرد مشكلة تجميلية — هو علامة على أن الشعرة فقدت طبقة الليبيدات الخارجية.</span><span class="lang-en">Dry hair isn&#x27;t just cosmetic — it&#x27;s a sign the hair lost its outer lipid layer that protects it.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">الشعر الجاف مو مجرد مشكلة تجميلية — هو علامة على أن الشعرة فقدت طبقة الليبيدات الخارجية اللي تحميها من الكسر والتلف.<br><br> البلسم العادي يغلق الشعرة من الخارج. الترطيب العميق — قناع أو كريم بمكونات نافذة مثل الكيراتين، زيت الأرغان، أو البروتين المحلل — يعوّض ما فقدته الشعرة من الداخل.<br><br> اختبار سريع: اغمر شعرة في ماء — إذا طاحت بسرعة لتحت وانكسرت بسهولة، شعرك محتاج رطوبة. لو طافت ورفضت تنزل، شعرك مسامية منخفضة ويحتاج حرارة خفيفة تفتح الكيوتيكل.<br><br> الطريقة: قناع ترطيب عميق، اتركه ٢٠-٣٠ دقيقة تحت قبعة حرارة أو منشفة دافية، ثم اشطف بماء بارد لإغلاق الشعرة.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">٨ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">التمشيط الصحيح — كيف تتجنب تكسّر الشعر</span><span class="lang-en">Correct Brushing — How to Avoid Hair Breakage</span></span>
+<span class="blog-excerpt"><span class="lang-ar">٨٠٪ من تكسّر الشعر سببه طريقة التمشيط الغلط — مو المنتجات.</span><span class="lang-en">80% of hair breakage is caused by incorrect brushing method — not products.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">٨٠٪ من تكسّر الشعر سببه طريقة التمشيط الغلط — مو المنتجات. التمشيط من الجذور للأطراف يضاعف قوة الشد على الشعرة ٣ مرات (Robbins 2012). الشعر المبلول أضعف ٢٠٪ لأن الكيراتين الرطب أسهل ينكسر.<br><br> الطريقة الصحيحة: ابدأ من الأطراف وفك التشابك من تحت. اطلع تدريجياً كل مرة ٥ سم. امسك الشعر فوق العقدة عشان ما تشد الجذور. لا تمشط شعرك وهو مبلول ١٠٠٪ — خلّه يجف ٧٠٪.<br><br> أفضل وقت: قبل الاستحمام على شعر جاف لفك العقد — ثم بعد الجفاف ٧٠٪ بمشط واسع.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">عناية</span><span class="lang-en">CARE</span></span><span class="blog-date">٧ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">البلسم بدون شطف (Leave-in Conditioner)</span><span class="lang-en">Leave-in Conditioner</span></span>
+<span class="blog-excerpt"><span class="lang-ar">البلسم العادي تشطفه — الـ Leave-in يبقى على شعرك ويحميه طوال اليوم.</span><span class="lang-en">Regular conditioner you rinse out — Leave-in stays and protects your hair all day.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">البلسم العادي تشطفه — الـ Leave-in يبقى على شعرك ويحميه طوال اليوم. يقلل قوة التمشيط المطلوبة ويمنع تكسر الشعر المبلل. يغلّف الشعرة بطبقة رقيقة تحميها من الحرارة والرطوبة والاحتكاك. يقلل الهيشان ٤٠-٦٠٪.<br><br> طريقة الاستخدام: بعد الغسيل وشعرك رطب ٧٠-٨٠٪، كمية بحجم حبة الفول وزّعها بين كفيّك، طبّق على النص والأطراف فقط (أبداً على الفروة)، مشّط بمشط واسع لتوزيع متساوي، خلّه يجف طبيعي.<br><br> مكونات مفيدة: Glycerin — يسحب الرطوبة من الجو لشعرك. Panthenol / Pro-Vitamin B5 — يقوي ويرطب. Cetyl Alcohol — مو كحول ضار — مادة مرطبة.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">حقائق علمية</span><span class="lang-en">SCIENCE</span></span><span class="blog-date">٦ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">حماية الشعر من الشمس</span><span class="lang-en">Protecting Hair from the Sun</span></span>
+<span class="blog-excerpt"><span class="lang-ar">أشعة UV ما تحرق بشرتك بس — تدمر شعرك بنفس الآلية. UVB تكسر روابط ثنائي الكبريتيد.</span><span class="lang-en">UV rays don&#x27;t just burn your skin — they damage your hair the same way. UVB breaks disulfide bonds.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">أشعة UV ما تحرق بشرتك بس — تدمر شعرك بنفس الآلية. UVB تكسر روابط ثنائي الكبريتيد في الكيراتين. UVA تخترق أعمق وتفكك الميلانين فيبهت لون الشعر. الشعر المعالج (مصبوغ أو مفرود) أكثر عرضة للضرر ٣ مرات.<br><br> طرق الحماية: بخاخ حماية شعر مع SPF قبل الخروج. قبعة أو شماغ أو غترة كحاجز فيزيائي. تجنب الشمس المباشرة بين ١٠ صباح و٤ عصر. خط الفرق أكثر منطقة معرّضة — ركّز عليها.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">حقائق علمية</span><span class="lang-en">SCIENCE</span></span><span class="blog-date">٥ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">حقيقة سيرومات الشعر — وش يشتغل فعلاً</span><span class="lang-en">Truth About Hair Serums — What Actually Works</span></span>
+<span class="blog-excerpt"><span class="lang-ar">٩٠٪ من سيرومات الشعر = ماء + سيليكون + عطر. ٧٨٪ من منتجات &quot;نمو الشعر&quot; ما فيها أي مكون فعّال.</span><span class="lang-en">90% of hair serums = water + silicone + fragrance. 78% of &quot;hair growth&quot; products have no effective active ingredient.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">٩٠٪ من سيرومات الشعر = ماء + سيليكون + عطر. ٧٨٪ من منتجات &quot;نمو الشعر&quot; ما فيها أي مكون فعّال بتركيز كافي.<br><br> ٥ علامات إن السيروم تسويقي فقط: ما يذكرون التركيز، وعود خيالية مثل &quot;ينبت بأسبوع&quot;، يعتمدون على إعلانات المشاهير، أول مكون ماء وثاني سيليكون، وما فيه ولا دراسة واحدة.<br><br> المكونات اللي فعلاً تشتغل: مينوكسيديل ٥٪ — أقوى دليل (FDA). ريدنسيل ٣٪ — واعد. بروكابيل ٣٪ — جيد. كافيين ٠.٢٪+ — متوسط. زيت روزماري ٢٪ — مشابه لمينوكسيديل ٢٪ (Panahi 2015).<br><br> المراجع: Suchonwanit et al., 2021 — J Cosmet Dermatol · Panahi Y. et al., 2015 — SKINmed</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">٤ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">جدول غسيل الشعر المناسب</span><span class="lang-en">Proper Hair Washing Schedule</span></span>
+<span class="blog-excerpt"><span class="lang-ar">الغسيل الزائد يزيل الزهم الطبيعي. تقليل الغسيل من يومي لكل ٣ أيام قلّل الدهون بنسبة ٣٨٪.</span><span class="lang-en">Over-washing removes natural sebum. Reducing from daily to every 3 days cut oil by 38% in a month.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">الغسيل الزائد يزيل الزهم الطبيعي (Sebum) اللي فروتك تفرزه عشان تحمي الشعر. الفروة تعوّض بإنتاج زهم أكثر = شعر دهني أسرع = حلقة مفرغة. تقليل الغسيل من يومي لكل ٣ أيام قلّل الدهون بنسبة ٣٨٪ بعد شهر.<br><br> شعر دهني: كل يومين بشامبو خفيف خالي سلفات. شعر عادي: كل ٢-٣ أيام. شعر جاف أو مجعد: مرتين بالأسبوع فقط مع Co-wash بين الغسلات. شعر رقيق أو خفيف: كل يومين بشامبو Volumizing خفيف.<br><br> لو شعرك اتعود على الغسيل اليومي، قلّل تدريجياً — فروتك تحتاج وقت تتأقلم.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">تغذية</span><span class="lang-en">NUTRITION</span></span><span class="blog-date">٣ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">تغذية الشعر من الداخل — ٤ عناصر أساسية</span><span class="lang-en">Nourish Hair from Within — 4 Essential Elements</span></span>
+<span class="blog-excerpt"><span class="lang-ar">كل المنتجات اللي تحطها على شعرك ما بتنفع لو جسمك ناقصه هالعناصر. شعرك ٩٥٪ كيراتين.</span><span class="lang-en">All products you apply won&#x27;t work if your body lacks these nutrients. Your hair is 95% keratin.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">كل المنتجات اللي تحطها على شعرك ما بتنفع لو جسمك ناقصه هالعناصر. شعرك ٩٥٪ كيراتين — وهو بروتين.<br><br> البروتين: ٠.٨ إلى ١.٢ غ/كغ من وزنك يومياً. بيض، دجاج، سلمون، عدس.<br><br> البيوتين (فيتامين B7): ٣٠ ميكروغرام يومياً. صفار البيض، لوز، بطاطا حلوة. تحذير: البيوتين بجرعات عالية يؤثر على نتائج تحاليل الدم — أوقفه قبل أي تحليل بـ ٤٨-٧٢ ساعة.<br><br> الحديد: الفيريتين تحت ٤٠ = تساقط. لحم أحمر، سبانخ، عدس. دراسة Park et al. (2013).<br><br> الزنك: ١١ ملغ للرجال، ٨ ملغ للنساء. لحم بقر، بذور يقطين، كاجو.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">تغذية</span><span class="lang-en">NUTRITION</span></span><span class="blog-date">٢ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">فيتامين D والشعر</span><span class="lang-en">Vitamin D and Hair</span></span>
+<span class="blog-excerpt"><span class="lang-ar">٨٣٪ من السعوديين يعانون نقص فيتامين D — رغم إننا بأكثر بلد فيه شمس.</span><span class="lang-en">83% of Saudis have vitamin D deficiency — despite being in one of the sunniest countries.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">٨٣٪ من السعوديين يعانون نقص فيتامين D (دراسة Al-Daghri) — رغم إننا بأكثر بلد فيه شمس. فيتامين D يحفّز البصيلات للدخول في مرحلة النمو (Anagen). نقصه مرتبط بتساقط الشعر الكربي.<br><br> المصادر: ١٥ دقيقة شمس الصباح (٧-٩) مع ذراعين ووجه مكشوف. سلمون، بيض، منتجات ألبان مدعمة. مكمل D3 يُؤخذ مع أكل فيه دهون.<br><br> الجرعة حسب المستوى: طبيعي (فوق ٣٠) — ١٠٠٠-٢٠٠٠ وحدة يومياً. نقص (١٠-٣٠) — ٤٠٠٠-٥٠٠٠ وحدة يومياً. نقص شديد (تحت ١٠) — ٥٠,٠٠٠ وحدة أسبوعياً تحت إشراف طبيب.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">وصفات طبيعية</span><span class="lang-en">NATURAL</span></span><span class="blog-date">١ مارس ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">توازن الـ pH وغسلة خل التفاح</span><span class="lang-en">pH Balance &amp; Apple Cider Vinegar Rinse</span></span>
+<span class="blog-excerpt"><span class="lang-ar">فروة الرأس الصحية pH تتراوح بين ٤.٥ و ٥.٥ (حمضية قليلاً). الشامبو العادي يرفع الـ pH.</span><span class="lang-en">Healthy scalp pH is between 4.5 and 5.5 (slightly acidic). Regular shampoo raises pH.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">فروة الرأس الصحية pH تتراوح بين ٤.٥ و ٥.٥ (حمضية قليلاً). الشامبو العادي يرفع الـ pH ويفتح الكيوتيكل — والنتيجة شعر باهت، جاف، ومتشابك.<br><br> خل التفاح يرجع الحموضة ويغلق الشعرة = لمعان + نعومة + أقل تشابك. له أيضاً خصائص مضادة للفطريات.<br><br> الطريقة: ملعقة كبيرة خل تفاح + كوب ماء. يُستخدم كشطف أخير بعد الشامبو والبلسم. لا تشطف بعده. مرة كل أسبوع أو أسبوعين كافي.<br><br> تحذير: لا تستخدمه كل يوم ولا تحطه على فروة فيها جروح أو حساسية.<br><br> المرجع: Gavazzoni Dias, 2015 — International Journal of Trichology</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">حقائق علمية</span><span class="lang-en">SCIENCE</span></span><span class="blog-date">٢٨ فبراير ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">ثعلبة الشد — تسريحات تدمر شعرك</span><span class="lang-en">Traction Alopecia — Hairstyles That Destroy Your Hair</span></span>
+<span class="blog-excerpt"><span class="lang-ar">ثعلبة الشد من أكثر أنواع التساقط اللي نشوفها بالعيادة — والمصيبة إن المريض هو اللي يسببها.</span><span class="lang-en">Traction alopecia is one of the most common hair loss types in the clinic — and the patient causes it themselves.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">ثعلبة الشد (Traction Alopecia) من أكثر أنواع التساقط اللي نشوفها بالعيادة — والمصيبة إن المريض هو اللي يسببها لنفسه بدون ما يدري.<br><br> الشد المتكرر يدمر بصيلات الشعر بشكل دائم — لو ما توقفت بدري، التساقط يصير نهائي. أكثر المناطق تضرراً: خط الشعر الأمامي والجوانب.<br><br> التسريحات المسببة: ذيل الحصان المشدود، الضفائر القريبة من الفروة، الكعكة العالية المشدودة، الباندانا الضيقة.<br><br> الحل: استخدم ربطات ساتان أو حرير فضفاضة. غيّر مكان الربطة كل يوم. لا تشد شعرك لدرجة تحس بألم. أعطِ شعرك أيام بدون أي ربطة.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">حقائق علمية</span><span class="lang-en">SCIENCE</span></span><span class="blog-date">٢٧ فبراير ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">الشامبو الجاف — الحقيقة الكاملة</span><span class="lang-en">Dry Shampoo — The Complete Truth</span></span>
+<span class="blog-excerpt"><span class="lang-ar">الشامبو الجاف يمتص الزيوت الزائدة من سطح الفروة. يعطي شعرك شكل نظيف بدون غسيل.</span><span class="lang-en">Dry shampoo absorbs excess oil from the scalp surface. Gives your hair a clean look without washing.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">الشامبو الجاف يمتص الزيوت الزائدة من سطح الفروة بمواد مثل النشا — يعطي شعرك شكل نظيف بدون غسيل.<br><br> من يستفيد: اللي يغسلون شعرهم كل يومين-ثلاثة ويحتاجون يمدّدون بين الغسلات، أصحاب الشعر الدهني، وأيام العجلة.<br><br> من يتجنبه: أصحاب الفروة الحساسة أو القشرة. لا تستخدمه كل يوم — يتراكم ويسد المسام.<br><br> تحذير مهم: بعض منتجات الشامبو الجاف وُجد فيها بنزين (مادة مسرطنة). دوّر على منتجات خالية من البنزين.<br><br> الاستخدام الصحيح: رش من مسافة ٢٠-٣٠ سم، ركّز على الجذور فقط، دلّك بأطراف أصابعك، لا تستخدمه أكثر من يومين متتالية بدون غسيل حقيقي.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">عناية</span><span class="lang-en">CARE</span></span><span class="blog-date">٢٦ فبراير ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">تقنية الطبقات LOC / LCO</span><span class="lang-en">LOC / LCO Technique</span></span>
+<span class="blog-excerpt"><span class="lang-ar">مو كل منتج تحطه على شعرك يرطبه — الترتيب يفرق. LOC أو LCO حسب نوع شعرك.</span><span class="lang-en">Not every product you apply hydrates it — the order matters. LOC or LCO depending on your hair type.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">مو كل منتج تحطه على شعرك يرطبه — الترتيب يفرق.<br><br> LOC = Liquid (ماء أو بخاخ) ثم Oil (زيت) ثم Cream (كريم). أفضل للشعر المجعد والسميك.<br><br> LCO = Liquid ثم Cream ثم Oil. أفضل للشعر الرقيق والناعم.<br><br> القاعدة الذهبية: الماء يرطب، الزيت يقفل، الكريم يثبت. بدون الماء أولاً — الزيت والكريم ما يسوون شي.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">حقائق علمية</span><span class="lang-en">SCIENCE</span></span><span class="blog-date">٢٥ فبراير ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">مسامية الشعر (Hair Porosity)</span><span class="lang-en">Hair Porosity</span></span>
+<span class="blog-excerpt"><span class="lang-ar">مسامية الشعر = قدرة شعرتك على امتصاص الرطوبة والاحتفاظ فيها. وهي اللي تحدد أي منتجات تناسبك.</span><span class="lang-en">Hair porosity = your hair&#x27;s ability to absorb and retain moisture. It determines which products suit you.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">مسامية الشعر = قدرة شعرتك على امتصاص الرطوبة والاحتفاظ فيها. وهي اللي تحدد أي منتجات تناسبك.<br><br> مسامية منخفضة: الكيوتيكل مقفل بإحكام — الشعر يقاوم الرطوبة. يحتاج حرارة خفيفة لفتح الكيوتيكل + منتجات خفيفة.<br><br> مسامية متوسطة: الأفضل — يمتص ويحتفظ بالرطوبة بتوازن. أسهل نوع بالعناية.<br><br> مسامية عالية: الكيوتيكل مفتوح — يمتص بسرعة ويفقد بسرعة. يحتاج طبقات (LOC/LCO) + بروتين لسد الثغرات.<br><br> اختبار بسيط: حط شعرة نظيفة في كوب ماء — لو طافت فوق = منخفضة، وسط الكوب = متوسطة، غرقت بسرعة = عالية.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">عناية</span><span class="lang-en">CARE</span></span><span class="blog-date">٢٤ فبراير ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">زيت قبل الغسلة (Pre-wash Oil)</span><span class="lang-en">Pre-wash Oil</span></span>
+<span class="blog-excerpt"><span class="lang-ar">دراسة Rele &amp; Mohile: زيت جوز الهند هو الزيت الوحيد اللي يقلل فقدان البروتين بشكل ملحوظ.</span><span class="lang-en">Study Rele &amp; Mohile: Coconut oil is the only oil that significantly reduces protein loss.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">دراسة Rele &amp; Mohile (2003): زيت جوز الهند هو الزيت الوحيد اللي يقلل فقدان البروتين بشكل ملحوظ — سواء قبل الغسلة أو بعدها.<br><br> كيف يشتغل: زيت جوز الهند يدخل جوا الشعرة ويمسك بالبروتين — يحميها من Hygral Fatigue (التورم والانكماش المتكرر أثناء الغسيل).<br><br> الطريقة: وزّع الزيت من النص للأطراف. دلّك الفروة بلطف. اتركه ٣٠ دقيقة إلى ساعة (أو طوال الليل). اغسل بشامبو لطيف.<br><br> ملاحظة عن السدر: السدر ينظف بهدوء بدون كيماويات — كويس كغسلة خفيفة، بس مو بديل كامل عن الشامبو.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">نصائح يومية</span><span class="lang-en">DAILY TIPS</span></span><span class="blog-date">٢٣ فبراير ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">التنظيف المزدوج للفروة (Double Cleansing)</span><span class="lang-en">Scalp Double Cleansing</span></span>
+<span class="blog-excerpt"><span class="lang-ar">فروتك تتعرض لطبقات من المنتجات والأوساخ والزيوت طوال اليوم. غسلة وحدة ما تشيل كل شي.</span><span class="lang-en">Your scalp is exposed to layers of products, dirt, and oils all day. One wash doesn&#x27;t remove everything.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">فروتك تتعرض لطبقات من المنتجات والأوساخ والزيوت طوال اليوم. غسلة وحدة بالشامبو ما تشيل كل شي.<br><br> الفكرة: غسلة أولى بمنظف زيتي يذوّب المنتجات والزيوت المتراكمة، ثم غسلة ثانية بشامبو لطيف ينظف الفروة بعمق.<br><br> متى تحتاجه: لو تستخدم منتجات ستايلنق (جل، واكس، سبراي)، لو فروتك دهنية، لو تحس شعرك ثقيل حتى بعد الغسيل. مرة واحدة بالأسبوع كغسلة عميقة كافية.</div>
+</details>
+<details class="blog-card">
+<summary>
+<span class="blog-meta"><span class="blog-cat"><span class="lang-ar">تغذية</span><span class="lang-en">NUTRITION</span></span><span class="blog-date">٢٢ فبراير ٢٠٢٦</span></span>
+<span class="blog-title"><span class="lang-ar">الماء وأثره على الشعر</span><span class="lang-en">Water and Its Effect on Hair</span></span>
+<span class="blog-excerpt"><span class="lang-ar">شعرك ٢٥٪ ماء. لو جسمك ناقص ترطيب، شعرك أول ضحية.</span><span class="lang-en">Your hair is 25% water. If your body is dehydrated, your hair is the first victim.</span></span>
+<span class="blog-more" aria-hidden="true"><span class="lang-ar">اقرأ المقال</span><span class="lang-en">Read article</span> +</span>
+</summary>
+<div class="blog-body">شعرك ٢٥٪ ماء. لو جسمك ناقص ترطيب، شعرك أول ضحية — لأن الجسم يوجّه الماء للأعضاء الحيوية أول.<br><br> الكمية المطلوبة: ٨ أكواب يومياً كحد أدنى (٢-٣ لتر). زد الكمية لو تتعرض لحرارة أو تمارس رياضة.<br><br> علامات الجفاف اللي تبان على شعرك: جفاف وخشونة الملمس، تقصف الأطراف، فقدان اللمعان، هيشان زائد.</div>
+</details>
 </div>
 </section>
 
