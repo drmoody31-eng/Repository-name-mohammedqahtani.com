@@ -624,6 +624,15 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
   font-weight: 600;
   border-bottom: 1px solid var(--accent);
 }
+
+/* related links + review line (2026-09-22) */
+.related-links { margin: 40px 0 8px; padding: 22px 24px; border: 1px solid var(--line, rgba(0,0,0,.12)); background: var(--light-bg, #faf8f4); }
+.related-links h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--accent-deep, #8a6a3c); }
+.related-links ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.related-links li a { display: inline-block; padding: 7px 14px; border: 1px solid var(--line, rgba(0,0,0,.12)); border-radius: 999px; font-size: 14px; color: var(--text, #222); background: #fff; text-decoration: none; transition: border-color .25s, color .25s; }
+.related-links li a:hover { border-color: var(--accent, #c59a6c); color: var(--accent-deep, #8a6a3c); }
+.author-line { margin: 18px 0 0; font-size: 14px; color: var(--text-muted, #666); }
+.author-line a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 </style>
 <!-- JSON-LD: FAQPage schema (added for AI citability) -->
 <script type="application/ld+json">
@@ -640,6 +649,68 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "MedicalWebPage",
+ "@id": "https://mohammedqahtani.com/conditions/aga/women/#webpage",
+ "url": "https://mohammedqahtani.com/conditions/aga/women/",
+ "name": "الصلع الوراثي عند النساء — د. محمد القحطاني | عيادة نويا",
+ "description": "الصلع الوراثي عند النساء (Female Pattern Hair Loss / FAGA): الأسباب، الأعراض، التشخيص، والعلاج. شرح علمي مبسّط من د. محمد القحطاني — عيادة نويا، الرياض.",
+ "inLanguage": "ar",
+ "medicalAudience": "Patient",
+ "datePublished": "2026-05-10",
+ "dateModified": "2026-09-22",
+ "lastReviewed": "2026-09-22",
+ "author": {
+  "@type": [
+   "Person",
+   "Physician"
+  ],
+  "@id": "https://mohammedqahtani.com/#person",
+  "name": "Dr. Mohammed AlQahtani",
+  "alternateName": "د. محمد القحطاني",
+  "honorificPrefix": "Dr.",
+  "jobTitle": "Consultant Dermatologist / Hair Loss Consultant",
+  "medicalSpecialty": "Dermatology",
+  "url": "https://mohammedqahtani.com",
+  "image": "https://mohammedqahtani.com/dr-mohammed.jpg",
+  "worksFor": {
+   "@type": "MedicalClinic",
+   "name": "Noya Clinic",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Riyadh",
+    "addressCountry": "SA"
+   }
+  },
+  "sameAs": [
+   "https://www.instagram.com/dr__mohammedq/",
+   "https://x.com/Dr_Mohammedq",
+   "https://www.youtube.com/@dr__mohammedq",
+   "https://www.tiktok.com/@dr__mohammedq",
+   "https://www.snapchat.com/add/dr-mohammedq",
+   "https://www.wikidata.org/wiki/Q140255013"
+  ]
+ },
+ "reviewedBy": {
+  "@id": "https://mohammedqahtani.com/#person"
+ },
+ "publisher": {
+  "@id": "https://mohammedqahtani.com/#person"
+ },
+ "isPartOf": {
+  "@type": "WebSite",
+  "@id": "https://mohammedqahtani.com/#website",
+  "url": "https://mohammedqahtani.com/",
+  "name": "Dr. Mohammed AlQahtani"
+ },
+ "mainEntity": {
+  "@type": "MedicalCondition",
+  "name": "Female Androgenetic Alopecia (Female Pattern Hair Loss)"
+ }
+}
+</script>
 </head>
 <body>
 
@@ -654,8 +725,8 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
       <div class="brand-mark">M<span class="accent">.</span>Q</div>
     </a>
     <ul class="nav-links">
-      <li><a href="/#home"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
-      <li><a href="/#showcase"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
+      <li><a href="/#top"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
+      <li><a href="/#results"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
       <li class="has-dropdown">
         <button class="nav-trigger" aria-haspopup="true" aria-expanded="false" id="procedures-trigger" data-dropdown="procedures">
           <span class="ar-only">الإجراءات</span>
@@ -961,8 +1032,8 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
 <aside class="mobile-nav" id="mobile-nav" aria-hidden="true">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">×</button>
   <ul>
-    <li><a href="/#home"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
-    <li><a href="/#showcase"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
+    <li><a href="/#top"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
+    <li><a href="/#results"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
     <li>
       <span class="mobile-nav-section-title">
         <span class="ar-only">الإجراءات</span>
@@ -1410,6 +1481,20 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
     <span class="en-only">Early assessment opens up more options and saves years of unnecessary thinning.</span>
   </p>
 
+  
+  <div class="related-links">
+    <h3><span class="ar-only">العلاجات والصفحات ذات الصلة</span><span class="en-only">Related treatments and pages</span></h3>
+    <ul>
+      <li><a href="/medications/minoxidil/"><span class="ar-only">المينوكسيديل</span><span class="en-only">Minoxidil</span></a></li>
+      <li><a href="/medications/spironolactone/"><span class="ar-only">السبيرونولاكتون</span><span class="en-only">Spironolactone</span></a></li>
+      <li><a href="/medications/topical-antiandrogens/"><span class="ar-only">مضادات الأندروجين الموضعية</span><span class="en-only">Topical antiandrogens</span></a></li>
+      <li><a href="/procedures/prp/"><span class="ar-only">حقن البلازما (PRP)</span><span class="en-only">PRP</span></a></li>
+      <li><a href="/procedures/microneedling/"><span class="ar-only">الميكرونيدلينغ</span><span class="en-only">Microneedling</span></a></li>
+      <li><a href="/procedures/lllt/"><span class="ar-only">الليزر منخفض المستوى</span><span class="en-only">LLLT</span></a></li>
+      <li><a href="/conditions/womens-hair-loss-riyadh/"><span class="ar-only">دليل تساقط الشعر عند النساء في الرياض</span><span class="en-only">Women's hair loss in Riyadh</span></a></li>
+    </ul>
+  </div>
+
   <div class="cta-box">
     <h3>
       <span class="ar-only">الخطوة التالية</span>
@@ -1426,8 +1511,8 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
   </div>
 
   <p class="last-reviewed">
-    <span class="ar-only">المعلومات في هذه الصفحة لأغراض تثقيفية، ولا تغني عن الاستشارة المباشرة. كل حالة لها قصتها الخاصة. آخر مراجعة: مايو 2026 — د. محمد القحطاني</span>
-    <span class="en-only">This information is for educational purposes and does not substitute for direct consultation. Every case has its own story. Last reviewed: May 2026 — Dr. Mohammed AlQahtani</span>
+    <span class="ar-only">كتبه وراجعه طبيًا: د. محمد القحطاني، استشاري الأمراض الجلدية والشعر (الهيئة السعودية للتخصصات الصحية). آخر مراجعة: سبتمبر 2026.</span>
+    <span class="en-only">Written and medically reviewed by Dr. Mohammed AlQahtani, Consultant Dermatologist (SCFHS). Last reviewed: September 2026.</span>
   </p>
 
 </article>

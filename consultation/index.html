@@ -847,7 +847,74 @@ body.show-en { direction: ltr !important; text-align: start; }
   background: var(--accent);
   color: var(--bg);
 }
+
+/* related links + review line (2026-09-22) */
+.related-links { margin: 40px 0 8px; padding: 22px 24px; border: 1px solid var(--line, rgba(0,0,0,.12)); background: var(--light-bg, #faf8f4); }
+.related-links h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--accent-deep, #8a6a3c); }
+.related-links ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.related-links li a { display: inline-block; padding: 7px 14px; border: 1px solid var(--line, rgba(0,0,0,.12)); border-radius: 999px; font-size: 14px; color: var(--text, #222); background: #fff; text-decoration: none; transition: border-color .25s, color .25s; }
+.related-links li a:hover { border-color: var(--accent, #c59a6c); color: var(--accent-deep, #8a6a3c); }
+.author-line { margin: 18px 0 0; font-size: 14px; color: var(--text-muted, #666); }
+.author-line a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "MedicalWebPage",
+ "@id": "https://mohammedqahtani.com/consultation/#webpage",
+ "url": "https://mohammedqahtani.com/consultation/",
+ "name": "احجز استشارة شعر — د. محمد القحطاني | عيادة نويا الرياض",
+ "description": "تحدث مع د. محمد القحطاني عن حالة شعرك. تقييم بالتنظير، تشخيص دقيق، وخطة علاجية مخصصة. عيادة نويا، الرياض. احجز عبر واتساب.",
+ "inLanguage": "ar",
+ "medicalAudience": "Patient",
+ "datePublished": "2026-05-05",
+ "dateModified": "2026-09-22",
+ "lastReviewed": "2026-09-22",
+ "author": {
+  "@type": [
+   "Person",
+   "Physician"
+  ],
+  "@id": "https://mohammedqahtani.com/#person",
+  "name": "Dr. Mohammed AlQahtani",
+  "alternateName": "د. محمد القحطاني",
+  "honorificPrefix": "Dr.",
+  "jobTitle": "Consultant Dermatologist / Hair Loss Consultant",
+  "medicalSpecialty": "Dermatology",
+  "url": "https://mohammedqahtani.com",
+  "image": "https://mohammedqahtani.com/dr-mohammed.jpg",
+  "worksFor": {
+   "@type": "MedicalClinic",
+   "name": "Noya Clinic",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Riyadh",
+    "addressCountry": "SA"
+   }
+  },
+  "sameAs": [
+   "https://www.instagram.com/dr__mohammedq/",
+   "https://x.com/Dr_Mohammedq",
+   "https://www.youtube.com/@dr__mohammedq",
+   "https://www.tiktok.com/@dr__mohammedq",
+   "https://www.snapchat.com/add/dr-mohammedq",
+   "https://www.wikidata.org/wiki/Q140255013"
+  ]
+ },
+ "reviewedBy": {
+  "@id": "https://mohammedqahtani.com/#person"
+ },
+ "publisher": {
+  "@id": "https://mohammedqahtani.com/#person"
+ },
+ "isPartOf": {
+  "@type": "WebSite",
+  "@id": "https://mohammedqahtani.com/#website",
+  "url": "https://mohammedqahtani.com/",
+  "name": "Dr. Mohammed AlQahtani"
+ }
+}
+</script>
 </head>
 <body>
 
@@ -862,8 +929,8 @@ body.show-en { direction: ltr !important; text-align: start; }
       <div class="brand-mark">M<span class="accent">.</span>Q</div>
     </a>
     <ul class="nav-links">
-      <li><a href="/#home"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
-      <li><a href="/#showcase"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
+      <li><a href="/#top"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
+      <li><a href="/#results"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
       <li><a href="/#reviews"><span class="ar-only">آراء المرضى</span><span class="en-only">Reviews</span></a></li>
       <li><a href="/#faq"><span class="ar-only">الأسئلة الشائعة</span><span class="en-only">FAQ</span></a></li>
       <li><a href="/#contact"><span class="ar-only">تواصل</span><span class="en-only">Contact</span></a></li>
@@ -887,8 +954,8 @@ body.show-en { direction: ltr !important; text-align: start; }
 <aside class="mobile-nav" id="mobile-nav" aria-hidden="true">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">×</button>
   <ul>
-    <li><a href="/#home"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
-    <li><a href="/#showcase"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
+    <li><a href="/#top"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
+    <li><a href="/#results"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
     <li><a href="/#reviews"><span class="ar-only">آراء المرضى</span><span class="en-only">Reviews</span></a></li>
     <li><a href="/#faq"><span class="ar-only">الأسئلة الشائعة</span><span class="en-only">FAQ</span></a></li>
     <li><a href="/#contact"><span class="ar-only">تواصل</span><span class="en-only">Contact</span></a></li>
@@ -1131,8 +1198,8 @@ body.show-en { direction: ltr !important; text-align: start; }
   </div>
 
   <p class="last-reviewed">
-    <span class="ar-only">آخر مراجعة: مايو 2026 — د. محمد القحطاني</span>
-    <span class="en-only">Last reviewed: May 2026 — Dr. Mohammed AlQahtani</span>
+    <span class="ar-only">كتبه وراجعه طبيًا: د. محمد القحطاني، استشاري الأمراض الجلدية والشعر (الهيئة السعودية للتخصصات الصحية). آخر مراجعة: سبتمبر 2026.</span>
+    <span class="en-only">Written and medically reviewed by Dr. Mohammed AlQahtani, Consultant Dermatologist (SCFHS). Last reviewed: September 2026.</span>
   </p>
 
 </article>

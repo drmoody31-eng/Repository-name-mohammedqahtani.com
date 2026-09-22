@@ -67,7 +67,7 @@
   "inLanguage": "ar",
   "description": "دليل الدكتور محمد القحطاني، استشاري الأمراض الجلدية والشعر في الرياض، لتشخيص وعلاج الصلع الوراثي وتساقط الشعر عند الرجال: مراحل التساقط، التحاليل، والعلاجات المثبتة علميًا.",
   "datePublished": "2026-09-18",
-  "dateModified": "2026-09-18",
+  "dateModified": "2026-09-22",
   "medicalAudience": "Patient",
   "about": {
     "@type": "MedicalCondition",
@@ -733,6 +733,15 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
   font-weight: 600;
   border-bottom: 1px solid var(--accent);
 }
+
+/* related links + review line (2026-09-22) */
+.related-links { margin: 40px 0 8px; padding: 22px 24px; border: 1px solid var(--line, rgba(0,0,0,.12)); background: var(--light-bg, #faf8f4); }
+.related-links h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--accent-deep, #8a6a3c); }
+.related-links ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.related-links li a { display: inline-block; padding: 7px 14px; border: 1px solid var(--line, rgba(0,0,0,.12)); border-radius: 999px; font-size: 14px; color: var(--text, #222); background: #fff; text-decoration: none; transition: border-color .25s, color .25s; }
+.related-links li a:hover { border-color: var(--accent, #c59a6c); color: var(--accent-deep, #8a6a3c); }
+.author-line { margin: 18px 0 0; font-size: 14px; color: var(--text-muted, #666); }
+.author-line a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 </style>
 </head>
 
@@ -749,8 +758,8 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
       <div class="brand-mark">M<span class="accent">.</span>Q</div>
     </a>
     <ul class="nav-links">
-      <li><a href="/#home"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
-      <li><a href="/#showcase"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
+      <li><a href="/#top"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
+      <li><a href="/#results"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
       <li class="has-dropdown">
         <button class="nav-trigger" aria-haspopup="true" aria-expanded="false" id="procedures-trigger" data-dropdown="procedures">
           <span class="ar-only">الإجراءات</span>
@@ -1056,8 +1065,8 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
 <aside class="mobile-nav" id="mobile-nav" aria-hidden="true">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">×</button>
   <ul>
-    <li><a href="/#home"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
-    <li><a href="/#showcase"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
+    <li><a href="/#top"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a></li>
+    <li><a href="/#results"><span class="ar-only">المعرض</span><span class="en-only">Showcase</span></a></li>
     <li>
       <span class="mobile-nav-section-title">
         <span class="ar-only">الإجراءات</span>
@@ -1272,7 +1281,8 @@ body:not(.show-en) .clinical-figure figcaption { font-family: 'Tajawal', sans-se
   </div>
 
   <p class="last-reviewed">
-    <span class="ar-only">المعلومات في هذه الصفحة لأغراض تثقيفية، ولا تغني عن الاستشارة المباشرة. كل حالة لها قصتها الخاصة. آخر مراجعة: سبتمبر 2026 — د. محمد القحطاني</span>
+    <span class="ar-only">كتبه وراجعه طبيًا: د. محمد القحطاني، استشاري الأمراض الجلدية والشعر (الهيئة السعودية للتخصصات الصحية). آخر مراجعة: سبتمبر 2026.</span>
+    <span class="en-only">Written and medically reviewed by Dr. Mohammed AlQahtani, Consultant Dermatologist (SCFHS). Last reviewed: September 2026.</span>
   </p>
 
 </article>
