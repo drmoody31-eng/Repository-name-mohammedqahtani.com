@@ -1,19 +1,50 @@
+# mohammedqahtani.com — updated 2026-09-22
+# Organic and AI crawlers may index the whole site, including /medications/.
+# Only the Google Ads policy crawlers are kept out of the prescription-drug pages.
+
 User-agent: *
 Allow: /
-
-# Disallow legacy/staging paths
 Disallow: /_archive_treatments_2026-05-14/
 Disallow: /treatments/
 
-# Hide medication (prescription drug) pages from Google
-Disallow: /medications/
+User-agent: GPTBot
+Allow: /
 
-# Ads policy crawler ignores "User-agent: *", so name it explicitly
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Ads policy crawlers: keep prescription-drug pages out of ad review
 User-agent: AdsBot-Google
 Disallow: /medications/
 
 User-agent: AdsBot-Google-Mobile
 Disallow: /medications/
 
-# Sitemap
 Sitemap: https://mohammedqahtani.com/sitemap.xml
