@@ -1190,7 +1190,7 @@ border-top: 1px solid var(--line-dark);
 background: var(--ink);
 color: var(--ivory);
 }
-.footer-top { display: grid; grid-template-columns: 1.3fr repeat(3,.6fr); gap: 42px; }
+.footer-top { display: grid; grid-template-columns: 1.3fr repeat(4,.6fr); gap: 36px; }
 .footer-brand p { max-width: 420px; margin: 20px 0 0; color: var(--muted-dark); font-size: 13px; line-height: 1.85; }
 .footer-column h3 { margin: 0 0 16px; color: var(--muted-dark); font-family: var(--font-en); font-size: 9px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; }
 html[dir="rtl"] .footer-column h3 { font-family: var(--font-ar); letter-spacing: .04em; }
@@ -1553,7 +1553,102 @@ align-items: start;
 .review-card { min-height: 0; }
 }
 
+
+/* --- library + card links (added 2026-09-18) --- */
+.card-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--accent); }
+.card-link::after { content: ""; position: absolute; inset: 0; }
+.condition-card:hover .card-link, .therapy-card:hover .card-link { text-decoration: underline; text-underline-offset: 4px; }
+.library-section { padding: clamp(64px, 8vw, 120px) var(--page-pad); }
+.library-head { max-width: 900px; margin-bottom: 48px; }
+.library-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding-top: 36px; border-top: 1px solid var(--line-light); }
+.library-column h3 { margin: 0 0 16px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.library-column ul { list-style: none; margin: 0; padding: 0; columns: 1; }
+.library-column li { padding: 8px 0; border-bottom: 1px solid var(--line-light); font-size: 14px; line-height: 1.6; }
+.library-column a { color: var(--ink); transition: color .25s ease; }
+.library-column a:hover { color: var(--accent); }
+@media (max-width: 860px) { .library-grid { grid-template-columns: 1fr; gap: 28px; } .footer-top { grid-template-columns: 1fr 1fr; } }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": [
+  "Person",
+  "Physician"
+ ],
+ "@id": "https://mohammedqahtani.com/#person",
+ "name": "Dr. Mohammed AlQahtani",
+ "alternateName": [
+  "د. محمد القحطاني",
+  "Mohammed Eid Mohammed Alqahtani",
+  "محمد عيد محمد القحطاني"
+ ],
+ "honorificPrefix": "Dr.",
+ "image": "https://mohammedqahtani.com/dr-mohammed.jpg",
+ "url": "https://mohammedqahtani.com",
+ "description": "Saudi consultant dermatologist specializing in hair loss diagnosis and treatment, based in Riyadh, Saudi Arabia.",
+ "medicalSpecialty": "Dermatology",
+ "knowsAbout": [
+  "Hair loss",
+  "Androgenetic alopecia",
+  "Alopecia areata",
+  "Telogen effluvium",
+  "Trichoscopy",
+  "Dermatology",
+  "تساقط الشعر",
+  "الصلع الوراثي",
+  "استشاري جلدية"
+ ],
+ "nationality": {
+  "@type": "Country",
+  "name": "Saudi Arabia"
+ },
+ "jobTitle": "Consultant Dermatologist / Hair Loss Consultant",
+ "worksFor": {
+  "@type": "MedicalClinic",
+  "name": "Noya Clinic",
+  "url": "https://noyaclinic.sa",
+  "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "Riyadh",
+   "addressCountry": "SA"
+  }
+ },
+ "hasCredential": {
+  "@type": "EducationalOccupationalCredential",
+  "credentialCategory": "Saudi Board Certificate in Dermatology",
+  "recognizedBy": {
+   "@type": "Organization",
+   "name": "Saudi Commission for Health Specialties",
+   "url": "https://www.scfhs.org.sa"
+  },
+  "dateCreated": "2021-12-07"
+ },
+ "sameAs": [
+  "https://www.instagram.com/dr__mohammedq/",
+  "https://x.com/Dr_Mohammedq",
+  "https://www.youtube.com/@dr__mohammedq",
+  "https://www.tiktok.com/@dr__mohammedq",
+  "https://www.snapchat.com/add/dr-mohammedq",
+  "https://www.wikidata.org/wiki/Q140255013"
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "@id": "https://mohammedqahtani.com/#website",
+ "url": "https://mohammedqahtani.com/",
+ "name": "Dr. Mohammed AlQahtani",
+ "inLanguage": [
+  "ar",
+  "en"
+ ],
+ "publisher": {
+  "@id": "https://mohammedqahtani.com/#person"
+ }
+}
+</script>
 </head>
 <body class="concise-site">
 <a class="skip-link" href="#main-content">
@@ -1585,6 +1680,7 @@ align-items: start;
 <a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span></a>
 <a href="#conditions"><span class="lang-ar">الحالات</span><span class="lang-en">Conditions</span></a>
 <a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span></a>
+<a href="#library"><span class="lang-ar">الدليل</span><span class="lang-en">Library</span></a>
 <a href="#results"><span class="lang-ar">النتائج</span><span class="lang-en">Results</span></a>
 <a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span></a>
 <a href="#blog"><span class="lang-ar">المدونة</span><span class="lang-en">Blog</span></a>
@@ -1774,34 +1870,114 @@ aria-hidden="true">
 <div class="condition-index">01 / PATTERN</div>
 <svg class="condition-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 34c2-14 8-22 16-22s14 8 16 22M14 25c3-5 6-7 10-7s7 2 10 7M24 12v24" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg>
 <div><h3><span class="lang-ar">الصلع الوراثي</span><span class="lang-en">Pattern hair loss</span></h3><p><span class="lang-ar">تقييم النمط ودرجة التقدم.</span><span class="lang-en">Pattern and stage assessment.</span></p></div>
+<a class="card-link" href="/conditions/aga/" aria-label="01 / PATTERN"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="condition-card" data-reveal data-reveal-delay="1">
 <div class="condition-index">02 / SHEDDING</div>
 <svg class="condition-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 11c8 8 9 17 4 27M22 8c6 10 6 20 0 31M34 10c5 8 4 17-2 27M39 19l-4 5-4-5" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg>
 <div><h3><span class="lang-ar">التساقط المفاجئ</span><span class="lang-en">Sudden shedding</span></h3><p><span class="lang-ar">تحديد المحفزات والأسباب.</span><span class="lang-en">Identifying triggers and causes.</span></p></div>
+<a class="card-link" href="/conditions/telogen-effluvium/" aria-label="02 / SHEDDING"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="condition-card" data-reveal data-reveal-delay="2">
 <div class="condition-index">03 / ALOPECIA</div>
 <svg class="condition-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="23" r="14" stroke="currentColor" stroke-width="1.35"/><path d="M15 15c4 4 7 6 12 6 3 0 5-1 7-3M15 32c3-4 7-6 12-6 3 0 6 1 8 3" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg>
 <div><h3><span class="lang-ar">الثعلبة البقعية</span><span class="lang-en">Alopecia areata</span></h3><p><span class="lang-ar">تقييم النشاط والامتداد.</span><span class="lang-en">Activity and extent assessment.</span></p></div>
+<a class="card-link" href="/conditions/alopecia-areata/" aria-label="03 / ALOPECIA"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="condition-card" data-reveal>
 <div class="condition-index">04 / WOMEN</div>
 <svg class="condition-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M14 34c1-14 5-23 10-23s9 9 10 23M18 18c2 4 4 6 6 6s4-2 6-6M16 38h16" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg>
 <div><h3><span class="lang-ar">ترقق الشعر لدى النساء</span><span class="lang-en">Female hair thinning</span></h3><p><span class="lang-ar">فهم العوامل الهرمونية والوراثية.</span><span class="lang-en">Hormonal and genetic factors.</span></p></div>
+<a class="card-link" href="/conditions/aga/women/" aria-label="04 / WOMEN"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="condition-card" data-reveal data-reveal-delay="1">
 <div class="condition-index">05 / SCALP</div>
 <svg class="condition-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 28c5-10 10-15 16-15s11 5 16 15M12 28h24M17 33c2 3 4 4 7 4s5-1 7-4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/><circle cx="18" cy="23" r="1" fill="currentColor"/><circle cx="25" cy="20" r="1" fill="currentColor"/><circle cx="31" cy="24" r="1" fill="currentColor"/></svg>
 <div><h3><span class="lang-ar">أمراض فروة الرأس</span><span class="lang-en">Scalp disorders</span></h3><p><span class="lang-ar">القشرة، الحكة والالتهاب.</span><span class="lang-en">Dandruff, itching, and inflammation.</span></p></div>
+<a class="card-link" href="#library" aria-label="05 / SCALP"><span class="lang-ar">تصفح كل الحالات</span><span class="lang-en">Browse all conditions</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="condition-card" data-reveal data-reveal-delay="2">
 <div class="condition-index">06 / SHAFT</div>
 <svg class="condition-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 37C16 24 17 14 16 7M22 40c5-15 5-25 3-34M34 39c3-13 2-22-1-31M16 20l6 4M25 17l7 4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg>
 <div><h3><span class="lang-ar">تلف ساق الشعرة</span><span class="lang-en">Hair shaft damage</span></h3><p><span class="lang-ar">تمييز التكسر عن التساقط.</span><span class="lang-en">Separating breakage from shedding.</span></p></div>
+<a class="card-link" href="/conditions/hair-shaft/" aria-label="06 / SHAFT"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 </div>
 </section>
+
+<section class="section section-light library-section theme-light" id="library" aria-labelledby="library-title">
+<div class="library-head">
+<div class="section-kicker" data-reveal><span class="lang-ar">الدليل الطبي</span><span class="lang-en">Medical library</span></div>
+<h2 class="section-title" id="library-title" data-reveal data-reveal-delay="1">
+<span class="lang-ar">كل ما كتبته عن الشعر، في مكان واحد.</span>
+<span class="lang-en">Everything I have written on hair, in one place.</span>
+</h2>
+<p class="section-intro" data-reveal data-reveal-delay="2">
+<span class="lang-ar">صفحات مبنية على الدليل العلمي لكل حالة ودواء وإجراء، بقلم د. محمد القحطاني.</span>
+<span class="lang-en">Evidence-based pages on every condition, medication and procedure, written by Dr. Mohammed AlQahtani.</span>
+</p>
+</div>
+<div class="library-grid">
+<div class="library-column"><h3><span class="lang-ar">حالات الشعر</span><span class="lang-en">Conditions</span></h3>
+<ul>
+<li><a href="/conditions/aga/"><span class="lang-ar">الصلع الوراثي عند الرجال</span><span class="lang-en">Male pattern hair loss</span></a></li>
+<li><a href="/conditions/mens-hair-loss-riyadh/"><span class="lang-ar">علاج تساقط الشعر عند الرجال في الرياض</span><span class="lang-en">Men's hair loss in Riyadh</span></a></li>
+<li><a href="/conditions/aga/women/"><span class="lang-ar">الصلع الوراثي عند النساء</span><span class="lang-en">Female pattern hair loss</span></a></li>
+<li><a href="/conditions/womens-hair-loss-riyadh/"><span class="lang-ar">تساقط الشعر عند النساء في الرياض</span><span class="lang-en">Women's hair loss in Riyadh</span></a></li>
+<li><a href="/conditions/telogen-effluvium/"><span class="lang-ar">تساقط الشعر الكربي</span><span class="lang-en">Telogen effluvium</span></a></li>
+<li><a href="/conditions/postpartum-hair-loss/"><span class="lang-ar">تساقط الشعر بعد الولادة</span><span class="lang-en">Postpartum hair loss</span></a></li>
+<li><a href="/conditions/anagen-effluvium/"><span class="lang-ar">تساقط الشعر التنامي</span><span class="lang-en">Anagen effluvium</span></a></li>
+<li><a href="/conditions/chemo-induced-hair-loss/"><span class="lang-ar">تساقط الشعر بسبب العلاج الكيميائي</span><span class="lang-en">Chemotherapy-induced hair loss</span></a></li>
+<li><a href="/conditions/alopecia-areata/"><span class="lang-ar">الثعلبة البقعية</span><span class="lang-en">Alopecia areata</span></a></li>
+<li><a href="/conditions/traction-alopecia/"><span class="lang-ar">ثعلبة الشد</span><span class="lang-en">Traction alopecia</span></a></li>
+<li><a href="/conditions/trichotillomania/"><span class="lang-ar">هوس نتف الشعر</span><span class="lang-en">Trichotillomania</span></a></li>
+<li><a href="/conditions/scarring-alopecia/"><span class="lang-ar">الثعلبة الندبية</span><span class="lang-en">Scarring alopecia</span></a></li>
+<li><a href="/conditions/ffa/"><span class="lang-ar">الصلع الليفي الجبهي</span><span class="lang-en">Frontal fibrosing alopecia</span></a></li>
+<li><a href="/conditions/lpp/"><span class="lang-ar">الحزاز المسطح الشعري</span><span class="lang-en">Lichen planopilaris</span></a></li>
+<li><a href="/conditions/ccca/"><span class="lang-ar">الثعلبة المركزية الطاردة المركز</span><span class="lang-en">CCCA</span></a></li>
+<li><a href="/conditions/dle-scalp/"><span class="lang-ar">الذئبة القرصية في فروة الرأس</span><span class="lang-en">Discoid lupus of the scalp</span></a></li>
+<li><a href="/conditions/folliculitis-decalvans/"><span class="lang-ar">التهاب البصيلات المُسلِّم</span><span class="lang-en">Folliculitis decalvans</span></a></li>
+<li><a href="/conditions/tinea-capitis/"><span class="lang-ar">سعفة الرأس</span><span class="lang-en">Tinea capitis</span></a></li>
+<li><a href="/conditions/hair-shaft/"><span class="lang-ar">أمراض ساق الشعرة</span><span class="lang-en">Hair shaft disorders</span></a></li>
+<li><a href="/conditions/hair-shaft/trichorrhexis-nodosa/"><span class="lang-ar">تكسّر الشعر العقدي</span><span class="lang-en">Trichorrhexis nodosa</span></a></li>
+<li><a href="/conditions/hair-shaft/loose-anagen-syndrome/"><span class="lang-ar">متلازمة الشعر التنامي الرخو</span><span class="lang-en">Loose anagen syndrome</span></a></li>
+<li><a href="/conditions/hair-shaft/uncombable-hair-syndrome/"><span class="lang-ar">متلازمة الشعر غير القابل للتمشيط</span><span class="lang-en">Uncombable hair syndrome</span></a></li>
+<li><a href="/conditions/hair-shaft/trichothiodystrophy/"><span class="lang-ar">حثل الشعر الكبريتي</span><span class="lang-en">Trichothiodystrophy</span></a></li>
+<li><a href="/conditions/hair-shaft/bubble-hair/"><span class="lang-ar">تشوّه الشعر الفقاعي</span><span class="lang-en">Bubble hair</span></a></li>
+<li><a href="/conditions/hair-shaft/woolly-hair/"><span class="lang-ar">الشعر الصوفي</span><span class="lang-en">Woolly hair</span></a></li>
+</ul></div>
+<div class="library-column"><h3><span class="lang-ar">الأدوية</span><span class="lang-en">Medications</span></h3>
+<ul>
+<li><a href="/medications/minoxidil/"><span class="lang-ar">المينوكسيديل</span><span class="lang-en">Minoxidil</span></a></li>
+<li><a href="/medications/finasteride/"><span class="lang-ar">الفيناسترايد</span><span class="lang-en">Finasteride</span></a></li>
+<li><a href="/medications/dutasteride/"><span class="lang-ar">الدوتاستيريد</span><span class="lang-en">Dutasteride</span></a></li>
+<li><a href="/medications/spironolactone/"><span class="lang-ar">السبيرونولاكتون</span><span class="lang-en">Spironolactone</span></a></li>
+<li><a href="/medications/topical-antiandrogens/"><span class="lang-ar">مضادات الأندروجين الموضعية</span><span class="lang-en">Topical antiandrogens</span></a></li>
+<li><a href="/medications/saw-palmetto/"><span class="lang-ar">بلميط منشاري</span><span class="lang-en">Saw palmetto</span></a></li>
+<li><a href="/medications/mint/"><span class="lang-ar">النعناع</span><span class="lang-en">Mint</span></a></li>
+<li><a href="/medications/topical-caffeine/"><span class="lang-ar">الكافيين الموضعي</span><span class="lang-en">Topical caffeine</span></a></li>
+<li><a href="/medications/green-tea-extract/"><span class="lang-ar">مستخلص الشاي الأخضر</span><span class="lang-en">Green tea extract</span></a></li>
+<li><a href="/medications/black-seed-oil/"><span class="lang-ar">حبة البركة</span><span class="lang-en">Black seed oil</span></a></li>
+</ul></div>
+<div class="library-column"><h3><span class="lang-ar">الإجراءات</span><span class="lang-en">Procedures</span></h3>
+<ul>
+<li><a href="/procedures/prp/"><span class="lang-ar">حقن البلازما (PRP)</span><span class="lang-en">PRP</span></a></li>
+<li><a href="/procedures/gfc/"><span class="lang-ar">عوامل النمو المركّزة (GFC)</span><span class="lang-en">GFC</span></a></li>
+<li><a href="/procedures/exosomes/"><span class="lang-ar">الإكسوسومات</span><span class="lang-en">Exosomes</span></a></li>
+<li><a href="/procedures/stem-cells/"><span class="lang-ar">الخلايا الجذعية</span><span class="lang-en">Stem cells</span></a></li>
+<li><a href="/procedures/regenera-activa/"><span class="lang-ar">ريجينيرا أكتيفا</span><span class="lang-en">Regenera Activa</span></a></li>
+<li><a href="/procedures/nano-fat/"><span class="lang-ar">النانو فات</span><span class="lang-en">Nano fat</span></a></li>
+<li><a href="/procedures/microneedling/"><span class="lang-ar">الميكرونيدلينغ</span><span class="lang-en">Microneedling</span></a></li>
+<li><a href="/procedures/mesotherapy/"><span class="lang-ar">الميزوثيرابي</span><span class="lang-en">Mesotherapy</span></a></li>
+<li><a href="/procedures/pdrn/"><span class="lang-ar">البولينيوكليوتيدات (PDRN)</span><span class="lang-en">PDRN</span></a></li>
+<li><a href="/procedures/lllt/"><span class="lang-ar">الليزر منخفض المستوى (LLLT)</span><span class="lang-en">LLLT</span></a></li>
+<li><a href="/procedures/1565-laser/"><span class="lang-ar">ليزر 1565</span><span class="lang-en">1565 nm laser</span></a></li>
+<li><a href="/procedures/co2-laser/"><span class="lang-ar">ليزر CO2</span><span class="lang-en">CO2 laser</span></a></li>
+<li><a href="/procedures/erbium-yag-laser/"><span class="lang-ar">ليزر إربيوم ياج</span><span class="lang-en">Erbium YAG laser</span></a></li>
+</ul></div>
+</div>
+</section>
+
 
 <section class="therapies-section theme-dark" id="treatments" aria-labelledby="treatments-title">
 <div class="therapies-sticky">
@@ -1823,21 +1999,27 @@ aria-hidden="true">
 <div class="therapy-track" id="therapyTrack">
 <article class="therapy-card">
 <div><div class="therapy-top"><span class="therapy-code">01 / PRP</span><span class="therapy-badge">Evidence-led</span></div><h3><span class="lang-ar">البلازما الغنية بالصفائح</span><span class="lang-en">Platelet-Rich Plasma</span></h3><p><span class="lang-ar">دعم البصيلات عند ملاءمة الحالة.</span><span class="lang-en">Follicle support for suitable cases.</span></p></div>
+<a class="card-link" href="/procedures/prp/" aria-label="01 / PRP"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="therapy-card">
 <div><div class="therapy-top"><span class="therapy-code">02 / GFC</span><span class="therapy-badge">Concentrated</span></div><h3><span class="lang-ar">عوامل النمو المركّزة</span><span class="lang-en">Growth Factor Concentrate</span></h3><p><span class="lang-ar">عوامل نمو ذاتية مركّزة.</span><span class="lang-en">Concentrated autologous growth factors.</span></p></div>
+<a class="card-link" href="/procedures/gfc/" aria-label="02 / GFC"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="therapy-card">
 <div><div class="therapy-top"><span class="therapy-code">03 / EXOSOMES</span><span class="therapy-badge">Advanced</span></div><h3><span class="lang-ar">الإكسوسومات</span><span class="lang-en">Exosome Therapy</span></h3><p><span class="lang-ar">خيار تجديدي لحالات مختارة.</span><span class="lang-en">A regenerative option for selected cases.</span></p></div>
+<a class="card-link" href="/procedures/exosomes/" aria-label="03 / EXOSOMES"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="therapy-card">
 <div><div class="therapy-top"><span class="therapy-code">04 / REGENERA</span><span class="therapy-badge">Autologous</span></div><h3><span class="lang-ar">ريجينيرا أكتيفا</span><span class="lang-en">Regenera Activa</span></h3><p><span class="lang-ar">تطعيم مجهري ذاتي.</span><span class="lang-en">Autologous micrografting.</span></p></div>
+<a class="card-link" href="/procedures/regenera-activa/" aria-label="04 / REGENERA"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="therapy-card">
 <div><div class="therapy-top"><span class="therapy-code">05 / LLLT</span><span class="therapy-badge">Non-invasive</span></div><h3><span class="lang-ar">الليزر منخفض المستوى</span><span class="lang-en">Low-Level Laser Therapy</span></h3><p><span class="lang-ar">دعم غير جراحي ضمن الخطة.</span><span class="lang-en">Non-invasive support within the plan.</span></p></div>
+<a class="card-link" href="/procedures/lllt/" aria-label="05 / LLLT"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 <article class="therapy-card">
 <div><div class="therapy-top"><span class="therapy-code">06 / PDRN</span><span class="therapy-badge">Regenerative</span></div><h3><span class="lang-ar">البولينيوكليوتيدات</span><span class="lang-en">Polynucleotides (PDRN)</span></h3><p><span class="lang-ar">دعم بيئة فروة الرأس.</span><span class="lang-en">Support for the scalp environment.</span></p></div>
+<a class="card-link" href="/procedures/pdrn/" aria-label="06 / PDRN"><span class="lang-ar">اقرأ الصفحة الكاملة</span><span class="lang-en">Read the full page</span> <span aria-hidden="true">←</span></a>
 </article>
 </div>
 </div>
@@ -2219,9 +2401,10 @@ aria-hidden="true">
 </a>
 <p><span class="lang-ar">استشاري الشعر والتجميل — الرياض.</span><span class="lang-en">Hair and aesthetic medicine consultant — Riyadh.</span></p>
 </div>
-<div class="footer-column"><h3><span class="lang-ar">التصفح</span><span class="lang-en">Explore</span></h3><a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span></a><a href="#conditions"><span class="lang-ar">الحالات</span><span class="lang-en">Conditions</span></a><a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span></a><a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span></a></div>
+<div class="footer-column"><h3><span class="lang-ar">التصفح</span><span class="lang-en">Explore</span></h3><a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span></a><a href="#conditions"><span class="lang-ar">الحالات</span><span class="lang-en">Conditions</span></a><a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span></a><a href="#library"><span class="lang-ar">الدليل الطبي</span><span class="lang-en">Medical library</span></a><a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span></a></div>
 <div class="footer-column"><h3><span class="lang-ar">العيادة</span><span class="lang-en">Clinic</span></h3><span><span class="lang-ar">عيادات نويا، الرياض</span><span class="lang-en">Noya Clinic, Riyadh</span></span><a href="tel:+966500098821" dir="ltr">+966 500 098 821</a><a href="mailto:mohammed.qahtani@hotmail.com">mohammed.qahtani@hotmail.com</a></div>
 <div class="footer-column"><h3><span class="lang-ar">الحجز</span><span class="lang-en">Booking</span></h3><a href="https://mohammedqahtani.com/consultation/"><span class="lang-ar">احجز استشارة</span><span class="lang-en">Book consultation</span></a><a href="#faq"><span class="lang-ar">الأسئلة الشائعة</span><span class="lang-en">FAQ</span></a></div>
+<div class="footer-column footer-social"><h3><span class="lang-ar">تابعني</span><span class="lang-en">Follow</span></h3><a href="https://www.instagram.com/dr__mohammedq/" target="_blank" rel="noopener me">Instagram</a><a href="https://www.tiktok.com/@dr__mohammedq" target="_blank" rel="noopener me">TikTok</a><a href="https://www.youtube.com/@dr__mohammedq" target="_blank" rel="noopener me">YouTube</a><a href="https://www.snapchat.com/add/dr-mohammedq" target="_blank" rel="noopener me">Snapchat</a><a href="https://x.com/Dr_Mohammedq" target="_blank" rel="noopener me">X</a></div>
 </div>
 <div class="footer-bottom">
 <div class="footer-disclaimer"><span class="lang-ar">المحتوى للتثقيف ولا يغني عن الاستشارة الطبية.</span><span class="lang-en">Content is educational and does not replace medical consultation.</span></div>
