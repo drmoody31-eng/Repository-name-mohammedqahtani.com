@@ -9,7 +9,7 @@
 
 <link rel="canonical" href="https://mohammedqahtani.com/conditions/ffa/">
 <link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/conditions/ffa/">
-<link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/conditions/ffa/?lang=en">
+<link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/en/conditions/ffa/">
 <link rel="alternate" hreflang="x-default" href="https://mohammedqahtani.com/conditions/ffa/">
 
 <!-- Open Graph -->
@@ -1049,7 +1049,7 @@ body.show-en { direction: ltr !important; text-align: start; }
 
   <p class="lede">
     <span class="ar-only">تساقط تندّبي يهاجم خط الشعر الأمامي والصدغين والحواجب. التشخيص المبكر يوقف التقدم — البصيلات المتضررة لا ترجع.</span>
-    <span class="en-only">تساقط تندّبي يهاجم خط الشعر الأمامي والصدغين والحواجب. التشخيص المبكر يوقف التقدم — البصيلات المتضررة لا ترجع.</span>
+    <span class="en-only">A scarring hair loss that attacks the frontal hairline, temples and eyebrows. Early diagnosis stops the progression; follicles already scarred do not come back.</span>
   </p>
 
   <div class="toc">
@@ -1298,15 +1298,7 @@ if (new URLSearchParams(window.location.search).get('lang') === 'en') {
   html.lang = 'en'; html.dir = 'ltr';
 }
 
-langBtn.addEventListener('click', () => {
-  if (body.classList.contains('show-en')) {
-    body.classList.remove('show-en');
-    html.lang = 'ar'; html.dir = 'rtl';
-  } else {
-    body.classList.add('show-en');
-    html.lang = 'en'; html.dir = 'ltr';
-  }
-});
+langBtn.addEventListener('click', () => { if (body.classList.contains('show-en')) { body.classList.remove('show-en'); html.lang = 'ar'; html.dir = 'rtl'; } else { window.location.href = '/en/conditions/ffa/'; } });
 
 // Dropdowns (Procedures + Medications) — click/tap toggle, hover opens via CSS
 const dropdownTriggers = document.querySelectorAll('.nav-trigger[aria-haspopup="true"]');

@@ -9,7 +9,7 @@
 
 <link rel="canonical" href="https://mohammedqahtani.com/conditions/traction-alopecia/">
 <link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/conditions/traction-alopecia/">
-<link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/conditions/traction-alopecia/?lang=en">
+<link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/en/conditions/traction-alopecia/">
 <link rel="alternate" hreflang="x-default" href="https://mohammedqahtani.com/conditions/traction-alopecia/">
 
 <!-- Open Graph -->
@@ -1049,7 +1049,7 @@ body.show-en { direction: ltr !important; text-align: start; }
 
   <p class="lede">
     <span class="ar-only">تساقط شعر ناتج عن شد متكرر وطويل في تسريحات معينة. مع التشخيص المبكر، الحالة قابلة للعكس.</span>
-    <span class="en-only">تساقط شعر ناتج عن شد متكرر وطويل في تسريحات معينة. مع التشخيص المبكر، الحالة قابلة للعكس.</span>
+    <span class="en-only">Hair loss caused by repeated, prolonged pulling from certain hairstyles. Caught early, it is reversible.</span>
   </p>
 
   <div class="toc">
@@ -1285,15 +1285,7 @@ if (new URLSearchParams(window.location.search).get('lang') === 'en') {
   html.lang = 'en'; html.dir = 'ltr';
 }
 
-langBtn.addEventListener('click', () => {
-  if (body.classList.contains('show-en')) {
-    body.classList.remove('show-en');
-    html.lang = 'ar'; html.dir = 'rtl';
-  } else {
-    body.classList.add('show-en');
-    html.lang = 'en'; html.dir = 'ltr';
-  }
-});
+langBtn.addEventListener('click', () => { if (body.classList.contains('show-en')) { body.classList.remove('show-en'); html.lang = 'ar'; html.dir = 'rtl'; } else { window.location.href = '/en/conditions/traction-alopecia/'; } });
 
 // Dropdowns (Procedures + Medications) — click/tap toggle, hover opens via CSS
 const dropdownTriggers = document.querySelectorAll('.nav-trigger[aria-haspopup="true"]');

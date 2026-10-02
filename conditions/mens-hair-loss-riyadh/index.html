@@ -7,6 +7,9 @@
 <title>علاج تساقط الشعر الوراثي عند الرجال في الرياض | د. محمد القحطاني</title>
 <meta name="description" content="دليل الدكتور محمد القحطاني، استشاري الأمراض الجلدية والشعر في الرياض، لتشخيص وعلاج الصلع الوراثي وتساقط الشعر عند الرجال: مراحل التساقط، التحاليل، والعلاجات المثبتة علميًا.">
 
+<link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/conditions/mens-hair-loss-riyadh/">
+<link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/en/conditions/mens-hair-loss-riyadh/">
+<link rel="alternate" hreflang="x-default" href="https://mohammedqahtani.com/conditions/mens-hair-loss-riyadh/">
 <link rel="canonical" href="https://mohammedqahtani.com/conditions/mens-hair-loss-riyadh/">
 <link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/conditions/mens-hair-loss-riyadh/">
 <link rel="alternate" hreflang="x-default" href="https://mohammedqahtani.com/conditions/mens-hair-loss-riyadh/">
@@ -1309,15 +1312,7 @@ if (new URLSearchParams(window.location.search).get('lang') === 'en') {
   html.lang = 'en'; html.dir = 'ltr';
 }
 
-langBtn.addEventListener('click', () => {
-  if (body.classList.contains('show-en')) {
-    body.classList.remove('show-en');
-    html.lang = 'ar'; html.dir = 'rtl';
-  } else {
-    body.classList.add('show-en');
-    html.lang = 'en'; html.dir = 'ltr';
-  }
-});
+langBtn.addEventListener('click', () => { if (body.classList.contains('show-en')) { body.classList.remove('show-en'); html.lang = 'ar'; html.dir = 'rtl'; } else { window.location.href = '/en/conditions/mens-hair-loss-riyadh/'; } });
 
 // Dropdowns (Procedures + Medications) — click/tap toggle, hover opens via CSS
 const dropdownTriggers = document.querySelectorAll('.nav-trigger[aria-haspopup="true"]');

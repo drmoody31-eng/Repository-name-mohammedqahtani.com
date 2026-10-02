@@ -1289,15 +1289,7 @@ if (new URLSearchParams(window.location.search).get('lang') === 'en') {
   html.lang = 'en'; html.dir = 'ltr';
 }
 
-langBtn.addEventListener('click', () => {
-  if (body.classList.contains('show-en')) {
-    body.classList.remove('show-en');
-    html.lang = 'ar'; html.dir = 'rtl';
-  } else {
-    body.classList.add('show-en');
-    html.lang = 'en'; html.dir = 'ltr';
-  }
-});
+langBtn.addEventListener('click', () => { window.location.href = '/conditions/womens-hair-loss-riyadh/'; });
 
 // Dropdowns (Procedures + Medications) — click/tap toggle, hover opens via CSS
 const dropdownTriggers = document.querySelectorAll('.nav-trigger[aria-haspopup="true"]');
