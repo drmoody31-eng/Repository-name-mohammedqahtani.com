@@ -2500,8 +2500,8 @@ window.dispatchEvent(new Event('scroll'));
 }, 60);
 };
 const savedLanguage = safeStorage.get('mq-language');
-if (savedLanguage === 'en') updateLanguage('en');
-langToggle.addEventListener('click', () => updateLanguage(html.dataset.lang === 'ar' ? 'en' : 'ar'));
+
+langToggle.addEventListener('click', () => { safeStorage.set('mq-language','en'); window.location.href = '/en/'; });
 
 // Header color follows the current section, while the top progress line shows page position.
 const themeSections = [...document.querySelectorAll('.theme-light, .theme-dark')];

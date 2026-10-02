@@ -9,7 +9,7 @@
 
 <link rel="canonical" href="https://mohammedqahtani.com/procedures/gfc/">
 <link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/procedures/gfc/">
-<link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/procedures/gfc/?lang=en">
+<link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/en/procedures/gfc/">
 <link rel="alternate" hreflang="x-default" href="https://mohammedqahtani.com/procedures/gfc/">
 
 <!-- Open Graph -->
@@ -1270,15 +1270,7 @@ if (new URLSearchParams(window.location.search).get('lang') === 'en') {
   html.lang = 'en'; html.dir = 'ltr';
 }
 
-langBtn.addEventListener('click', () => {
-  if (body.classList.contains('show-en')) {
-    body.classList.remove('show-en');
-    html.lang = 'ar'; html.dir = 'rtl';
-  } else {
-    body.classList.add('show-en');
-    html.lang = 'en'; html.dir = 'ltr';
-  }
-});
+langBtn.addEventListener('click', () => { if (body.classList.contains('show-en')) { body.classList.remove('show-en'); html.lang = 'ar'; html.dir = 'rtl'; } else { window.location.href = '/en/procedures/gfc/'; } });
 
 // Dropdowns (Procedures + Medications) — click/tap toggle, hover opens via CSS
 const dropdownTriggers = document.querySelectorAll('.nav-trigger[aria-haspopup="true"]');
