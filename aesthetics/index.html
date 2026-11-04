@@ -1645,12 +1645,9 @@ html { background: var(--ink); }
 }
 .mobile-menu nav a.dept-link { color: var(--accent); }
 
-/* mobile: landscape clip shown whole, pinned to the upper part of the hero */
-@media (max-width: 980px) {
-  .hero-video { object-fit: contain; object-position: center 22%; height: 100svh; filter: brightness(.9) saturate(.9) contrast(1.05); }
-  .hero-video-shell { background: var(--ink); }
-  .hero-media-shade { background: linear-gradient(to bottom, rgba(31,18,38,.10) 0%, rgba(31,18,38,.05) 40%, rgba(31,18,38,.55) 62%, rgba(31,18,38,.97) 92%); }
 }
+
+@media (max-width: 980px) { .hero-video { object-position: center 25%; } }
 </style>
 <script type="application/ld+json">
 {
@@ -1889,6 +1886,8 @@ preload="auto"
 aria-hidden="true">
 <source src="/assets/cannula-jawline.mp4" type="video/mp4">
 </video>
+<script>(function(){var v=document.getElementById("heroVideo");if(!v)return;if(window.matchMedia("(max-width: 980px)").matches){var s=v.querySelector("source");s.src="/assets/cannula-jawline-portrait.mp4";v.poster="/assets/cannula-jawline-portrait.jpg";v.load();}})();</script>
+
 </div>
 <div class="hero-media-shade"></div>
 </div>
