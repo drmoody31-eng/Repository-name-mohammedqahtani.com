@@ -1644,6 +1644,13 @@ html { background: var(--ink); }
   .dept-switch a { height: 20px; padding-inline: 9px; }
 }
 .mobile-menu nav a.dept-link { color: var(--accent); }
+
+/* mobile: landscape clip shown whole, pinned to the upper part of the hero */
+@media (max-width: 980px) {
+  .hero-video { object-fit: contain; object-position: center 22%; height: 100svh; filter: brightness(.9) saturate(.9) contrast(1.05); }
+  .hero-video-shell { background: var(--ink); }
+  .hero-media-shade { background: linear-gradient(to bottom, rgba(31,18,38,.10) 0%, rgba(31,18,38,.05) 40%, rgba(31,18,38,.55) 62%, rgba(31,18,38,.97) 92%); }
+}
 </style>
 <script type="application/ld+json">
 {
