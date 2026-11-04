@@ -1234,7 +1234,12 @@ body.show-en { direction: ltr !important; text-align: start; }
   var params = new URLSearchParams(window.location.search);
   var src = (params.get('src') || '').toLowerCase();
   var ad  = (params.get('ad')  || '').trim();
+  var isAes = (params.get('type') || '').toLowerCase() === 'aesthetics';
   var base = SOURCE_MESSAGES[src];
+  if (isAes) {
+    base = base ? base.replace('عن تساقط الشعر', 'عن التجميل (محفزات الكولاجين / البوتوكس)')
+                : 'مرحبًا، أتواصل معكم عن طريق الموقع الإلكتروني للدكتور، وأرغب في استشارة تجميل.';
+  }
   if (!base) return; // no recognised source → keep default text
   function formatAdCode(code){
     var m = code.match(/^(\d+)([a-zA-Z]+)$/);

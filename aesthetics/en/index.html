@@ -11,6 +11,15 @@ assets/procedure-preparation.webp
 <meta name="theme-color" content="#1f1226">
 <meta name="description" content="Regenerative aesthetics in Riyadh without filler: collagen stimulators (Sculptra, Radiesse, Gouri), polynucleotides and Botox for skin quality, lift and fewer wrinkles by stimulating your own collagen. Dr. Mohammed AlQahtani, consultant dermatologist.">
 <title>Regenerative Aesthetics in Riyadh — Collagen Stimulators Without Filler | Dr. Mohammed AlQahtani</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="د. محمد القحطاني">
+<meta property="og:title" content="Skin lift and firming through regenerative medicine — Dr. Mohammed AlQahtani">
+<meta property="og:description" content="Collagen stimulators and Botox — no filler, no change to your features. Consultant dermatologist, Riyadh.">
+<meta property="og:url" content="https://mohammedqahtani.com/aesthetics/en/">
+<meta property="og:image" content="https://mohammedqahtani.com/assets/og-aesthetics.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mohammedqahtani.com/assets/og-aesthetics.jpg">
 <link rel="canonical" href="https://mohammedqahtani.com/aesthetics/en/">
 <link rel="alternate" hreflang="ar" href="https://mohammedqahtani.com/aesthetics/">
 <link rel="alternate" hreflang="en" href="https://mohammedqahtani.com/aesthetics/en/">
@@ -20,7 +29,7 @@ assets/procedure-preparation.webp
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" href="/assets/cannula-jawline.jpg" as="image">
+<link rel="preload" href="/assets/cannula-jawline-portrait.jpg" as="image">
 
 <style>
 :root {
@@ -376,7 +385,7 @@ background: linear-gradient(to bottom, transparent, var(--ink));
 position: absolute;
 inset: -8%;
 z-index: -3;
-background-image: linear-gradient(90deg, rgba(7,10,14,.2), rgba(7,10,14,.55)), url("/assets/cannula-jawline.jpg");
+background-image: linear-gradient(90deg, rgba(7,10,14,.2), rgba(7,10,14,.55)), url("/assets/cannula-jawline-portrait.jpg");
 background-size: cover;
 background-position: center 56%;
 filter: blur(34px) saturate(.75);
@@ -1648,6 +1657,7 @@ html { background: var(--ink); }
 }
 
 @media (max-width: 980px) { .hero-video { object-position: center 25%; } }
+.hero-video { object-position: center 30%; }
 </style>
 <script type="application/ld+json">
 {
@@ -1877,17 +1887,15 @@ html { background: var(--ink); }
 <video
 class="hero-video"
 id="heroVideo"
-poster="/assets/cannula-jawline.jpg"
+poster="/assets/cannula-jawline-portrait.jpg"
 autoplay
 loop
 muted
 playsinline
 preload="auto"
 aria-hidden="true">
-<source src="/assets/cannula-jawline.mp4" type="video/mp4">
+<source src="/assets/cannula-jawline-portrait.mp4" type="video/mp4">
 </video>
-<script>(function(){var v=document.getElementById("heroVideo");if(!v)return;if(window.matchMedia("(max-width: 980px)").matches){var s=v.querySelector("source");s.src="/assets/cannula-jawline-portrait.mp4";v.poster="/assets/cannula-jawline-portrait.jpg";v.load();}})();</script>
-
 </div>
 <div class="hero-media-shade"></div>
 </div>
@@ -2527,5 +2535,19 @@ setupTherapyScroll();
 updateOnScroll();
 })();
 </script>
+<script src="/assets/tracking.js" defer></script>
+<script>(function(){
+  var WA='https://wa.me/966500098821';
+  var SRC={snap:'إعلان سناب',google:'إعلان قوقل',meta:'إعلان ميتا',tiktok:'إعلان تيك توك',instagram:'إعلان انستقرام'};
+  var q=new URLSearchParams(location.search), src=(q.get('src')||'').toLowerCase(), ad=(q.get('ad')||'').trim();
+  function code(c){var m=c.match(/^(\d+)([a-zA-Z]+)$/);return '[AD-'+(m?m[1]+'-'+m[2].toUpperCase():c.toUpperCase())+']';}
+  function text(){
+    var from=SRC[src]?('جاي من '+SRC[src]):'جاي من موقع الدكتور';
+    var t='السلام عليكم، '+from+' — أبي أستشير عن التجميل (محفزات الكولاجين / البوتوكس)';
+    return ad?t+' '+code(ad):t;
+  }
+  function wire(){document.querySelectorAll('a[href*="/consultation/"]').forEach(function(a){a.href=WA+'?text='+encodeURIComponent(text());a.setAttribute('rel','noopener');});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else wire();
+})();</script>
 </body>
 </html>
