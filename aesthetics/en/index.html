@@ -29,7 +29,7 @@ assets/procedure-preparation.webp
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" href="/assets/hero-real.jpg" as="image">
+<link rel="preload" href="/assets/hero-lift.jpg" as="image">
 
 <style>
 :root {
@@ -385,7 +385,7 @@ background: linear-gradient(to bottom, transparent, var(--ink));
 position: absolute;
 inset: -8%;
 z-index: -3;
-background-image: linear-gradient(90deg, rgba(7,10,14,.2), rgba(7,10,14,.55)), url("/assets/hero-real.jpg");
+background-image: linear-gradient(90deg, rgba(7,10,14,.2), rgba(7,10,14,.55)), url("/assets/hero-lift.jpg");
 background-size: cover;
 background-position: center 56%;
 filter: blur(34px) saturate(.75);
@@ -1656,8 +1656,7 @@ html { background: var(--ink); }
 
 }
 
-.hero-video { object-position: 45% 0%; }
-@media (min-width: 981px) { .hero-video-shell { inset-block: 0; } .hero-video { height: 100%; object-position: 45% 100%; } .hero-media-shade { background: linear-gradient(to bottom, rgba(7,10,14,.28), transparent 28%, transparent 84%, rgba(7,10,14,.55)), linear-gradient(to var(--copy-edge, right), transparent 48%, rgba(7,10,14,.86) 100%); } }
+.hero-video { object-position: center 30%; }
 </style>
 <script type="application/ld+json">
 {
@@ -1887,17 +1886,15 @@ html { background: var(--ink); }
 <video
 class="hero-video"
 id="heroVideo"
-poster="/assets/hero-real.jpg"
+poster="/assets/hero-lift.jpg"
 autoplay
 loop
 muted
 playsinline
 preload="auto"
 aria-hidden="true">
-<source src="/assets/hero-real-m.mp4" type="video/mp4" media="(max-width: 980px)">
-<source src="/assets/hero-real.mp4" type="video/mp4">
+<source src="/assets/hero-lift.mp4" type="video/mp4">
 </video>
-<script>(function(){var v=document.getElementById("heroVideo");if(!v)return;var m=window.matchMedia("(max-width: 980px)").matches;var s=m?"/assets/hero-real-m.mp4":"/assets/hero-real.mp4";v.poster=m?"/assets/hero-real-m.jpg":"/assets/hero-real.jpg";if(v.currentSrc&&v.currentSrc.indexOf(s.split("/").pop())<0){v.src=s;v.load();var p=v.play();if(p&&p.catch)p.catch(function(){});}})();</script>
 </div>
 <div class="hero-media-shade"></div>
 </div>
