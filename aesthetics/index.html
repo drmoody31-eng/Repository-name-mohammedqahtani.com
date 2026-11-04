@@ -1880,7 +1880,7 @@ aria-hidden="true">
 </h1>
 
 <p class="hero-description">
-<span class="lang-ar">نشد ونرفع البشرة بأحدث مواد الطب التجديدي ومحفزات الكولاجين — بدون فيلر، وبدون تغيير ملامحك. كولاجينك أنت هو اللي يشتغل، وبإشراف استشاري جلدية تجميل.</span>
+<span class="lang-ar">نشد ونرفع البشرة بأحدث مواد الطب التجديدي ومحفزات الكولاجين — بدون فيلر، وبدون تغيير ملامحك. كولاجينك أنت هو اللي يشتغل، وبإشراف استشاري جلدية وتجميل.</span>
 <span class="lang-en">We lift and firm the skin with the latest regenerative-medicine agents and collagen stimulators — no filler, and no change to your features. Your own collagen does the work, led by a consultant cosmetic dermatologist.</span>
 </p>
 
@@ -2344,7 +2344,8 @@ window.dispatchEvent(new Event('scroll'));
 };
 const savedLanguage = safeStorage.get('mq-language');
 
-langToggle.addEventListener('click', () => { safeStorage.set('mq-language','en'); window.location.href = '/en/'; });
+if (savedLanguage === 'en') updateLanguage('en');
+langToggle.addEventListener('click', () => updateLanguage(html.dataset.lang === 'ar' ? 'en' : 'ar'));
 
 // Header color follows the current section, while the top progress line shows page position.
 const themeSections = [...document.querySelectorAll('.theme-light, .theme-dark')];
