@@ -1573,6 +1573,15 @@ align-items: start;
 .library-column a { color: var(--ink); transition: color .25s ease; }
 .library-column a:hover { color: var(--accent); }
 @media (max-width: 860px) { .library-grid { grid-template-columns: 1fr; gap: 28px; } .footer-top { grid-template-columns: 1fr 1fr; } }
+
+/* hair | aesthetics switch */
+.brand-wrap { justify-self: start; display: inline-flex; align-items: center; gap: 18px; min-width: max-content; }
+.dept-switch { display: inline-flex; align-items: center; padding: 3px; border: 1px solid currentColor; border-radius: 999px; font-size: 12px; letter-spacing: .04em; opacity: .92; }
+.dept-switch a { display: inline-flex; align-items: center; height: 26px; padding-inline: 12px; border-radius: 999px; color: inherit; text-decoration: none; transition: background .25s ease, color .25s ease; }
+.dept-switch a.is-active { background: var(--accent); color: var(--ink); font-weight: 600; }
+.dept-switch a:not(.is-active):hover { background: rgba(255,255,255,.1); }
+.site-header.is-light .dept-switch a:not(.is-active):hover { background: rgba(0,0,0,.06); }
+@media (max-width: 1100px) { .dept-switch { display: none; } }
 </style>
 <script type="application/ld+json">
 {
@@ -1673,7 +1682,7 @@ align-items: start;
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 <header class="site-header" id="siteHeader">
-<a class="brand" href="#top" aria-label="Dr. Mohammed AlQahtani home">
+<div class="brand-wrap"><a class="brand" href="#top" aria-label="Dr. Mohammed AlQahtani home">
 <span class="brand-symbol" aria-hidden="true"></span>
 <span class="brand-copy">
 <span class="brand-name lang-ar">د. محمد القحطاني</span>
@@ -1681,6 +1690,7 @@ align-items: start;
 <span class="brand-role">Hair Consultant</span>
 </span>
 </a>
+<nav class="dept-switch" aria-label="Section"><a href="#top" class="is-active" aria-current="page"><span class="lang-ar">الشعر</span><span class="lang-en">Hair</span></a><a href="/aesthetics/"><span class="lang-ar">التجميل</span><span class="lang-en">Aesthetics</span></a></nav></div>
 
 <nav class="desktop-nav" aria-label="Primary navigation">
 <a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span></a>
