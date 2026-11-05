@@ -1658,14 +1658,15 @@ html { background: var(--ink); }
 
 .hero-video { object-position: center 30%; }
 
-.creds-strip { padding: 64px var(--page-pad) 64px; border-bottom: 1px solid var(--line-dark); }
-.creds-head { color: var(--accent); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; margin: 0 0 16px; }
-.creds-lead { color: #fff; font-size: clamp(22px, 2.6vw, 34px); line-height: 1.45; max-width: 30ch; margin: 0 0 40px; }
-.creds-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 32px; }
-.creds-list li { display: flex; flex-direction: column; gap: 8px; padding: 18px 0 0; border-top: 1px solid var(--line-dark); color: var(--muted-dark); font-size: 15px; line-height: 1.65; }
-.creds-k { color: var(--accent); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
-@media (max-width: 980px) { .creds-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 24px; } }
-@media (max-width: 640px) { .creds-strip { padding: 44px var(--page-pad); } .creds-lead { margin-bottom: 28px; } .creds-list { grid-template-columns: 1fr; gap: 18px; } .creds-list li { font-size: 14px; } }
+.creds-strip { position: relative; padding: clamp(64px, 9vw, 120px) var(--page-pad); border-bottom: 1px solid var(--line-dark); overflow: hidden; }
+.creds-strip::before { content: ""; position: absolute; inset: auto -10% -60% auto; width: 60%; aspect-ratio: 1; background: radial-gradient(closest-side, rgba(201,163,90,.16), transparent 70%); pointer-events: none; }
+.creds-inner { position: relative; max-width: 980px; }
+.creds-head { display: flex; align-items: center; gap: 14px; color: var(--accent); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; margin: 0 0 26px; }
+.creds-head::before { content: ""; width: 36px; height: 1px; background: var(--accent); }
+.creds-statement { color: #fff; font-size: clamp(22px, 2.7vw, 38px); line-height: 1.6; margin: 0; font-weight: 300; }
+.creds-statement em { font-style: normal; color: var(--accent); }
+.creds-sign { margin-top: 30px; color: var(--muted-dark); font-size: 13px; letter-spacing: .04em; }
+@media (max-width: 640px) { .creds-statement { font-size: 21px; line-height: 1.75; } .creds-sign { margin-top: 22px; font-size: 12px; } }
 </style>
 <script type="application/ld+json">
 {
@@ -1944,14 +1945,11 @@ aria-hidden="true">
 </section>
 
 <section class="creds-strip theme-dark" aria-label="Experience">
+<div class="creds-inner">
 <div class="creds-head" data-reveal><span class="lang-ar">خبرة الدكتور</span><span class="lang-en">The doctor's experience</span></div>
-<p class="creds-lead" data-reveal data-reveal-delay="1"><span class="lang-ar">د. محمد القحطاني من الأسماء الرائدة في الطب التجديدي والتجميل، داخل المملكة وخارجها.</span><span class="lang-en">Dr. Mohammed AlQahtani is a leading name in regenerative and aesthetic medicine, in Saudi Arabia and abroad.</span></p>
-<ul class="creds-list">
-<li data-reveal data-reveal-delay="1"><span class="creds-k"><span class="lang-ar">التخصص</span><span class="lang-en">Specialty</span></span><span class="lang-ar">استشاري الجلدية والتجميل، والبورد السعودي في الأمراض الجلدية</span><span class="lang-en">Consultant in dermatology and aesthetics, Saudi Board in Dermatology</span></li>
-<li data-reveal data-reveal-delay="2"><span class="creds-k"><span class="lang-ar">الدورات</span><span class="lang-en">Courses</span></span><span class="lang-ar">حضر دورات متقدمة كثيرة في التجميل والطب التجديدي حول العالم</span><span class="lang-en">Many advanced courses in aesthetic and regenerative medicine around the world</span></li>
-<li data-reveal data-reveal-delay="3"><span class="creds-k"><span class="lang-ar">المؤتمرات</span><span class="lang-en">Conferences</span></span><span class="lang-ar">قدّم محاضرات في مؤتمرات محلية ودولية</span><span class="lang-en">Has presented at local and international conferences</span></li>
-<li data-reveal data-reveal-delay="4"><span class="creds-k"><span class="lang-ar">التدريب</span><span class="lang-en">Training</span></span><span class="lang-ar">يدرّب الأطباء على تقنيات الطب التجديدي والتجميل</span><span class="lang-en">Trains doctors in regenerative and aesthetic techniques</span></li>
-</ul>
+<p class="creds-statement" data-reveal data-reveal-delay="1"><span class="lang-ar">د. محمد القحطاني من الأسماء الرائدة في <em>الطب التجديدي والتجميل</em> داخل المملكة وخارجها. استشاري الجلدية والتجميل بالبورد السعودي، حضر <em>دورات متقدمة كثيرة حول العالم</em>، وقدّم محاضرات في <em>مؤتمرات محلية ودولية</em>.</span><span class="lang-en">Dr. Mohammed AlQahtani is a leading name in <em>regenerative and aesthetic medicine</em>, in Saudi Arabia and abroad. A Saudi Board consultant in dermatology and aesthetics, he has completed <em>many advanced courses around the world</em> and lectured at <em>local and international conferences</em>.</span></p>
+<div class="creds-sign" data-reveal data-reveal-delay="2"><span class="lang-ar">د. محمد القحطاني — استشاري الجلدية والتجميل</span><span class="lang-en">Dr. Mohammed AlQahtani — Consultant, Dermatology &amp; Aesthetics</span></div>
+</div>
 </section>
 
 <section class="method-section theme-light" id="approach" aria-labelledby="method-title">
