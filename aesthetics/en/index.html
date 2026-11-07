@@ -1687,6 +1687,44 @@ html { background: var(--ink); }
 .partner-mark { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 60%), linear-gradient(145deg, var(--accent), var(--ink, #070a0e)); box-shadow: 0 30px 80px rgba(0,0,0,.18); max-width: 300px; width: 100%; justify-self: center; }
 .partner-mark span { font-family: var(--font-en); font-weight: 600; font-size: clamp(36px, 4.6vw, 64px); letter-spacing: .08em; color: #fff; }
 @media (max-width: 860px) { .partner-inner { grid-template-columns: 1fr; } .partner-mark { display: none; } }
+
+.story-section { position: relative; padding: clamp(72px, 9vw, 130px) var(--page-pad); background: radial-gradient(90% 60% at 85% 0%, rgba(201,163,90,.12), transparent 60%), var(--ink, #120a17); color: #fff; overflow: clip; }
+.story-head { max-width: 1180px; margin: 0 auto clamp(36px, 5vw, 64px); }
+.story-kicker { margin: 0 0 14px; color: var(--accent); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; }
+.story-head h2 { margin: 0; font-family: var(--font-display); font-size: clamp(32px, 4.4vw, 62px); line-height: 1.15; }
+.story-head em { font-style: normal; color: var(--accent); }
+.story-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.story-media { position: sticky; top: calc(var(--header-h, 80px) + 24px); }
+.story-frame { position: relative; aspect-ratio: 9 / 16; max-height: calc(100vh - var(--header-h, 80px) - 60px); margin-inline: auto; border-radius: 28px; overflow: hidden; background: #000; box-shadow: 0 40px 100px rgba(0,0,0,.45), 0 0 0 1px rgba(201,163,90,.25); }
+.story-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .7s ease; }
+.story-video.is-active { opacity: 1; }
+.story-dots { position: absolute; inset-inline: 0; bottom: 16px; display: flex; justify-content: center; gap: 8px; }
+.story-dot { width: 8px; height: 8px; border-radius: 99px; background: rgba(255,255,255,.35); transition: width .4s ease, background .4s ease; }
+.story-dot.is-active { width: 28px; background: var(--accent); }
+.story-steps { list-style: none; margin: 0; padding: 0; }
+.story-step { min-height: 62vh; display: flex; flex-direction: column; justify-content: center; opacity: .32; transition: opacity .5s ease; }
+.story-step.is-active { opacity: 1; }
+.story-num { font-family: var(--font-en); color: var(--accent); font-size: 14px; letter-spacing: .2em; }
+.story-step h3 { margin: 10px 0 12px; font-family: var(--font-display); font-size: clamp(26px, 3vw, 42px); line-height: 1.2; }
+.story-step p { margin: 0; max-width: 42ch; color: var(--muted-dark, #b9a8bb); font-size: clamp(16px, 1.3vw, 20px); line-height: 1.8; }
+.story-expect { max-width: 1180px; margin: clamp(48px, 7vw, 96px) auto 0; padding-top: clamp(36px, 5vw, 56px); border-top: 1px solid rgba(255,255,255,.12); }
+.story-expect h3 { margin: 0 0 28px; font-family: var(--font-display); font-size: clamp(26px, 3vw, 40px); }
+.story-tl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; counter-reset: tl; }
+.story-tl li { position: relative; padding-top: 26px; border-top: 2px solid rgba(201,163,90,.35); display: flex; flex-direction: column; gap: 8px; }
+.story-tl li::before { content: ""; position: absolute; top: -7px; inset-inline-start: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+.story-tl b { font-family: var(--font-display); color: var(--accent); font-size: clamp(18px, 1.7vw, 24px); font-weight: 600; }
+.story-tl li > span { color: var(--muted-dark, #b9a8bb); line-height: 1.7; }
+.story-sessions { margin: 34px 0 0; font-size: clamp(16px, 1.3vw, 19px); color: #fff; }
+.story-sessions b { color: var(--accent); }
+.story-note { margin: 12px 0 0; font-size: 12px; color: var(--muted-dark, #b9a8bb); opacity: .8; }
+@media (max-width: 860px) {
+  .story-grid { grid-template-columns: 1fr; gap: 0; }
+  .story-media { top: var(--header-h, 70px); z-index: 2; margin-inline: calc(var(--page-pad) * -1); padding: 10px var(--page-pad) 34px; background: linear-gradient(to bottom, var(--ink, #120a17) 82%, rgba(18,10,23,0)); }
+  .story-frame { height: 40vh; width: auto; max-height: none; border-radius: 22px; }
+  .story-step { min-height: 46vh; justify-content: flex-start; padding-top: 8px; text-align: start; }
+  .story-step:last-child { min-height: 30vh; }
+  .story-tl { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+}
 </style>
 <script type="application/ld+json">
 {
@@ -2043,6 +2081,54 @@ aria-hidden="true">
 </div>
 </section>
 
+<section class="story-section theme-dark" id="how" aria-labelledby="how-title">
+<div class="story-head" data-reveal>
+<p class="story-kicker"><span class="lang-ar">شدّ ونضارة</span><span class="lang-en">Lift and glow</span></p>
+<h2 id="how-title"><span class="lang-ar">كيف تشتغل <em>محفّزات الكولاجين؟</em></span><span class="lang-en">How do <em>collagen stimulators</em> work?</span></h2>
+</div>
+<div class="story-grid">
+<div class="story-media"><div class="story-frame">
+<video class="story-video is-active" data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/e82f6e37-598e-47c5-a6d5-3ebae0c3a6b6.mp4" poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/47e34ea7-1a67-4bd4-b12d-beb1449bd606.jpg" muted playsinline loop preload="none" aria-hidden="true"></video>
+<video class="story-video" data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/eb1cf6d8-ea12-4bc4-b443-43349aa11c55.mp4" poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/fa2a831d-4ed2-40c5-8bf1-64a52744838d.jpg" muted playsinline loop preload="none" aria-hidden="true"></video>
+<video class="story-video" data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/8559de3d-d1e8-4e1e-99fb-c15b8b3e73c8.mp4" poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/642b155b-e749-4d1f-9980-2625f14be560.jpg" muted playsinline loop preload="none" aria-hidden="true"></video>
+<video class="story-video" data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/4e373cf0-db85-4659-a2d1-6d9271c68c8e.mp4" poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3GVtRnJvCXXPmEsQJT4byZBUECj/e0ff6f12-87d1-4c43-bf44-e0a6cc70920f.jpg" muted playsinline loop preload="none" aria-hidden="true"></video>
+<div class="story-dots"><span class="story-dot is-active"></span><span class="story-dot"></span><span class="story-dot"></span><span class="story-dot"></span></div>
+</div></div>
+<ol class="story-steps">
+<li class="story-step is-active" data-step="0">
+<span class="story-num">01</span>
+<h3><span class="lang-ar">لمسة هادئة</span><span class="lang-en">Gentle touch</span></h3>
+<p><span class="lang-ar">بالكانيولا نوصّل محفّز الكولاجين بلطف للطبقة الصح، من غير ما نغيّر شي في ملامحك.</span><span class="lang-en">With a cannula we gently place the collagen stimulator in the right layer, without changing your features.</span></p>
+</li>
+<li class="story-step" data-step="1">
+<span class="story-num">02</span>
+<h3><span class="lang-ar">تحت الجلد</span><span class="lang-en">Under the skin</span></h3>
+<p><span class="lang-ar">المادة توصل للأدمة، الطبقة اللي فيها الكولاجين، وتتوزع فيها بهدوء.</span><span class="lang-en">It reaches the dermis, the layer where collagen lives, and spreads there quietly.</span></p>
+</li>
+<li class="story-step" data-step="2">
+<span class="story-num">03</span>
+<h3><span class="lang-ar">كولاجينك أنت</span><span class="lang-en">Your own collagen</span></h3>
+<p><span class="lang-ar">المادة تنبّه خلاياك تبني كولاجين جديد، وبعدها هي نفسها تختفي مع الوقت.</span><span class="lang-en">It wakes your cells to build new collagen, then the product itself fades away over time.</span></p>
+</li>
+<li class="story-step" data-step="3">
+<span class="story-num">04</span>
+<h3><span class="lang-ar">شدّ ونضارة</span><span class="lang-en">Lift and glow</span></h3>
+<p><span class="lang-ar">النتيجة تبان تدريجيًا: بشرة أشد وأنضر، وملامحك تبقى ملامحك.</span><span class="lang-en">Results appear gradually: lifted, glowing skin, and your features stay yours.</span></p>
+</li>
+</ol>
+</div>
+<div class="story-expect" data-reveal>
+<h3><span class="lang-ar">وش تتوقع؟</span><span class="lang-en">What to expect</span></h3>
+<ol class="story-tl">
+<li><b><span class="lang-ar">أول أسابيع</span><span class="lang-en">First weeks</span></b><span><span class="lang-ar">غالبًا ما تشوف شي… وهذا طبيعي</span><span class="lang-en">You usually see nothing yet, and that is normal</span></span></li>
+<li><b><span class="lang-ar">٦ – ٨ أسابيع</span><span class="lang-en">6–8 weeks</span></b><span><span class="lang-ar">تبدأ البشرة تشد وتنضر</span><span class="lang-en">The skin starts to lift and glow</span></span></li>
+<li><b><span class="lang-ar">٣ أشهر</span><span class="lang-en">3 months</span></b><span><span class="lang-ar">الوقت الصح نحكم فيه على النتيجة</span><span class="lang-en">The right time to judge the result</span></span></li>
+<li><b><span class="lang-ar">سنة إلى سنتين</span><span class="lang-en">1–2 years</span></b><span><span class="lang-ar">مدة الأثر، حسب المادة</span><span class="lang-en">How long it lasts, depending on the product</span></span></li>
+</ol>
+<p class="story-sessions"><span class="lang-ar">غالبًا <b>جلستين إلى ثلاث</b>، بينها ٤ – ٦ أسابيع. النتيجة تختلف من شخص لشخص، ونحددها بعد التقييم.</span><span class="lang-en">Usually <b>two to three sessions</b>, 4–6 weeks apart. Results vary from person to person and are planned after assessment.</span></p>
+<p class="story-note"><span class="lang-ar">الفيديو توضيحي مولّد بالذكاء الاصطناعي، وليس لمريض حقيقي.</span><span class="lang-en">Illustrative AI-generated video, not a real patient.</span></p>
+</div>
+</section>
 <section class="section section-light conditions theme-light" id="conditions" aria-labelledby="conditions-title">
 <div class="conditions-head">
 <div>
@@ -2564,5 +2650,20 @@ updateOnScroll();
   function wire(){document.querySelectorAll('a[href*="/consultation/"]').forEach(function(a){a.href=WA+'?text='+encodeURIComponent(text());a.setAttribute('rel','noopener');});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else wire();
 })();</script>
+<script>
+(function(){
+  var sec=document.getElementById('how'); if(!sec) return;
+  var vids=[].slice.call(sec.querySelectorAll('.story-video')), steps=[].slice.call(sec.querySelectorAll('.story-step')), dots=[].slice.call(sec.querySelectorAll('.story-dot'));
+  var loaded=false, cur=0;
+  function load(){ if(loaded) return; loaded=true; vids.forEach(function(v){ v.src=v.getAttribute('data-src'); v.preload='auto'; }); show(cur,true); }
+  function show(i,force){ if(i===cur && !force) return; cur=i;
+    vids.forEach(function(v,k){ var on=k===i; v.classList.toggle('is-active',on); if(on && loaded){ try{v.currentTime=0;}catch(e){} var p=v.play(); if(p&&p.catch)p.catch(function(){}); } else if(!on){ v.pause(); } });
+    steps.forEach(function(s,k){ s.classList.toggle('is-active',k===i); }); dots.forEach(function(d,k){ d.classList.toggle('is-active',k===i); }); }
+  if(!('IntersectionObserver' in window)){ load(); return; }
+  new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) load(); }); },{rootMargin:'600px 0px'}).observe(sec);
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) show(+e.target.getAttribute('data-step')); }); },{rootMargin:(window.matchMedia('(max-width: 860px)').matches?'-58% 0px -30% 0px':'-45% 0px -45% 0px')});
+  steps.forEach(function(s){ io.observe(s); });
+})();
+</script>
 </body>
 </html>
