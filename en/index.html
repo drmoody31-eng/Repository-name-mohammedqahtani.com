@@ -1588,6 +1588,26 @@ align-items: start;
   .dept-switch a { height: 20px; padding-inline: 9px; }
 }
 .mobile-menu nav a.dept-link { color: var(--accent); }
+
+.partner-band { padding: clamp(56px, 8vw, 104px) var(--page-pad); background: var(--paper, #f8f5ef); color: var(--ink, #070a0e); border-top: 1px solid var(--line-light, rgba(7,10,14,.14)); }
+.partner-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.partner-kicker { margin: 0 0 12px; color: var(--accent); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+.partner-title { margin: 0 0 16px; font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 46px); line-height: 1.2; }
+.partner-text { margin: 0 0 26px; color: var(--muted-light, #646a70); font-size: clamp(16px, 1.25vw, 19px); line-height: 1.8; max-width: 58ch; }
+.partner-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.partner-btn { display: inline-flex; align-items: center; min-height: 50px; padding: 0 26px; border-radius: 999px; background: var(--ink, #070a0e); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; }
+.partner-btn:hover { background: var(--accent); color: var(--ink, #070a0e); }
+.partner-link { color: var(--ink, #070a0e); font-weight: 600; text-decoration: underline; text-underline-offset: 5px; text-decoration-color: var(--accent); }
+.partner-code { display: inline-flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 20px; border-radius: 999px; border: 1.5px dashed var(--accent); background: transparent; color: var(--ink, #070a0e); font: inherit; cursor: pointer; }
+.partner-code b { font-family: var(--font-en); font-size: 18px; letter-spacing: .12em; }
+.partner-copy-hint { font-size: 13px; color: var(--muted-light, #646a70); }
+.partner-copied { display: none; font-size: 13px; color: var(--accent); font-weight: 600; }
+.partner-code.is-copied .partner-copy-hint { display: none; }
+.partner-code.is-copied .partner-copied { display: inline; }
+.partner-note { margin: 22px 0 0; font-size: 12px; color: var(--muted-light, #646a70); }
+.partner-mark { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 60%), linear-gradient(145deg, var(--accent), var(--ink, #070a0e)); box-shadow: 0 30px 80px rgba(0,0,0,.18); max-width: 300px; width: 100%; justify-self: center; }
+.partner-mark span { font-family: var(--font-en); font-weight: 600; font-size: clamp(36px, 4.6vw, 64px); letter-spacing: .08em; color: #fff; }
+@media (max-width: 860px) { .partner-inner { grid-template-columns: 1fr; } .partner-mark { display: none; } }
 </style>
 <script type="application/ld+json">
 {
@@ -2386,6 +2406,21 @@ aria-hidden="true">
 </div>
 </section>
 
+<section class="partner-band" id="formulas" aria-labelledby="formulas-title">
+<div class="partner-inner" data-reveal>
+<div class="partner-copy">
+<p class="partner-kicker"><span class="lang-ar">تركيباتي الخاصة</span><span class="lang-en">My own formulas</span></p>
+<h2 class="partner-title" id="formulas-title"><span class="lang-ar">تركيبات MQ للشعر</span><span class="lang-en">MQ hair formulas</span></h2>
+<p class="partner-text"><span class="lang-ar">تركيبات موضعية صمّمتها بنفسي لحالات تساقط الشعر المختلفة، وتحضّرها صيدلية ون ميد. التركيبة المناسبة تختلف من شخص لشخص، فالأفضل تستشيرني أول وأحدد لك رقم التركيبة.</span><span class="lang-en">Topical formulas I designed for the different types of hair loss, prepared by One Med Pharmacy. The right formula differs from person to person, so it is best to consult me first and I will tell you which one.</span></p>
+<div class="partner-actions">
+<a class="partner-btn" href="https://onemedph.com/ar/%D8%AA%D8%B1%D9%83%D9%8A%D8%A8%D8%A7%D8%AA-%D8%A7%D9%84%D8%B4%D8%B9%D8%B1-%D9%84%D9%84%D8%AF%D9%83%D8%AA%D9%88%D8%B1-%D9%85%D8%AD%D9%85%D8%AF-%D8%A7%D9%84%D9%82%D8%AD%D8%B7%D8%A7%D9%86%D9%8A/c334292025?filters[category_id]=334292025" target="_blank" rel="sponsored noopener"><span class="lang-ar">تركيباتي في صيدلية ون ميد ↗</span><span class="lang-en">My formulas at One Med Pharmacy ↗</span></a>
+<a class="partner-link" href="/en/consultation/"><span class="lang-ar">استشرني أول</span><span class="lang-en">Consult me first</span></a>
+</div>
+<p class="partner-note"><span class="lang-ar">تعاون تجاري مع صيدلية ون ميد</span><span class="lang-en">Commercial partnership with One Med Pharmacy</span></p>
+</div>
+<div class="partner-mark" aria-hidden="true"><span>MQ</span></div>
+</div>
+</section>
 <section class="section faq-section theme-light" id="faq" aria-labelledby="faq-title">
 <div class="faq-layout">
 <div class="faq-intro">

@@ -1667,6 +1667,26 @@ html { background: var(--ink); }
 .creds-statement em { font-style: normal; color: var(--accent); }
 .creds-sign { margin-top: 30px; color: var(--muted-dark); font-size: 13px; letter-spacing: .04em; }
 @media (max-width: 640px) { .creds-statement { font-size: 21px; line-height: 1.75; } .creds-sign { margin-top: 22px; font-size: 12px; } }
+
+.partner-band { padding: clamp(56px, 8vw, 104px) var(--page-pad); background: var(--paper, #f8f5ef); color: var(--ink, #070a0e); border-top: 1px solid var(--line-light, rgba(7,10,14,.14)); }
+.partner-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.partner-kicker { margin: 0 0 12px; color: var(--accent); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+.partner-title { margin: 0 0 16px; font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 46px); line-height: 1.2; }
+.partner-text { margin: 0 0 26px; color: var(--muted-light, #646a70); font-size: clamp(16px, 1.25vw, 19px); line-height: 1.8; max-width: 58ch; }
+.partner-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.partner-btn { display: inline-flex; align-items: center; min-height: 50px; padding: 0 26px; border-radius: 999px; background: var(--ink, #070a0e); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; }
+.partner-btn:hover { background: var(--accent); color: var(--ink, #070a0e); }
+.partner-link { color: var(--ink, #070a0e); font-weight: 600; text-decoration: underline; text-underline-offset: 5px; text-decoration-color: var(--accent); }
+.partner-code { display: inline-flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 20px; border-radius: 999px; border: 1.5px dashed var(--accent); background: transparent; color: var(--ink, #070a0e); font: inherit; cursor: pointer; }
+.partner-code b { font-family: var(--font-en); font-size: 18px; letter-spacing: .12em; }
+.partner-copy-hint { font-size: 13px; color: var(--muted-light, #646a70); }
+.partner-copied { display: none; font-size: 13px; color: var(--accent); font-weight: 600; }
+.partner-code.is-copied .partner-copy-hint { display: none; }
+.partner-code.is-copied .partner-copied { display: inline; }
+.partner-note { margin: 22px 0 0; font-size: 12px; color: var(--muted-light, #646a70); }
+.partner-mark { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 60%), linear-gradient(145deg, var(--accent), var(--ink, #070a0e)); box-shadow: 0 30px 80px rgba(0,0,0,.18); max-width: 300px; width: 100%; justify-self: center; }
+.partner-mark span { font-family: var(--font-en); font-weight: 600; font-size: clamp(36px, 4.6vw, 64px); letter-spacing: .08em; color: #fff; }
+@media (max-width: 860px) { .partner-inner { grid-template-columns: 1fr; } .partner-mark { display: none; } }
 </style>
 <script type="application/ld+json">
 {
@@ -2215,6 +2235,21 @@ aria-hidden="true">
 
 
 
+<section class="partner-band" id="skincare" aria-labelledby="skincare-title">
+<div class="partner-inner" data-reveal>
+<div class="partner-copy">
+<p class="partner-kicker"><span class="lang-ar">منتجات أنصح فيها</span><span class="lang-en">Products I recommend</span></p>
+<h2 class="partner-title" id="skincare-title"><span class="lang-ar">عناية بشرتك بين الجلسات</span><span class="lang-en">Skin care between sessions</span></h2>
+<p class="partner-text"><span class="lang-ar">منتجات العناية بالبشرة اللي أنصح فيها متوفرة عند Carefinity. استخدم كودي عند الطلب:</span><span class="lang-en">The skin-care products I recommend are available at Carefinity. Use my code when you order:</span></p>
+<div class="partner-actions">
+<button class="partner-code" type="button" onclick="(function(b){try{navigator.clipboard.writeText('MQ10')}catch(e){}b.classList.add('is-copied');setTimeout(function(){b.classList.remove('is-copied')},1800)})(this)"><b>MQ10</b><span class="partner-copy-hint"><span class="lang-ar">انسخ</span><span class="lang-en">Copy</span></span><span class="partner-copied"><span class="lang-ar">تم النسخ ✓</span><span class="lang-en">Copied ✓</span></span></button>
+<a class="partner-btn" href="https://carefinity-sa.com" target="_blank" rel="sponsored noopener"><span class="lang-ar">تسوّق من Carefinity ↗</span><span class="lang-en">Shop at Carefinity ↗</span></a>
+</div>
+<p class="partner-note"><span class="lang-ar">تعاون تجاري مع Carefinity</span><span class="lang-en">Commercial partnership with Carefinity</span></p>
+</div>
+<div class="partner-mark" aria-hidden="true"><span>MQ10</span></div>
+</div>
+</section>
 <section class="section faq-section theme-light" id="faq" aria-labelledby="faq-title">
 <div class="faq-layout">
 <div class="faq-intro">
