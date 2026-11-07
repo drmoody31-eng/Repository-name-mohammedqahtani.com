@@ -1245,6 +1245,9 @@ font-weight: 500;
 transition: transform .35s var(--ease), opacity .35s ease;
 }
 .mobile-booking.is-hidden { transform: translateY(90px); opacity: 0; }
+.mobile-booking.wa-bar{background:#25D366;color:#fff;font-weight:700;font-size:15px;gap:10px;box-shadow:0 14px 36px rgba(37,211,102,.35)}
+.mobile-booking.wa-bar .wa-icon{width:22px;height:22px;flex:none}
+
 
 [data-reveal] {
 opacity: 0;
@@ -1686,7 +1689,7 @@ html { background: var(--ink); }
  "honorificPrefix": "Dr.",
  "image": "https://mohammedqahtani.com/dr-mohammed.jpg",
  "url": "https://mohammedqahtani.com",
- "description": "Saudi consultant dermatologist in Riyadh (Noya Clinic) specializing in hair loss and regenerative aesthetics: collagen stimulators, polynucleotides and Botox, without filler.",
+ "description": "Saudi consultant dermatologist in Riyadh (Noya Clinic) specializing in hair loss and regenerative aesthetics: collagen stimulators and polynucleotides, without filler.",
  "medicalSpecialty": "Dermatology",
  "knowsAbout": [
   "Hair loss",
@@ -1701,15 +1704,13 @@ html { background: var(--ink); }
   "Poly-L-lactic acid",
   "Calcium hydroxylapatite",
   "Polynucleotides",
-  "Botulinum toxin",
   "Hyperhidrosis",
   "تساقط الشعر",
   "الصلع الوراثي",
   "استشاري جلدية",
   "استشاري الجلدية والتجميل",
   "محفزات الكولاجين",
-  "البولينيوكليوتيدات",
-  "البوتوكس"
+  "البولينيوكليوتيدات"
  ],
  "nationality": {
   "@type": "Country",
@@ -1871,8 +1872,8 @@ html { background: var(--ink); }
 <span class="ar">AR</span><span class="en">EN</span>
 </button>
 <a class="header-cta" href="https://mohammedqahtani.com/consultation/?type=aesthetics">
-<span class="lang-ar">احجز استشارتك</span>
-<span class="lang-en">Book a consultation</span>
+<span class="lang-ar">احجزي موعدك عبر واتساب</span>
+<span class="lang-en">Book on WhatsApp</span>
 </a>
 <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-expanded="false">
 <span></span>
@@ -1944,8 +1945,8 @@ aria-hidden="true">
 
 <div class="hero-actions">
 <a class="button-primary" href="https://mohammedqahtani.com/consultation/?type=aesthetics">
-<span class="lang-ar">احجز استشارتك</span>
-<span class="lang-en">Book a consultation</span>
+<span class="lang-ar">احجزي موعدك عبر واتساب</span>
+<span class="lang-en">Book on WhatsApp</span>
 <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M14 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 </div>
@@ -1984,7 +1985,7 @@ aria-hidden="true">
 <img class="method-image is-active" src="/assets/marking-cheek.jpg" alt="Reading the face" data-method-image="0">
 <img class="method-image" src="/assets/cannula-jawline.jpg" alt="Cannula treatment" data-method-image="1">
 <img class="method-image" src="/assets/stimulator-syringe.jpg" alt="Collagen stimulator and cannula" data-method-image="2">
-<img class="method-image" src="/dr-mohammed.jpg" alt="Dr. Mohammed AlQahtani" data-method-image="3">
+<img class="method-image" src="/assets/dr-mohammed-lp.jpg" alt="Dr. Mohammed AlQahtani" data-method-image="3" loading="lazy" decoding="async">
 <div class="method-visual-ui">
 <div class="method-counter"><b id="methodCurrent">01</b><span>/ 04</span></div>
 <div class="method-caption">
@@ -2082,7 +2083,7 @@ aria-hidden="true">
 <figure class="xr-card" data-reveal data-reveal-delay="1"><div class="xr-media"><img src="/assets/ba-cheeks-v3.jpg" alt="Left cheek & mid-face" loading="lazy" decoding="async"><span class="xr-tag xr-tag-before"><span class="lang-ar">قبل</span><span class="lang-en">Before</span></span><span class="xr-tag xr-tag-after"><span class="lang-ar">المتوقع</span><span class="lang-en">Expected</span></span></div><figcaption><strong><span class="lang-ar">الخد الأيسر ومنتصف الوجه</span><span class="lang-en">Left cheek & mid-face</span></strong><span class="xr-desc"><span class="lang-ar">رجّع السند، خفّ الظل تحت الوجنة — ما ضفنا حجم.</span><span class="lang-en">Support back, the shadow under the cheekbone softened — nothing added.</span></span></figcaption></figure>
 <figure class="xr-card" data-reveal data-reveal-delay="2"><div class="xr-media"><img src="/assets/ba-cheek-front-v3.jpg" alt="Cheek lift" loading="lazy" decoding="async"><span class="xr-tag xr-tag-before"><span class="lang-ar">قبل</span><span class="lang-en">Before</span></span><span class="xr-tag xr-tag-after"><span class="lang-ar">المتوقع</span><span class="lang-en">Expected</span></span></div><figcaption><strong><span class="lang-ar">رفع الخدود</span><span class="lang-en">Cheek lift</span></strong><span class="xr-desc"><span class="lang-ar">الخدود رجعت لمكانها والخط جنب الأنف خفّ — بدون حجم زايد.</span><span class="lang-en">Cheeks back where they were, the fold beside the nose softer — no added volume.</span></span></figcaption></figure>
 <figure class="xr-card" data-reveal data-reveal-delay="0"><div class="xr-media"><img src="/assets/ba-cheek-oblique-v3.jpg" alt="Cheek lift — oblique view" loading="lazy" decoding="async"><span class="xr-tag xr-tag-before"><span class="lang-ar">قبل</span><span class="lang-en">Before</span></span><span class="xr-tag xr-tag-after"><span class="lang-ar">المتوقع</span><span class="lang-en">Expected</span></span></div><figcaption><strong><span class="lang-ar">رفع الخدود — زاوية جانبية</span><span class="lang-en">Cheek lift — oblique view</span></strong><span class="xr-desc"><span class="lang-ar">سند منتصف الوجه رجع، والوجه يبان مرتاح.</span><span class="lang-en">Mid-face support restored; the face looks rested.</span></span></figcaption></figure>
-<figure class="xr-card" data-reveal data-reveal-delay="1"><div class="xr-media"><img src="/assets/ba-cheek-man-v3.jpg" alt="Cheek support in men" loading="lazy" decoding="async"><span class="xr-tag xr-tag-before"><span class="lang-ar">قبل</span><span class="lang-en">Before</span></span><span class="xr-tag xr-tag-after"><span class="lang-ar">المتوقع</span><span class="lang-en">Expected</span></span></div><figcaption><strong><span class="lang-ar">سند الخدود عند الرجال</span><span class="lang-en">Cheek support in men</span></strong><span class="xr-desc"><span class="lang-ar">التجوّف تحت الوجنة خفّ، والملامح نفسها.</span><span class="lang-en">The hollow under the cheekbone softened, same features.</span></span></figcaption></figure>
+
 <figure class="xr-card" data-reveal data-reveal-delay="2"><div class="xr-media"><img src="/assets/ba-glow-v3.jpg" alt="Skin quality" loading="lazy" decoding="async"><span class="xr-tag xr-tag-before"><span class="lang-ar">قبل</span><span class="lang-en">Before</span></span><span class="xr-tag xr-tag-after"><span class="lang-ar">المتوقع</span><span class="lang-en">Expected</span></span></div><figcaption><strong><span class="lang-ar">جودة البشرة</span><span class="lang-en">Skin quality</span></strong><span class="xr-desc"><span class="lang-ar">نضارة من الداخل، مو لمعة من فوق.</span><span class="lang-en">Glow from within, not shine on top.</span></span></figcaption></figure>
 <figure class="xr-card" data-reveal data-reveal-delay="0"><div class="xr-media"><img src="/assets/ba-temples-v3.jpg" alt="Temples & upper face" loading="lazy" decoding="async"><span class="xr-tag xr-tag-before"><span class="lang-ar">قبل</span><span class="lang-en">Before</span></span><span class="xr-tag xr-tag-after"><span class="lang-ar">المتوقع</span><span class="lang-en">Expected</span></span></div><figcaption><strong><span class="lang-ar">الصدغ وأعلى الوجه</span><span class="lang-en">Temples & upper face</span></strong><span class="xr-desc"><span class="lang-ar">الصدغ رجع له امتلاؤه، والوجه كله ارتفع شوي.</span><span class="lang-en">Temples refilled, the whole face lifted a little.</span></span></figcaption></figure>
 <figure class="xr-card" data-reveal data-reveal-delay="1"><div class="xr-media"><img src="/assets/ba-profile-v3.jpg" alt="Jaw angle & neck" loading="lazy" decoding="async"><span class="xr-tag xr-tag-before"><span class="lang-ar">قبل</span><span class="lang-en">Before</span></span><span class="xr-tag xr-tag-after"><span class="lang-ar">المتوقع</span><span class="lang-en">Expected</span></span></div><figcaption><strong><span class="lang-ar">زاوية الفك والرقبة</span><span class="lang-en">Jaw angle & neck</span></strong><span class="xr-desc"><span class="lang-ar">خط فكي أنظف، وتحت الذقن أشد — بدون حجم.</span><span class="lang-en">A cleaner jawline and a tighter angle under the chin — no volume.</span></span></figcaption></figure>
@@ -2184,7 +2185,7 @@ aria-hidden="true">
 
 <section class="section section-dark doctor-section theme-dark" id="about" aria-labelledby="doctor-title">
 <div class="doctor-portrait" data-reveal="right">
-<img src="/dr-mohammed.jpg" alt="Dr. Mohammed AlQahtani during a clinical procedure">
+<img src="/assets/dr-mohammed-lp.jpg" loading="lazy" decoding="async" alt="Dr. Mohammed AlQahtani during a clinical procedure">
 <div class="doctor-portrait-label"><strong><span class="lang-ar">الطب يبدأ بالتشخيص.</span><span class="lang-en">Medicine starts with diagnosis.</span></strong><span>Riyadh · Saudi Arabia</span></div>
 </div>
 
@@ -2208,7 +2209,7 @@ aria-hidden="true">
 
 <div class="doctor-actions" data-reveal>
 <a class="button-primary" href="https://mohammedqahtani.com/consultation/?type=aesthetics">
-<span class="lang-ar">احجز استشارتك</span><span class="lang-en">Book a consultation</span>
+<span class="lang-ar">احجزي موعدك عبر واتساب</span><span class="lang-en">Book on WhatsApp</span>
 <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M14 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 <span class="doctor-note"><span class="lang-ar">عيادات نويا، الرياض<br>+966 500 098 821</span><span class="lang-en">Noya Clinic, Riyadh<br>+966 500 098 821</span></span>
@@ -2251,7 +2252,7 @@ aria-hidden="true">
 <p><span class="lang-ar">عيادات نويا، الرياض — استشارة وحدة تحدد الطبقة والمحفّز، أو تقول لك إنك ما تحتاج شي.</span><span class="lang-en">Noya Clinic, Riyadh — one consultation sets the layer and the agent, or tells you that you need nothing.</span></p>
 <div class="hero-actions">
 <a class="button-primary" href="https://mohammedqahtani.com/consultation/?type=aesthetics">
-<span class="lang-ar">احجز استشارتك</span><span class="lang-en">Book your consultation</span>
+<span class="lang-ar">احجزي موعدك عبر واتساب</span><span class="lang-en">Book your visit on WhatsApp</span>
 <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M14 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 <a class="button-secondary" href="tel:+966500098821"><span class="lang-ar">اتصل بالعيادة</span><span class="lang-en">Call the clinic</span><span dir="ltr">+966 500 098 821</span></a>
@@ -2271,7 +2272,7 @@ aria-hidden="true">
 </div>
 <div class="footer-column"><h3><span class="lang-ar">التصفح</span><span class="lang-en">Explore</span></h3><a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span></a><a href="#conditions"><span class="lang-ar">المناطق</span><span class="lang-en">Areas</span></a><a href="/"><span class="lang-ar">قسم الشعر</span><span class="lang-en">Hair</span></a><a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span></a><a href="#library"><span class="lang-ar">الدليل الطبي</span><span class="lang-en">Medical library</span></a><a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span></a></div>
 <div class="footer-column"><h3><span class="lang-ar">العيادة</span><span class="lang-en">Clinic</span></h3><span><span class="lang-ar">عيادات نويا، الرياض</span><span class="lang-en">Noya Clinic, Riyadh</span></span><a href="tel:+966500098821" dir="ltr">+966 500 098 821</a><a href="mailto:mohammed.qahtani@hotmail.com">mohammed.qahtani@hotmail.com</a></div>
-<div class="footer-column"><h3><span class="lang-ar">الحجز</span><span class="lang-en">Booking</span></h3><a href="https://mohammedqahtani.com/consultation/?type=aesthetics"><span class="lang-ar">احجز استشارة</span><span class="lang-en">Book consultation</span></a><a href="#faq"><span class="lang-ar">الأسئلة الشائعة</span><span class="lang-en">FAQ</span></a></div>
+<div class="footer-column"><h3><span class="lang-ar">الحجز</span><span class="lang-en">Booking</span></h3><a href="https://mohammedqahtani.com/consultation/?type=aesthetics"><span class="lang-ar">احجزي موعدك</span><span class="lang-en">Book consultation</span></a><a href="#faq"><span class="lang-ar">الأسئلة الشائعة</span><span class="lang-en">FAQ</span></a></div>
 <div class="footer-column footer-social"><h3><span class="lang-ar">تابعني</span><span class="lang-en">Follow</span></h3><a href="https://www.instagram.com/dr__mohammedq/" target="_blank" rel="noopener me">Instagram</a><a href="https://www.tiktok.com/@dr__mohammedq" target="_blank" rel="noopener me">TikTok</a><a href="https://www.youtube.com/@dr__mohammedq" target="_blank" rel="noopener me">YouTube</a><a href="https://www.snapchat.com/add/dr-mohammedq" target="_blank" rel="noopener me">Snapchat</a><a href="https://x.com/Dr_Mohammedq" target="_blank" rel="noopener me">X</a></div>
 </div>
 <div class="footer-bottom">
@@ -2280,8 +2281,8 @@ aria-hidden="true">
 </div>
 </footer>
 
-<a class="mobile-booking is-hidden" id="mobileBooking" href="https://mohammedqahtani.com/consultation/?type=aesthetics">
-<span class="lang-ar">احجز استشارتك</span><span class="lang-en">Book a consultation</span>
+<a class="mobile-booking wa-bar is-hidden" id="mobileBooking" href="https://mohammedqahtani.com/consultation/?type=aesthetics"><svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.2z"/></svg>
+<span class="lang-ar">احجزي موعدك عبر واتساب</span><span class="lang-en">Book on WhatsApp</span>
 </a>
 
 <script>
@@ -2307,10 +2308,11 @@ let ticking = false;
 document.getElementById('year').textContent = new Date().getFullYear();
 
 const hideLoader = () => {
-window.setTimeout(() => loader.classList.add('is-hidden'), 360);
+window.setTimeout(() => loader.classList.add('is-hidden'), 80);
 };
 window.addEventListener('load', hideLoader, { once: true });
-window.setTimeout(hideLoader, 1900);
+window.setTimeout(hideLoader, 600);
+document.addEventListener('DOMContentLoaded', hideLoader, { once: true });
 
 // A soft fade at the beginning and end makes the short portrait film loop cinematically.
 if (!reduceMotion && heroVideo) {
@@ -2399,7 +2401,7 @@ heroCopy.style.opacity = String(1 - p * .88);
 }
 
 if (mobileBooking) {
-const nearTop = y < Math.min(360, window.innerHeight * .45);
+const nearTop = y < 80;
 const nearBottom = y + window.innerHeight > document.documentElement.scrollHeight - 560;
 mobileBooking.classList.toggle('is-hidden', nearTop || nearBottom || body.classList.contains('menu-open'));
 }
