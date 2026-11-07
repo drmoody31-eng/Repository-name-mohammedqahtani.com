@@ -1608,6 +1608,12 @@ align-items: start;
 .partner-mark { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 60%), linear-gradient(145deg, var(--accent), var(--ink, #070a0e)); box-shadow: 0 30px 80px rgba(0,0,0,.18); max-width: 300px; width: 100%; justify-self: center; }
 .partner-mark span { font-family: var(--font-en); font-weight: 600; font-size: clamp(36px, 4.6vw, 64px); letter-spacing: .08em; color: #fff; }
 @media (max-width: 860px) { .partner-inner { grid-template-columns: 1fr; } .partner-mark { display: none; } }
+
+.desktop-nav.nav-tight { gap: 12px; }
+.desktop-nav.nav-tight a { white-space: nowrap; }
+
+@media (min-width: 1101px) and (max-width: 1440px) { .site-header .brand-role { display: none; } .desktop-nav.nav-tight { gap: 10px; } }
+@media (min-width: 1101px) and (max-width: 1220px) { .desktop-nav.nav-tight { gap: 8px; font-size: 11px; } .site-header .header-cta { padding-inline: 14px; } }
 </style>
 <script type="application/ld+json">
 {
@@ -1730,13 +1736,14 @@ align-items: start;
 </a>
 <nav class="dept-switch" aria-label="Section"><a href="#top" class="is-active" aria-current="page"><span class="lang-ar">الشعر</span><span class="lang-en">Hair</span></a><a href="/aesthetics/"><span class="lang-ar">التجميل</span><span class="lang-en">Aesthetics</span></a></nav></div>
 
-<nav class="desktop-nav" aria-label="Primary navigation">
+<nav class="desktop-nav nav-tight" aria-label="Primary navigation">
 <a href="#approach"><span class="lang-ar">المنهج</span><span class="lang-en">Approach</span></a>
 <a href="#conditions"><span class="lang-ar">الحالات</span><span class="lang-en">Conditions</span></a>
 <a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span></a>
 <a href="#library"><span class="lang-ar">الدليل</span><span class="lang-en">Library</span></a>
 <a href="#results"><span class="lang-ar">النتائج</span><span class="lang-en">Results</span></a>
 <a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span></a>
+<a href="#formulas"><span class="lang-ar">تركيبات MQ</span><span class="lang-en">Formulas</span></a>
 <a href="#blog"><span class="lang-ar">المدونة</span><span class="lang-en">Blog</span></a>
 <a href="#faq"><span class="lang-ar">الأسئلة</span><span class="lang-en">FAQ</span></a>
 </nav>
@@ -1763,8 +1770,9 @@ align-items: start;
 <a href="#treatments"><span class="lang-ar">العلاجات</span><span class="lang-en">Treatments</span><span>03</span></a>
 <a href="#results"><span class="lang-ar">النتائج</span><span class="lang-en">Results</span><span>04</span></a>
 <a href="#about"><span class="lang-ar">عن الطبيب</span><span class="lang-en">About</span><span>05</span></a>
-<a href="#blog"><span class="lang-ar">المدونة</span><span class="lang-en">Blog</span><span>06</span></a>
-<a href="#faq"><span class="lang-ar">الأسئلة</span><span class="lang-en">FAQ</span><span>07</span></a>
+<a href="#formulas"><span class="lang-ar">تركيبات د. القحطاني للشعر</span><span class="lang-en">Dr. AlQahtani's hair formulas</span><span>06</span></a>
+<a href="#blog"><span class="lang-ar">المدونة</span><span class="lang-en">Blog</span><span>07</span></a>
+<a href="#faq"><span class="lang-ar">الأسئلة</span><span class="lang-en">FAQ</span><span>08</span></a>
 </nav>
 <div class="mobile-menu-footer">
 <span class="lang-ar">عيادات نويا، الرياض · +966 500 098 821</span>
