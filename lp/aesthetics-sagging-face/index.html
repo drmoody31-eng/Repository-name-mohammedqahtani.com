@@ -206,7 +206,7 @@ footer a{color:var(--text-muted)}
   var q=new URLSearchParams(location.search), ad=(q.get('ad')||'').trim(); if(!ad) return;
   var m=ad.match(/^(\d+)([a-zA-Z]+)$/), c='[AD-'+(m?m[1]+'-'+m[2].toUpperCase():ad.toUpperCase())+']';
   document.querySelectorAll('a[href*="wa.me"]').forEach(function(a){
-    var u=new URL(a.href); u.searchParams.set('text',(u.searchParams.get('text')||'')+' '+c); a.href=u.toString();
+    var parts=a.href.split('?text='); a.href=parts[0]+'?text='+encodeURIComponent(decodeURIComponent(parts[1]||'')+' '+c);
   });
 })();</script>
 </body>
