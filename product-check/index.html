@@ -875,7 +875,7 @@ function home() {
   if (p) {
     var type = typeName(p);
     return '<span class="micro">' + c.micro + '</span><h1>' + c.noun + '<br><em>' + esc(type) + '.</em></h1>' + typePhoto(p) + scaleHTML(p.oil, p.combo ? "مختلطة، دهنية في الوسط" : null) +
-      '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتجاتك ' + ARROW + '</button><button class="btn line" data-a="profile">تفاصيل نتيجتك والمنتجات المرشحة</button><button class="text-btn" data-a="quiz">' + G("أعد", "أعيدي") + ' الاختبار</button><button class="text-btn" data-a="gender">' + G("لست رجل؟ غيّر الاختيار", "لستِ امرأة؟ غيّري الاختيار") + '</button></div>';
+      '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتجاتك ' + ARROW + '</button><button class="btn line" data-a="profile">تفاصيل نتيجتك والمنتجات المرشحة</button><button class="btn line" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
   }
   return intro();
 }
@@ -899,7 +899,7 @@ function profile() {
     '<div class="cols"><div><span class="kicker">' + G("دوّر", "دوّري") + ' على</span><ul class="pm plus">' + m.want.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
     (m.avoid.length ? '<div><span class="kicker">' + G("ابتعد", "ابتعدي") + ' عن</span><ul class="pm minus">' + m.avoid.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : '') + '</div>' +
     picksHTML(p) +
-    '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتجاتك الحالية ' + ARROW + '</button><button class="btn line" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك و' + G("شاركها", "شاركيها") + '</button><button class="text-btn" data-a="quiz">' + G("أعد", "أعيدي") + ' الاختبار</button><button class="text-btn" data-a="gender">' + G("لست رجل؟ غيّر الاختيار", "لستِ امرأة؟ غيّري الاختيار") + '</button></div>';
+    '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتجاتك الحالية ' + ARROW + '</button><button class="btn line" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك و' + G("شاركها", "شاركيها") + '</button><button class="btn line" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
 }
 var CAM = '<svg viewBox="0 0 44 44" aria-hidden="true"><rect x="5" y="12" width="34" height="24" rx="5"/><circle cx="22" cy="24" r="7"/><path d="M16 12l2.4-4h7.2L28 12"/></svg>';
 function check() {
@@ -965,6 +965,7 @@ V.addEventListener("click", function (e) {
   if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; S.result = { prod: pr, src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
   var a = b.dataset.a;
   if (a === "quiz") { S.step = 0; S.answers = {}; go("quiz"); }
+  else if (a === "reset") { S.profiles = { hair: null, skin: null }; save(); S.gender = null; try { localStorage.removeItem("mqGender"); } catch (err) {} S.step = 0; S.answers = {}; S.result = null; S.q = ""; S.tab = HASAI ? "photo" : "list"; go("home"); }
   else if (a === "demo") { S.profiles[S.mode] = M().build(M().demo); go("profile"); }
   else if (a === "back") { S.step--; render(); }
   else if (a === "home") go("home");
