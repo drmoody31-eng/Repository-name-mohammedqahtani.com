@@ -223,7 +223,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     </div>
   </header>
   <main id="view"></main>
-  <footer><div class="sitelinks"><a href="/">موقع د. محمد القحطاني</a><a href="/consultation/">احجز استشارتك</a></div>محتوى تثقيفي عن العناية بالشعر والبشرة، وما يغني عن زيارة الطبيب. النتيجة تقدير لنوع الفروة أو البشرة وليست تشخيصاً. الصور والمشاهد توضيحية ومولّدة بالذكاء الاصطناعي، وليست لأشخاص حقيقيين.</footer>
+  <footer><div class="sitelinks"><a id="lnkSite" href="/">موقع د. محمد القحطاني</a><a id="lnkConsult" href="/consultation/">احجز استشارة الشعر</a></div>محتوى تثقيفي عن العناية بالشعر والبشرة، وما يغني عن زيارة الطبيب. النتيجة تقدير لنوع الفروة أو البشرة وليست تشخيصاً. الصور والمشاهد توضيحية ومولّدة بالذكاء الاصطناعي، وليست لأشخاص حقيقيين.</footer>
   <div id="toast" role="status" hidden></div>
 </div>
 <script src="data/products.js"></script>
@@ -837,6 +837,9 @@ function go(v) { S.view = v; S.err = ""; S.errName = ""; S.errSwitch = false; re
 function setMode(m, keepView) {
   if (!MODES[m]) return; S.mode = m; document.documentElement.setAttribute("data-mode", m);
   document.querySelectorAll("#dept button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === m)); });
+  var ls = document.getElementById("lnkSite"), lc = document.getElementById("lnkConsult");
+  if (ls) { ls.href = m === "skin" ? "/aesthetics/" : "/"; ls.textContent = m === "skin" ? "قسم التجميل، د. محمد القحطاني" : "موقع د. محمد القحطاني"; }
+  if (lc) { lc.href = m === "skin" ? "/consultation/?type=aesthetics" : "/consultation/"; lc.textContent = m === "skin" ? "احجز استشارة البشرة والتجميل" : "احجز استشارة الشعر"; }
   S.result = null; S.q = ""; S.busy = false; if (!keepView) go("home");
 }
 var ARROW = '<span class="arr" aria-hidden="true">←</span>';
