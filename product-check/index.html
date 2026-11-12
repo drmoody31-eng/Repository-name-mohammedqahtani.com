@@ -637,9 +637,10 @@ function alternatives(prod, p) {
 
 /* ---------- partner pharmacy: products we can link to, each with its page id on the pharmacy's store ---------- */
 var STORES = {
-  cf: { name: "Carefinity", link: function (r) { return "https://carefinity-sa.com/-/p" + r; } },
-  rl: { name: "RevitaLash", link: function (r) { return "https://revitalash.sa/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } },
-  zo: { name: "ZO Skin Health", link: function (r) { return "https://zoskinhealthsa.com/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } }
+  om: { name: "صيدلية ون ميد", code: "MQ5", link: function (r) { return "https://onemedph.com/ar/-/p" + r; } },
+  cf: { name: "Carefinity", code: "MQ10", link: function (r) { return "https://carefinity-sa.com/-/p" + r; } },
+  rl: { name: "RevitaLash", code: "MQ10", link: function (r) { return "https://revitalash.sa/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } },
+  zo: { name: "ZO Skin Health", code: "MQ10", link: function (r) { return "https://zoskinhealthsa.com/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } }
 };
 var PHARM = {
   name: "متاجرنا الشريكة",
@@ -650,11 +651,31 @@ var PHARM = {
   },
   /* name, category, flags, store, product reference on that store */
   hair: [
+    ["Seboradin Forte Shampoo", "shampoo", "", "om", 15121205],
+    ["ACM Novophane Energizing Shampoo", "shampoo", "mild", "om", 2001290223],
+    ["ACM Novophane DS Anti-Dandruff Shampoo", "shampoo", "ad,mild", "om", 1267140077],
+    ["ACM Novophane K Shampoo", "shampoo", "ad,sal", "om", 1091986152],
+    ["Seboradin Forte Hair Mask", "mask", "hum", "om", 125472762],
+    ["Seboradin Hydrobalance Moisturising Hair Cream", "conditioner", "hum", "om", 420099842],
     ["RevitaLash Thickening Conditioner", "conditioner", "light,hum,frag", "rl", "thickening-conditioner"],
     ["RevitaLash Leave-In Hair Mask Conditioner", "leavein", "light,hum,frag", "rl", "leave-in-hair-mask-conditioner-90ml"],
     ["RevitaLash Volume Enhancing Foam", "leavein", "light,hum", "rl", "volume-enhancing-foam"]
   ],
   skin: [
+    ["ACM Sebionex Foaming Gel", "cleanser", "foam", "om", 142864116],
+    ["ACM Sensitelial Cleansing Gel", "cleanser", "gentle", "om", 1237767230],
+    ["ACM Depiwhite Brightening Cleansing Foam", "cleanser", "foam", "om", 1436504991],
+    ["ACM Sebionex Hydra Repair Cream", "moisturizer", "light,ha", "om", 572298812],
+    ["ACM Sensitelial Dry Skin Emollient", "moisturizer", "rich", "om", 1370030011],
+    ["ACM Rosakalm Anti-Redness Cream", "moisturizer", "light", "om", 1051119595],
+    ["ACM Sebionex SPF50 Mattifying Sunblock Gel", "sunscreen", "spf,light,matte", "om", 1684036583],
+    ["ACM Medisun SPF50 Sunblock Gel", "sunscreen", "spf,light", "om", 1576057058],
+    ["ACM Medisun SPF100 Cream", "sunscreen", "spf,rich", "om", 1192763087],
+    ["ACM Depiwhite S SPF50+ Sunblock Cream", "sunscreen", "spf", "om", 1859256036],
+    ["ACM Sebionex Trio Anti-Imperfection Cream", "serum", "aha,sa,light,matte", "om", 875900150],
+    ["ACM Sebionex K Cream", "serum", "aha,sa", "om", 1516768757],
+    ["ACM Depiwhite Advanced Anti Dark Spots Cream", "serum", "vitc", "om", 1544091292],
+    ["ACM Duolys CE Serum", "serum", "vitc", "om", 951983589],
     ["FCL C Scape Cleanser", "cleanser", "vitc", "cf", 1744394692],
     ["FCL B Prox 10 Wash", "cleanser", "bpo,foam", "cf", 1133730525],
     ["FCL Moisturizing Drops Cream", "moisturizer", "ha", "cf", 178137093],
@@ -696,30 +717,54 @@ var ZOH = {
   wtr: "كريم-إصلاح-التجاعيد-تحسين-ملمس-البشرة-zo-wrinkle-texture-repair-0-5-retinol-50ml"
 };
 function concernPicks(p) {
-  var out = [], sens = p.sens === "yes";
+  var plan = pharmPlan(p), home = plan.st, out = [], sens = p.sens === "yes";
   function add(label, n, st, ph, why) { out.push({ label: label, p: { n: n, st: st, ph: ph }, why: why }); }
   if (p.mode === "skin") {
     if (p.dark === "yes") {
-      add("للهالات", "ZO Eye Brightening Crème", "zo", ZOH.eyeb, "كريم عين يفتّح الهالات السوداء");
-      add("للهالات", "FCL Eye Refining Matrix", "cf", 1611809476, "للهالات والانتفاخ والخطوط حول العين");
+      if (home === "cf") add("للهالات", "FCL Eye Refining Matrix", "cf", 1611809476, "للهالات والانتفاخ والخطوط حول العين");
+      else if (home === "om") add("للهالات", "ACM Depiwhite Eye Contour Gel", "om", 177945830, "جل للهالات السوداء حول العين");
+      else add("للهالات", "ZO Eye Brightening Crème", "zo", ZOH.eyeb, "كريم عين يفتّح الهالات السوداء");
     }
     if (p.pig === "yes" || p.pig === "light") {
-      add("للتصبغات", "ZO Brightalive", "zo", ZOH.bright, "ترانيكساميك ونياسيناميد للبقع، وبدون ريتينول");
-      if (!sens && p.pig === "yes") add("للتصبغات", "FCL AHA Lightening Gel", "cf", 716132720, "جليكوليك وألفا أربوتين، بالليل ومع واقي شمس");
-      else if (!sens) add("للتصبغات", "FCL C Scape Serum 25%", "cf", 237824807, "فيتامين سي الصبح تحت واقي الشمس");
+      if (home === "om") add("للتصبغات", "ACM Depiwhite Advanced Anti Dark Spots Cream", "om", 1544091292, "كريم مركّز للبقع الداكنة");
+      else if (home === "cf" && !sens) {
+        if (p.pig === "yes") add("للتصبغات", "FCL AHA Lightening Gel", "cf", 716132720, "جليكوليك وألفا أربوتين، بالليل ومع واقي شمس");
+        else add("للتصبغات", "FCL C Scape Serum 25%", "cf", 237824807, "فيتامين سي الصبح تحت واقي الشمس");
+      } else add("للتصبغات", "ZO Brightalive", "zo", ZOH.bright, "ترانيكساميك ونياسيناميد للبقع، وبدون ريتينول");
     }
     if (p.lines === "yes") {
-      if (sens) add("للخطوط", "ZO Growth Factor Serum", "zo", ZOH.gfs, "بدون ريتينول، ألطف على البشرة الحساسة");
-      else add("للخطوط", "ZO Wrinkle + Texture Repair 0.5% Retinol", "zo", ZOH.wtr, "ريتينول 0.5٪، يُستخدم بالليل وبالتدريج");
-      add("للخطوط حول العين", "ZO Intense Eye Crème", "zo", ZOH.eyei, "للخطوط الدقيقة حول العين");
+      var om = home === "om";
+      if (sens) add("للخطوط", "ZO Growth Factor Serum", om ? "om" : "zo", om ? 1618207132 : ZOH.gfs, "بدون ريتينول، ألطف على البشرة الحساسة");
+      else add("للخطوط", "ZO Wrinkle + Texture Repair 0.5% Retinol", om ? "om" : "zo", om ? 1793885329 : ZOH.wtr, "ريتينول 0.5٪، يُستخدم بالليل وبالتدريج");
+      add("للخطوط حول العين", "ZO Intense Eye Crème", om ? "om" : "zo", om ? 1760245479 : ZOH.eyei, "للخطوط الدقيقة حول العين");
     }
   } else {
+    if (p.issue === "dandruff") add("للقشرة", "Seboradin Anti-Dandruff Serum", "om", 440354354, "سيروم للفروة مع شامبو القشرة");
+    if (p.oil >= 3) add("للفروة الدهنية", "Seboradin Hair & Scalp Scrub", "om", 1981657901, "مقشّر للفروة ينظف الدهون المتراكمة، مرة بالأسبوع");
     if (p.lengths === "brittle" || p.chem === "bleach") add("للشعر المتقصف أو التالف", "RevitaLash Volume Enhancing Foam", "rl", "volume-enhancing-foam", "رغوة خفيفة ترطّب الشعر وتحميه من التقصف وما تثقله");
     if (p.lash === "lash" || p.lash === "both") add("للرموش", "RevitaLash Advanced Eyelash Conditioner", "rl", "revita-lash-advanced-eye-lash-conditioner", "سيروم للرموش، خط رفيع على منبت الرموش بالليل");
     if (p.lash === "brow" || p.lash === "both") add("للحواجب", "RevitaBrow Advanced Eyebrow Conditioner", "rl", "revitabrow-advanced-eyebrow-conditioner", "سيروم للحواجب، مرة باليوم");
   }
-  var taken = {}; pharmPicks(p).forEach(function (x) { taken[x.p.n] = 1; });
+  var taken = {}; plan.picks.forEach(function (x) { taken[x.p.n] = 1; });
   return out.filter(function (x) { if (taken[x.p.n]) return false; taken[x.p.n] = 1; return true; });
+}
+/* supplements for hair quality: brittle or chemically treated hair */
+function suppPicks(p) {
+  if (p.mode !== "hair" || !(p.lengths === "brittle" || (p.chem && p.chem !== "none"))) return [];
+  return [
+    { label: "مكمل", p: { n: "Pantogar 90 Capsules", st: "om", ph: 637298757 }, why: "كيراتين وأحماض أمينية وفيتامينات ب لجودة الشعر" },
+    { label: "مكمل", p: { n: "ACM Novophane Capsules", st: "om", ph: 194157901 }, why: "فيتامينات ومعادن للشعر والأظافر" },
+    { label: "مكمل", p: { n: "Nutrafol", st: "om", ph: 395164974 }, why: "مكمل يومي لجودة الشعر" }
+  ];
+}
+/* pharmacy compounds without medicines, shown as their own section */
+function compoundPicks(p) {
+  var out = [];
+  if (p.mode === "skin") {
+    if (p.pig === "yes" || p.pig === "light") out.push({ label: "تركيبة للتصبغات", p: { n: "One Med Niacinamide Cream", st: "om", ph: 1637879506 }, why: "نياسيناميد 5٪ وترانيكساميك 5٪ وألفا أربوتين 2٪، مرة باليوم" });
+    if (p.dark === "yes") out.push({ label: "تركيبة للهالات", p: { n: "One Med Eye Complex Cream", st: "om", ph: 618007900 }, why: "كافيين وفيتامين سي وألفا أربوتين وكوجيك للهالات والانتفاخ" });
+  }
+  return out;
 }
 var PHITEMS = { hair: null, skin: null };
 function pharmItems(mode) {
@@ -728,15 +773,32 @@ function pharmItems(mode) {
 }
 function pharmLink(prod) { return STORES[prod.st].link(prod.ph); }
 function pharmStore(prod) { return STORES[prod.st].name; }
-/* the best-matching pharmacy product for each step of a routine */
-function pharmPicks(p) {
-  var items = pharmItems(p.mode);
-  return PHARM.slots[p.mode].map(function (slot) {
-    var best = null;
-    items.forEach(function (x) { if (slot[2].indexOf(x.c) < 0) return; var r = scoreProduct(x, p); if (!best || r.score > best.r.score) best = { p: x, r: r }; });
-    return best && best.r.score >= 70 ? { label: slot[1], p: best.p, s: best.r.score, why: best.r.pros.length ? best.r.pros[0].t : "" } : null;
+/* the best-matching partner product for each step of a routine, kept on ONE store where possible:
+   the store that covers the most steps wins (ties go to the higher total score, then to a brand's own site) */
+function pharmPlan(p, skip) {
+  var items = pharmItems(p.mode), slots = PHARM.slots[p.mode], stores = {}, top = null;
+  function best(slot, st) {
+    var b = null;
+    items.forEach(function (x) { if (slot[2].indexOf(x.c) < 0 || (st && x.st !== st)) return; var r = scoreProduct(x, p); if (!b || r.score > b.r.score) b = { p: x, r: r }; });
+    return b && b.r.score >= 70 ? b : null;
+  }
+  items.forEach(function (x) { if (x.st !== skip) stores[x.st] = 1; });
+  Object.keys(stores).forEach(function (st) {
+    var got = slots.map(function (sl) { return best(sl, st); }), n = got.filter(Boolean).length, sum = 0;
+    got.forEach(function (g) { if (g) sum += g.r.score; });
+    var key = n * 1000 + sum + (st !== "om" ? 0.5 : 0);
+    if (n && (!top || key > top.key)) top = { st: st, got: got, key: key };
+  });
+  if (!top) return { st: null, picks: [] };
+  var picks = slots.map(function (slot, i) {
+    var b = top.got[i] || (skip ? null : best(slot, null));
+    return b ? { label: slot[1], p: b.p, s: b.r.score, why: b.r.pros.length ? b.r.pros[0].t : "" } : null;
   }).filter(Boolean);
+  return { st: top.st, picks: picks };
 }
+function pharmPicks(p) { return pharmPlan(p).picks; }
+/* a second complete routine from another store, when one covers at least three steps */
+function pharmSecond(p) { var a = pharmPlan(p); if (!a.st) return null; var b = pharmPlan(p, a.st); return b.st && b.picks.length >= 3 ? b : null; }
 /* split an INCI list on commas that are not inside brackets */
 function splitIngredients(text) {
   var out = [], depth = 0, cur = "", t = String(text).replace(/\s+/g, " ");
@@ -876,21 +938,26 @@ function typePhoto(p) {
   if (S.mode === "skin") word = p.oil <= 1 ? "الجافة" : p.oil === 2 ? "المتوازنة" : "الدهنية";
   return '<figure class="shot"><img src="media/type-' + mediaKey() + '-' + b + '.webp" width="640" height="640" alt="' + c.look + ' ' + word + '"><figcaption><span>' + c.look + ' ' + word + '</span><small>صورة توضيحية</small></figcaption></figure>';
 }
+function pickCard(x) {
+  return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[x.p.st].code) + '"><span class="slot">' + x.label + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
+    (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip(x.p) + '</span></a>';
+}
 function picksHTML(p) {
-  var picks = pharmPicks(p); if (!picks.length) return "";
-  return '<div class="picks"><span class="kicker">الأنسب لك من ' + PHARM.name + '</span>' + picks.map(function (x) {
-    return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">' + x.label + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
-      (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>';
-  }).join("") + '<p class="small muted">' + (PHARM.code ? 'كود الخصم ' + esc(PHARM.code) + ' ينسخ تلقائياً لما ' + G("تضغط", "تضغطين") + ' على المنتج، ' + G("الصقه", "الصقيه") + ' عند الدفع.' : 'كود الخصم يظهر هنا وينسخ تلقائياً أول ما يتفعّل.') + ' ترشيحات آلية حسب نتيجتك. تعاون تجاري مع Carefinity و RevitaLash و ZO Skin Health.</p></div>';
+  var plan = pharmPlan(p), picks = plan.picks; if (!picks.length) return "";
+  var alt = pharmSecond(p);
+  return '<div class="picks"><span class="kicker">الأنسب لك من ' + esc(STORES[plan.st].name) + '</span>' + picks.map(pickCard).join("") +
+    (alt ? '<span class="kicker" style="margin-top:22px">خيار ثاني من ' + esc(STORES[alt.st].name) + '</span>' + alt.picks.map(pickCard).join("") : '') +
+    '<p class="small muted">كود الخصم ينسخ تلقائياً لما ' + G("تضغط", "تضغطين") + ' على المنتج، ' + G("الصقه", "الصقيه") + ' عند الدفع. ترشيحات آلية حسب نتيجتك. تعاون تجاري مع صيدلية ون ميد و Carefinity و RevitaLash و ZO Skin Health.</p></div>';
 }
 function concernHTML(p) {
-  var picks = concernPicks(p); if (!picks.length) return "";
-  return '<div class="picks"><span class="kicker">للأشياء اللي ' + G("ذكرتها", "ذكرتيها") + '</span>' + picks.map(function (x) {
-    return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">' + x.label + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
-      '<span class="why">' + esc(W(x.why)) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>';
-  }).join("") + '</div>';
+  var h = "", c = concernPicks(p), k = compoundPicks(p), sp = suppPicks(p);
+  if (c.length) h += '<div class="picks"><span class="kicker">للأشياء اللي ' + G("ذكرتها", "ذكرتيها") + '</span>' + c.map(pickCard).join("") + '</div>';
+  if (k.length) h += '<div class="picks"><span class="kicker">تركيبات من صيدلية ون ميد</span>' + k.map(pickCard).join("") + '</div>';
+  if (sp.length) h += '<div class="picks"><span class="kicker">مكملات لجودة الشعر</span>' + sp.map(pickCard).join("") + '<p class="small muted">' + W("واحد منها يكفي، والنتيجة تبان بعد ثلاث شهور تقريباً. اسأل طبيبك قبلها لو عندك حمل أو رضاعة أو تاخذ أدوية.") + '</p></div>';
+  if (p.mode === "hair") h += '<div class="picks"><span class="kicker">تركيبات الشعر من د. محمد</span><p class="small muted">تركيبات علاج التساقط تُصرف بعد الاستشارة، لأنها تتحدد حسب التشخيص. <a href="https://mohammedqahtani.com/consultation/" style="color:var(--accent)">' + G("احجز", "احجزي") + ' استشارة شعر</a></p></div>';
+  return h;
 }
-function codeChip() { return PHARM.code ? '<span class="code">' + esc(PHARM.code) + '</span>' : '<span class="code soon">كود الخصم قريباً</span>'; }
+function codeChip(prod) { return '<span class="code">' + esc(STORES[prod.st].code) + '</span>'; }
 function home() {
   var c = COPY[S.mode], p = P();
   if (!S.gender) {
@@ -961,7 +1028,7 @@ function result() {
       : '<p class="note">ما فيه شي في تركيبته يتعارض مع نتيجتك، ولا شي يميّزه لك.</p>') +
     '<p class="note">' + esc(W(r.src)) + (r.note ? ' ' + esc(W(r.note)) : '') + '</p>' +
     (r.scan && r.matched ? '<button class="text-btn dark" data-a="notmine">مو هذا منتجك؟</button>' : '') + '</div>';
-  if (alts.length) h += '<div class="picks"><span class="kicker">أنسب لك من ' + PHARM.name + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>'; }).join("") + '</div>';
+  if (alts.length) h += '<div class="picks"><span class="kicker">أنسب لك من ' + PHARM.name + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[a.p.st].code) + '"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip(a.p) + '</span></a>'; }).join("") + '</div>';
   return h + '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتج ثاني ' + ARROW + '</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
 }
 function toast(t) { var el = document.getElementById("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 2600); }
@@ -977,7 +1044,7 @@ document.getElementById("dept").addEventListener("click", function (e) { var b =
 document.getElementById("brand").addEventListener("click", function () { go("home"); });
 V.addEventListener("click", function (e) {
   var link = e.target.closest("a[data-ph]");
-  if (link) { if (PHARM.code) { navigator.clipboard.writeText(PHARM.code).then(function () { toast("تم نسخ كود الخصم " + PHARM.code); }).catch(function () {}); } return; }
+  if (link) { var code = link.getAttribute("data-ph"); if (code) { navigator.clipboard.writeText(code).then(function () { toast("تم نسخ كود الخصم " + code); }).catch(function () {}); } return; }
   var b = e.target.closest("button"); if (!b) return;
   if (b.dataset.g) { S.gender = b.dataset.g; try { localStorage.setItem("mqGender", S.gender); } catch (err) {} go("home"); return; }
   if (b.dataset.ans != null) {
