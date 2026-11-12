@@ -259,13 +259,12 @@ var HAIR = {
     { k: "chem", q: "هل شعرك معالَج كيميائياً؟", o: [["none", "لا"], ["color", "صبغة"], ["bleach", "تشقير أو هايلايت"], ["keratin", "بروتين أو كيراتين"]] },
     { k: "heat", q: "كم مرة تستخدم الاستشوار أو السيراميك؟", o: [["high", "ثلاث مرات بالأسبوع أو أكثر"], ["low", "قليل أو أبداً"]] },
     { k: "texture", q: "وش شكل شعرتك؟", o: [["fine", "ناعمة وخفيفة، تطيح بسرعة"], ["medium", "متوسطة"], ["curly", "كيرلي أو مموّج وكثيف"]] },
-    { k: "thin", q: "هل تحس شعرك خفيف أو قلّت كثافته؟", o: [["yes", "إيه، صار أخف من قبل"], ["no", "لا، كثافته زينة"]] },
     { k: "lash", q: "هل رموشك أو حواجبك خفيفة؟", o: [["lash", "الرموش"], ["brow", "الحواجب"], ["both", "الاثنين"], ["no", "لا"]] }
   ],
   demo: { q1: 3, q2: 4, issue: "none", lengths: "dry", chem: "color", heat: "high", texture: "medium" },
   build: function (a) {
     var oil = Math.max(0, Math.min(4, Math.round((2 * a.q1 + a.q2) / 3)));
-    return { mode: "hair", oil: oil, issue: a.issue, lengths: a.lengths, chem: a.chem, heat: a.heat, texture: a.texture, thin: a.thin || "no", lash: a.lash || "no" };
+    return { mode: "hair", oil: oil, issue: a.issue, lengths: a.lengths, chem: a.chem, heat: a.heat, texture: a.texture, lash: a.lash || "no" };
   },
   summary: function (p) {
     var rows = [
@@ -275,7 +274,7 @@ var HAIR = {
       ["الحرارة", p.heat === "high" ? "استشوار وسيراميك كثير" : "قليل"],
       ["الشعرة", { fine: "ناعمة وخفيفة", medium: "متوسطة", curly: "كيرلي" }[p.texture]]
     ];
-    var extra = []; if (p.thin === "yes") extra.push("خفّة الشعر"); if (p.lash === "lash" || p.lash === "both") extra.push("خفّة الرموش"); if (p.lash === "brow" || p.lash === "both") extra.push("خفّة الحواجب");
+    var extra = []; if (p.lash === "lash" || p.lash === "both") extra.push("خفّة الرموش"); if (p.lash === "brow" || p.lash === "both") extra.push("خفّة الحواجب");
     if (extra.length) rows.push(["ذكرت", extra.join("، ")]);
     var want = [], avoid = [];
     if (p.oil >= 3) want.push("شامبو ينظف بعمق"); else if (p.oil <= 1) want.push("شامبو لطيف بدون سلفات قوية"); else want.push("شامبو متوازن للاستخدام اليومي");
@@ -715,7 +714,7 @@ function concernPicks(p) {
       add("للخطوط حول العين", "ZO Intense Eye Crème", "zo", ZOH.eyei, "للخطوط الدقيقة حول العين");
     }
   } else {
-    if (p.thin === "yes") add("لكثافة الشعر", "RevitaLash Volume Enhancing Foam", "rl", "volume-enhancing-foam", "رغوة خفيفة تعطي الشعر كثافة وما تثقله");
+    if (p.lengths === "brittle" || p.chem === "bleach") add("للشعر المتقصف أو التالف", "RevitaLash Volume Enhancing Foam", "rl", "volume-enhancing-foam", "رغوة خفيفة ترطّب الشعر وتحميه من التقصف وما تثقله");
     if (p.lash === "lash" || p.lash === "both") add("للرموش", "RevitaLash Advanced Eyelash Conditioner", "rl", "revita-lash-advanced-eye-lash-conditioner", "سيروم للرموش، خط رفيع على منبت الرموش بالليل");
     if (p.lash === "brow" || p.lash === "both") add("للحواجب", "RevitaBrow Advanced Eyebrow Conditioner", "rl", "revitabrow-advanced-eyebrow-conditioner", "سيروم للحواجب، مرة باليوم");
   }
@@ -889,7 +888,7 @@ function concernHTML(p) {
   return '<div class="picks"><span class="kicker">للأشياء اللي ' + G("ذكرتها", "ذكرتيها") + '</span>' + picks.map(function (x) {
     return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">' + x.label + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
       '<span class="why">' + esc(W(x.why)) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>';
-  }).join("") + (p.mode === "hair" && p.thin === "yes" ? '<p class="small muted">خفّة الشعر لها أسباب كثيرة، والمنتجات ما تعالج السبب. <a href="https://mohammedqahtani.com/consultation/" style="color:var(--accent)">' + G("احجز", "احجزي") + ' استشارة شعر</a> عشان تعرف السبب.</p>' : '') + '</div>';
+  }).join("") + '</div>';
 }
 function codeChip() { return PHARM.code ? '<span class="code">' + esc(PHARM.code) + '</span>' : '<span class="code soon">كود الخصم قريباً</span>'; }
 function home() {
