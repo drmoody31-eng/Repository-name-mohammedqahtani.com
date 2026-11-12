@@ -628,90 +628,64 @@ function alternatives(prod, p) {
 }
 
 /* ---------- partner pharmacy: products we can link to, each with its page id on the pharmacy's store ---------- */
+var STORES = {
+  cf: { name: "Carefinity", link: function (r) { return "https://carefinity-sa.com/-/p" + r; } },
+  rl: { name: "RevitaLash", link: function (r) { return "https://revitalash.sa/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } },
+  zo: { name: "ZO Skin Health", link: function (r) { return "https://zoskinhealthsa.com/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } }
+};
 var PHARM = {
-  name: "صيدلية ون ميد", url: "https://onemedph.com/ar/-/p",
-  code: "",        /* discount code, shown and copied on click once the pharmacy issues it */
-  linkSuffix: "",  /* text added to every product link if the pharmacy's coupon link needs one */
+  name: "متاجرنا الشريكة",
+  code: "MQ10",   /* same code on the three partner stores; shown and copied on click */
   slots: {
     hair: [["shampoo", "الشامبو", ["shampoo"]], ["care", "البلسم أو الماسك", ["conditioner", "mask"]], ["after", "بعد الغسيل", ["leavein", "oil", "serum"]]],
     skin: [["cleanser", "الغسول", ["cleanser"]], ["moist", "المرطب", ["moisturizer"]], ["sun", "واقي الشمس", ["sunscreen"]], ["treat", "العلاج", ["serum", "toner"]]]
   },
+  /* name, category, flags, store, product reference on that store */
   hair: [
-    ["Nizoral 2% Shampoo", "shampoo", "ss,ad", 414778168],
-    ["Vichy Dercos Anti-Dandruff Shampoo, Normal to Oily Hair", "shampoo", "ss,ad,sal", 825039028],
-    ["Vichy Dercos Anti-Dandruff Shampoo, Dry Hair", "shampoo", "ss,ad,sal,hum", 419849616],
-    ["Vichy Dercos Sensitive Shampoo", "shampoo", "mild,fragfree", 682996641],
-    ["Maru-Derm SLES-Free Anti-Dandruff Shampoo", "shampoo", "mild,ad", 2040848637],
-    ["ISDIN Nutradeica Anti-Oily Dandruff Shampoo", "shampoo", "ad,sal", 1490585214],
-    ["Clear Anti-Dandruff Soft & Shiny Shampoo", "shampoo", "ss,ad,sil,frag", 1533734752],
-    ["Clear Men Cool Sport Menthol Shampoo", "shampoo", "ss,ad,sil,frag", 1570247061],
-    ["ACM Novophane DS Anti-Dandruff Shampoo", "shampoo", "ad", 1267140077],
-    ["TRESemmé Botanix Nourish & Replenish Shampoo", "shampoo", "ss,sil,light,frag", 152636036],
-    ["TRESemmé Botanix Curl Hydration Shampoo", "shampoo", "ss,sil,heavy,frag", 934266290],
-    ["Vichy Dercos Energizing Shampoo", "shampoo", "ss,frag", 434949209],
-    ["Maru-Derm Hair Repair Conditioner", "conditioner", "sil,protein", 1266749438],
-    ["TRESemmé Colour Shineplex Conditioner", "conditioner", "sil,light,frag", 401808533],
-    ["Mielle Rosemary Mint Strengthening Conditioner", "conditioner", "heavy,protein,frag", 903831222],
-    ["Hush & Hush DeeplyRooted Conditioner", "conditioner", "hum,light", 1124097431],
-    ["Mielle Rosemary Mint Hair Mask", "mask", "heavy,protein,frag", 594525105],
-    ["Anivagene Hair Repairing Mask", "mask", "sil,protein", 1586990612],
-    ["Seboradin Hydrobalance Moist Hair Cream", "leavein", "hum,light", 420099842],
-    ["Dabur Vatika Hair Fall Control Hair Cream", "leavein", "heavy,frag", 334531107],
-    ["Trichup Anti-Dandruff Hair Oil", "oil", "heavy,frag", 425425684]
+    ["RevitaLash Thickening Conditioner", "conditioner", "light,hum,frag", "rl", "thickening-conditioner"],
+    ["RevitaLash Leave-In Hair Mask Conditioner", "leavein", "light,hum,frag", "rl", "leave-in-hair-mask-conditioner-90ml"],
+    ["RevitaLash Volume Enhancing Foam", "leavein", "light,hum", "rl", "volume-enhancing-foam"]
   ],
   skin: [
-    ["CeraVe Hydrating Cleanser", "cleanser", "gentle,cer,ha,fragfree", 1767836738],
-    ["CeraVe Foaming Cleanser", "cleanser", "foam,cer,nia,fragfree", 1128616715],
-    ["CeraVe SA Smoothing Cleanser", "cleanser", "sa,cer,fragfree", 387618942],
-    ["CeraVe Blemish Control Cleanser", "cleanser", "sa,foam,nia,fragfree", 428489587],
-    ["La Roche-Posay Effaclar Purifying Foaming Gel", "cleanser", "foam,frag", 199780642],
-    ["Bioderma Sébium Foaming Gel", "cleanser", "foam,frag", 1134325846],
-    ["Bioderma Sensibio Mild Cleansing Foaming Gel", "cleanser", "gentle,fragfree", 777770313],
-    ["Vichy Normaderm Phytosolution Purifying Gel", "cleanser", "sa,foam,frag", 117087113],
-    ["QV Face Gentle Cleanser", "cleanser", "gentle,fragfree", 195918709],
-    ["PanOxyl 4% Creamy Wash", "cleanser", "bpo,foam", 1060816124],
-    ["Bioderma Sensibio H2O Micellar Water", "cleanser", "gentle,fragfree", 9984349],
-    ["CeraVe Moisturizing Cream", "moisturizer", "rich,cer,ha,fragfree", 2078922511],
-    ["CeraVe PM Facial Moisturizing Lotion", "moisturizer", "light,cer,nia,ha,fragfree", 1226252518],
-    ["CeraVe Moisturizing Lotion", "moisturizer", "light,cer,ha,fragfree", 212460921],
-    ["Cetaphil Moisturizing Cream", "moisturizer", "rich,fragfree", 603709040],
-    ["Cetaphil Pro Acne Prone Moisturising Lotion", "moisturizer", "light,matte,fragfree", 1099178404],
-    ["Bioderma Sébium Hydra Moisturising Cream", "moisturizer", "light,ha,frag", 277654754],
-    ["Uriage Hyséac Hydra Moisturising Cream", "moisturizer", "light,ha,frag", 72549393],
-    ["Dermedic Normacne Mattifying Moisturizing Cream", "moisturizer", "light,matte", 105508448],
-    ["Dermedic Hydrain3 Ultra-Hydrating Cream-Gel", "moisturizer", "light,ha", 146440549],
-    ["La Roche-Posay Cicaplast Baume B5+", "moisturizer", "rich,ha,fragfree", 687567752],
-    ["Uriage Xémose Lipid-Replenishing Cream", "moisturizer", "rich,fragfree", 1177798662],
-    ["QV Face Ultra Calming Moisturiser", "moisturizer", "cer,fragfree", 1807596756],
-    ["La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+", "sunscreen", "spf,light,alc", 681999892],
-    ["La Roche-Posay Anthelios UVMune 400 Hydrating Cream SPF50+", "sunscreen", "spf,rich", 1536673582],
-    ["Bioderma Photoderm Aquafluide SPF50+", "sunscreen", "spf,light", 1710253720],
-    ["Bioderma Photoderm AKN Mat SPF30", "sunscreen", "spf,light,matte", 955595296],
-    ["Uriage Hyséac Fluid SPF50+", "sunscreen", "spf,light,matte", 388238361],
-    ["Vichy Idéal Soleil Dry Touch Fluid SPF50", "sunscreen", "spf,light,matte", 164280365],
-    ["EltaMD UV Clear SPF46", "sunscreen", "spf,light,nia,fragfree", 1287819078],
-    ["CeraVe AM Facial Moisturising Lotion SPF30", "sunscreen", "spf,light,cer,nia,fragfree", 772589582],
-    ["Isispharma Uveblock Dry Touch SPF50+", "sunscreen", "spf,light,matte", 959974183],
-    ["Maru-Derm Niacinamide 10% Serum", "serum", "nia,light", 1684162032],
-    ["La Roche-Posay Effaclar Ultra Concentrated Serum", "serum", "sa,aha,nia", 1407917748],
-    ["La Roche-Posay Mela B3 Serum", "serum", "nia,frag", 1929279244],
-    ["CeraVe Resurfacing Retinol Serum", "serum", "ret,nia,cer,fragfree", 43095887],
-    ["ISDIN Hyaluronic Concentrate Serum", "serum", "ha", 1180999476],
-    ["SkinCeuticals Hydrating B5 Gel", "serum", "ha,fragfree", 1101686769],
-    ["ISDIN Isdinceutics Retinal Intense Serum", "serum", "ret", 447828266],
-    ["Uriage Dépiderm Brightening Booster Serum", "serum", "vitc,nia", 985550553],
-    ["SkinCeuticals Serum 10", "serum", "vitc", 1501299985],
-    ["Sesderma Azelac Lotion", "serum", "aza", 956036515],
-    ["Maru-Derm Glycolic Acid 7% Toner", "toner", "aha", 485939700],
-    ["Maru-Derm AHA 10% + BHA 2% Peeling Serum", "toner", "aha,sa", 1900846058]
+    ["FCL C Scape Cleanser", "cleanser", "vitc", "cf", 1744394692],
+    ["FCL B Prox 10 Wash", "cleanser", "bpo,foam", "cf", 1133730525],
+    ["FCL Moisturizing Drops Cream", "moisturizer", "ha", "cf", 178137093],
+    ["FCL Lightweight SPF 80+ Sunscreen", "sunscreen", "spf,light,matte", "cf", 205679976],
+    ["FCL C Scape Serum 25%", "serum", "vitc", "cf", 237824807],
+    ["FCL Alpha Beta Gel", "serum", "aha,sa,ret,light", "cf", 143452956],
+    ["FCL AHA Lightening Gel", "serum", "aha", "cf", 716132720],
+    ["FCL Penta Peel Pads", "toner", "aha,ha", "cf", 1049648694],
+    ["FCL Face Toner", "toner", "light,matte", "cf", 1521760927],
+    ["ZO Gentle Cleanser", "cleanser", "gentle", "zo", "غسول-منظف-لجميع-انواع-البشرة-zo-gentle-cleanser-200ml"],
+    ["ZO Exfoliating Cleanser", "cleanser", "sa,foam", "zo", "غسول-ومقشر-للبشرة-المختلطة-الدهنية-zo-exfoliating-cleanser-200ml"],
+    ["ZO Hydrating Cleanser", "cleanser", "gentle,ha", "zo", "غسول-مزدوج-المفعول-للبشرة-العادية-و-الجافة-zo-hydrating-cleanser-200ml"],
+    ["ZO Balancing Cleansing Emulsion", "cleanser", "gentle,fragfree", "zo", "غسول-البشرة-الحساسة-zo-balancing-cleansing-emulsion-200ml"],
+    ["ZO Hydrating Cream", "moisturizer", "rich,ha", "zo", "كريم-ترطيب-للبشرة-العادية-إلى-الجافة-والحساسة-zo-hydrating-cream-113g"],
+    ["ZO Recovery Crème", "moisturizer", "rich,ret,cer", "zo", "كريم-ليلي-لتجديد-وترطيب-البشرة-الجافة-إلى-الحساسة-zo-recovery-creme-50ml"],
+    ["ZO Renewal Crème", "moisturizer", "rich,ha", "zo", "كريم-تجديد-البشرة-النهاري-للبشرة-الجافة-إلى-الحساسة-zo-renewal-creme-50ml"],
+    ["ZO Daily Power Defense", "moisturizer", "light,ret,cer", "zo", "كريم-مضادات-الأكسدة-لمكافحة-الشيخوخة-zo-daily-power-defense-50ml"],
+    ["ZO Sheer Fluid Broad-Spectrum SPF50", "sunscreen", "spf,light,mineral,fragfree", "zo", "واقي-الشمس-السائل-خفيف-الملمس-zo-sheer-fluid-broad-spectrum-sunscreen-spf50-50ml"],
+    ["ZO Complexion Clarifying Serum", "serum", "light,matte", "zo", "سيروم-تنقية-البشرة-complexion-clarifying-serum"],
+    ["ZO Illuminating AOX Serum", "serum", "vitc", "zo", "zo-illuminating-aox-serum-50ml-سيروم-aox-المضاد-للأكسدة-لحماية-وتفتيح-البشرة"],
+    ["ZO 10% Vitamin C Self-Activating", "serum", "vitc", "zo", "كريم-فيتامين-سي-لإضاءة-وتعزيز-لون-البشرة-zo-10-vitamin-c-self-activating-50ml"],
+    ["ZO Retinol Skin Brightener 1%", "serum", "ret", "zo", "كريم-الريتينول-لتحسين-وتفتيح-لون-البشرة-zo-retinol-skin-brightener-1-30ml"],
+    ["ZO Wrinkle + Texture Repair 0.5% Retinol", "serum", "ret", "zo", "كريم-إصلاح-التجاعيد-تحسين-ملمس-البشرة-zo-wrinkle-texture-repair-0-5-retinol-50ml"],
+    ["ZO Brightalive", "serum", "nia", "zo", "كريم-التفتيح-برايتالايف-لبشرة-أكثر-إشراقاً-وتوحيداً-zo-brightalive-50ml"],
+    ["ZO Rozatrol", "serum", "light", "zo", "سيروم-للبشرة-الحمراء-الجافة-إلى-الحساسة-zo-rozatrol-50ml"],
+    ["ZO Instant Pore Refiner", "serum", "sa,matte,light", "zo", "سيروم-تصغير-المسام-الفوري-لجميع-أنواع-البشرة-zo-instant-pore-refiner-29g"],
+    ["ZO Exfoliation Accelerator", "serum", "aha", "zo", "مقشر-لإزالة-خلايا-الجلد-الميتة-وتهدئة-البشرة-zo-exfoliation-accelerator-50ml"],
+    ["ZO Calming Toner", "toner", "ha", "zo", "تونر-مهدئ-للبشرة-العادية-إلى-الجافة-zo-calming-toner-180ml"],
+    ["ZO Oil Control Pads", "toner", "sa,aha", "zo", "مسحات-للبشرة-الدهنية-المعرضة-لحب-الشباب-zo-oil-control-60-pads"],
+    ["ZO Complexion Renewal Pads", "toner", "aha,sa", "zo", "مسحات-تنظيف-و-إزالة-الدهون-لجميع-أنواع-البشرة-zo-complexion-renewal-60-pads"]
   ]
 };
 var PHITEMS = { hair: null, skin: null };
 function pharmItems(mode) {
-  if (!PHITEMS[mode]) PHITEMS[mode] = PHARM[mode].map(function (r) { return { n: r[0], c: r[1], f: r[2].split(","), ph: r[3], cur: true }; });
+  if (!PHITEMS[mode]) PHITEMS[mode] = PHARM[mode].map(function (r) { return { n: r[0], c: r[1], f: r[2].split(","), st: r[3], ph: r[4], cur: true }; });
   return PHITEMS[mode];
 }
-function pharmLink(prod) { return PHARM.url + prod.ph + PHARM.linkSuffix; }
+function pharmLink(prod) { return STORES[prod.st].link(prod.ph); }
+function pharmStore(prod) { return STORES[prod.st].name; }
 /* the best-matching pharmacy product for each step of a routine */
 function pharmPicks(p) {
   var items = pharmItems(p.mode);
@@ -864,8 +838,8 @@ function picksHTML(p) {
   var picks = pharmPicks(p); if (!picks.length) return "";
   return '<div class="picks"><span class="kicker">الأنسب لك من ' + PHARM.name + '</span>' + picks.map(function (x) {
     return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">' + x.label + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
-      (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من الصيدلية ' + ARROW + '</span>' + codeChip() + '</span></a>';
-  }).join("") + '<p class="small muted">' + (PHARM.code ? 'كود الخصم ينسخ تلقائياً لما ' + G("تضغط", "تضغطين") + ' على المنتج.' : 'كود الخصم يظهر هنا وينسخ تلقائياً أول ما يتفعّل.') + ' ترشيحات آلية حسب نتيجتك. تعاون تجاري مع صيدلية ون ميد.</p></div>';
+      (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>';
+  }).join("") + '<p class="small muted">' + (PHARM.code ? 'كود الخصم ' + esc(PHARM.code) + ' ينسخ تلقائياً لما ' + G("تضغط", "تضغطين") + ' على المنتج، ' + G("الصقه", "الصقيه") + ' عند الدفع.' : 'كود الخصم يظهر هنا وينسخ تلقائياً أول ما يتفعّل.') + ' ترشيحات آلية حسب نتيجتك. تعاون تجاري مع Carefinity و RevitaLash و ZO Skin Health.</p></div>';
 }
 function codeChip() { return PHARM.code ? '<span class="code">' + esc(PHARM.code) + '</span>' : '<span class="code soon">كود الخصم قريباً</span>'; }
 function home() {
@@ -938,7 +912,7 @@ function result() {
       : '<p class="note">ما فيه شي في تركيبته يتعارض مع نتيجتك، ولا شي يميّزه لك.</p>') +
     '<p class="note">' + esc(W(r.src)) + (r.note ? ' ' + esc(W(r.note)) : '') + '</p>' +
     (r.scan && r.matched ? '<button class="text-btn dark" data-a="notmine">مو هذا منتجك؟</button>' : '') + '</div>';
-  if (alts.length) h += '<div class="picks"><span class="kicker">أنسب لك من ' + PHARM.name + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من الصيدلية ' + ARROW + '</span>' + codeChip() + '</span></a>'; }).join("") + '</div>';
+  if (alts.length) h += '<div class="picks"><span class="kicker">أنسب لك من ' + PHARM.name + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>'; }).join("") + '</div>';
   return h + '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتج ثاني ' + ARROW + '</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
 }
 function toast(t) { var el = document.getElementById("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 2600); }
