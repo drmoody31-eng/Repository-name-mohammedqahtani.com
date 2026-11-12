@@ -763,7 +763,7 @@ function analyzeIngredients(text, cat, mode, name) {
 /* ---------- product base: the reviewed list plus the large open-data list ---------- */
 function norm(s) { return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, " and ").replace(/moisturis/g, "moisturiz").replace(/['’`]/g, "").replace(/\bn[º°o]\.?\s*(?=\d)/g, "no ").replace(/\+/g, " plus ").replace(/[^a-z0-9% ]+/g, " ").replace(/\s+/g, " ").trim(); }
 var STOP = { and: 1, the: 1, of: 1, "for": 1, "with": 1, de: 1, la: 1, le: 1, a: 1, by: 1, paris: 1, ml: 1, oz: 1, fl: 1, g: 1 };
-function tokens(s) { return norm(s).split(" ").filter(function (t) { return t && !STOP[t] && !/^\d+(ml|g|oz)$/.test(t) && !/^\d{3,}$/.test(t); }); }
+function tokens(s) { return norm(s).replace(/\bzo skin health\b/g, "zo").replace(/\bby zein obagi( md)?\b/g, "").replace(/\b(for )?all skin types\b/g, "").replace(/\brevitalash cosmetics\b/g, "revitalash").split(" ").filter(function (t) { return t && !STOP[t] && !/^\d+(ml|g|oz)$/.test(t) && !/^\d{3,}$/.test(t); }); }
 var BASE = { hair: null, skin: null };
 function base(mode) {
   if (BASE[mode]) return BASE[mode];
