@@ -258,12 +258,14 @@ var HAIR = {
     { k: "lengths", q: "كيف ملمس شعرك من النص إلى الأطراف؟", o: [["normal", "ناعم ويلمع"], ["dry", "جاف وخشن"], ["brittle", "يتقصف ويتكسر بسهولة"]] },
     { k: "chem", q: "هل شعرك معالَج كيميائياً؟", o: [["none", "لا"], ["color", "صبغة"], ["bleach", "تشقير أو هايلايت"], ["keratin", "بروتين أو كيراتين"]] },
     { k: "heat", q: "كم مرة تستخدم الاستشوار أو السيراميك؟", o: [["high", "ثلاث مرات بالأسبوع أو أكثر"], ["low", "قليل أو أبداً"]] },
-    { k: "texture", q: "وش شكل شعرتك؟", o: [["fine", "ناعمة وخفيفة، تطيح بسرعة"], ["medium", "متوسطة"], ["curly", "كيرلي أو مموّج وكثيف"]] }
+    { k: "texture", q: "وش شكل شعرتك؟", o: [["fine", "ناعمة وخفيفة، تطيح بسرعة"], ["medium", "متوسطة"], ["curly", "كيرلي أو مموّج وكثيف"]] },
+    { k: "thin", q: "هل تحس شعرك خفيف أو قلّت كثافته؟", o: [["yes", "إيه، صار أخف من قبل"], ["no", "لا، كثافته زينة"]] },
+    { k: "lash", q: "هل رموشك أو حواجبك خفيفة؟", o: [["lash", "الرموش"], ["brow", "الحواجب"], ["both", "الاثنين"], ["no", "لا"]] }
   ],
   demo: { q1: 3, q2: 4, issue: "none", lengths: "dry", chem: "color", heat: "high", texture: "medium" },
   build: function (a) {
     var oil = Math.max(0, Math.min(4, Math.round((2 * a.q1 + a.q2) / 3)));
-    return { mode: "hair", oil: oil, issue: a.issue, lengths: a.lengths, chem: a.chem, heat: a.heat, texture: a.texture };
+    return { mode: "hair", oil: oil, issue: a.issue, lengths: a.lengths, chem: a.chem, heat: a.heat, texture: a.texture, thin: a.thin || "no", lash: a.lash || "no" };
   },
   summary: function (p) {
     var rows = [
@@ -273,6 +275,8 @@ var HAIR = {
       ["الحرارة", p.heat === "high" ? "استشوار وسيراميك كثير" : "قليل"],
       ["الشعرة", { fine: "ناعمة وخفيفة", medium: "متوسطة", curly: "كيرلي" }[p.texture]]
     ];
+    var extra = []; if (p.thin === "yes") extra.push("خفّة الشعر"); if (p.lash === "lash" || p.lash === "both") extra.push("خفّة الرموش"); if (p.lash === "brow" || p.lash === "both") extra.push("خفّة الحواجب");
+    if (extra.length) rows.push(["ذكرت", extra.join("، ")]);
     var want = [], avoid = [];
     if (p.oil >= 3) want.push("شامبو ينظف بعمق"); else if (p.oil <= 1) want.push("شامبو لطيف بدون سلفات قوية"); else want.push("شامبو متوازن للاستخدام اليومي");
     if (p.issue === "dandruff") want.push("مادة فعّالة ضد القشرة");
@@ -405,14 +409,17 @@ var SKIN = {
     { k: "q3", q: "كيف المسام عندك؟", o: [[4, "واسعة وواضحة في كل الوجه"], [3, "واضحة في الأنف وحوله بس"], [1, "صغيرة وما تبان"]] },
     { k: "acne", q: "هل تطلع لك حبوب؟", o: [["yes", "دايم عندي حبوب"], ["some", "تطلع أحياناً"], ["no", "نادر"]] },
     { k: "sens", q: "هل بشرتك تتحسس من المنتجات؟", o: [["yes", "كثير، تحمرّ وتحرق"], ["some", "أحياناً مع منتجات معينة"], ["no", "لا، تتحمل"]] },
-    { k: "goal", q: "وش أكثر شي تبي تحسّنه؟", o: [["pigment", "تصبغات وآثار حبوب"], ["aging", "خطوط وتجاعيد"], ["dull", "بهتان وقلة نضارة"], ["none", "بس أبي أحافظ على بشرتي"]] }
+    { k: "goal", q: "وش أكثر شي تبي تحسّنه؟", o: [["pigment", "تصبغات وآثار حبوب"], ["aging", "خطوط وتجاعيد"], ["dull", "بهتان وقلة نضارة"], ["none", "بس أبي أحافظ على بشرتي"]] },
+    { k: "dark", q: "هل عندك هالات سوداء تحت العين؟", o: [["yes", "إيه، واضحة"], ["no", "لا"]] },
+    { k: "pig", q: "هل عندك تصبغات أو بقع في وجهك؟", o: [["yes", "إيه، واضحة"], ["light", "خفيفة"], ["no", "لا"]] },
+    { k: "lines", q: "هل عندك خطوط أو تجاعيد في الوجه أو حول العين؟", o: [["yes", "إيه"], ["no", "لا"]] }
   ],
   demo: { q1: "t", q2: 2, q3: 3, acne: "some", sens: "no", goal: "pigment" },
   build: function (a) {
     var isCombo = a.q1 === "t", q1 = isCombo ? 3 : a.q1;
     var oil = Math.max(0, Math.min(4, Math.round((2 * q1 + a.q2 + a.q3) / 4)));
     if (isCombo && oil > 3) oil = 3;
-    return { mode: "skin", oil: oil, combo: isCombo, acne: a.acne, sens: a.sens, goal: a.goal };
+    return { mode: "skin", oil: oil, combo: isCombo, acne: a.acne, sens: a.sens, goal: a.goal, dark: a.dark || "no", pig: a.pig || "no", lines: a.lines || "no" };
   },
   summary: function (p) {
     var type = p.combo ? "مختلطة" : LEVELS[p.oil];
@@ -422,6 +429,8 @@ var SKIN = {
       ["الحساسية", { yes: "حساسة", some: "حساسة شوي", no: "تتحمل" }[p.sens]],
       ["هدفك", { pigment: "التصبغات وآثار الحبوب", aging: "الخطوط والتجاعيد", dull: "النضارة", none: "المحافظة على البشرة" }[p.goal]]
     ];
+    var extra = []; if (p.dark === "yes") extra.push("هالات تحت العين"); if (p.pig === "yes") extra.push("تصبغات"); if (p.pig === "light") extra.push("تصبغات خفيفة"); if (p.lines === "yes") extra.push("خطوط وتجاعيد");
+    if (extra.length) rows.push(["ذكرت", extra.join("، ")]);
     var want = ["واقي شمس كل يوم"], avoid = [];
     if (p.oil >= 3) { want.push("غسول رغوي ينظف الدهون"); want.push("مرطب جل خفيف"); avoid.push("الكريمات الثقيلة"); }
     else if (p.oil <= 1) { want.push("غسول كريمي لطيف"); want.push("مرطب غني بالسيراميد"); avoid.push("الغسول الرغوي القوي"); avoid.push("الكحول"); }
@@ -679,6 +688,40 @@ var PHARM = {
     ["ZO Complexion Renewal Pads", "toner", "aha,sa", "zo", "مسحات-تنظيف-و-إزالة-الدهون-لجميع-أنواع-البشرة-zo-complexion-renewal-60-pads"]
   ]
 };
+/* extra recommendations for the concerns people report after the type questions: label, name, store, reference, why */
+var ZOH = {
+  eyeb: "كريم-تفتيح-الهالات-السوداء-لجميع-أنواع-البشرة-zo-eye-brightening-creme-15g",
+  eyei: "كريم-العين-المكثف-لتقليل-مظهر-التجاعيد-الدقيقة-حول-العين-zo-intense-eye-creme-15ml",
+  gfs: "سيروم-عوامل-النمو-لمكافحة-الشيخوخة-لجميع-أنواع-البشرة-zo-growth-factor-serum-30ml",
+  bright: "كريم-التفتيح-برايتالايف-لبشرة-أكثر-إشراقاً-وتوحيداً-zo-brightalive-50ml",
+  wtr: "كريم-إصلاح-التجاعيد-تحسين-ملمس-البشرة-zo-wrinkle-texture-repair-0-5-retinol-50ml"
+};
+function concernPicks(p) {
+  var out = [], sens = p.sens === "yes";
+  function add(label, n, st, ph, why) { out.push({ label: label, p: { n: n, st: st, ph: ph }, why: why }); }
+  if (p.mode === "skin") {
+    if (p.dark === "yes") {
+      add("للهالات", "ZO Eye Brightening Crème", "zo", ZOH.eyeb, "كريم عين يفتّح الهالات السوداء");
+      add("للهالات", "FCL Eye Refining Matrix", "cf", 1611809476, "للهالات والانتفاخ والخطوط حول العين");
+    }
+    if (p.pig === "yes" || p.pig === "light") {
+      add("للتصبغات", "ZO Brightalive", "zo", ZOH.bright, "ترانيكساميك ونياسيناميد للبقع، وبدون ريتينول");
+      if (!sens && p.pig === "yes") add("للتصبغات", "FCL AHA Lightening Gel", "cf", 716132720, "جليكوليك وألفا أربوتين، بالليل ومع واقي شمس");
+      else if (!sens) add("للتصبغات", "FCL C Scape Serum 25%", "cf", 237824807, "فيتامين سي الصبح تحت واقي الشمس");
+    }
+    if (p.lines === "yes") {
+      if (sens) add("للخطوط", "ZO Growth Factor Serum", "zo", ZOH.gfs, "بدون ريتينول، ألطف على البشرة الحساسة");
+      else add("للخطوط", "ZO Wrinkle + Texture Repair 0.5% Retinol", "zo", ZOH.wtr, "ريتينول 0.5٪، يُستخدم بالليل وبالتدريج");
+      add("للخطوط حول العين", "ZO Intense Eye Crème", "zo", ZOH.eyei, "للخطوط الدقيقة حول العين");
+    }
+  } else {
+    if (p.thin === "yes") add("لكثافة الشعر", "RevitaLash Volume Enhancing Foam", "rl", "volume-enhancing-foam", "رغوة خفيفة تعطي الشعر كثافة وما تثقله");
+    if (p.lash === "lash" || p.lash === "both") add("للرموش", "RevitaLash Advanced Eyelash Conditioner", "rl", "revita-lash-advanced-eye-lash-conditioner", "سيروم للرموش، خط رفيع على منبت الرموش بالليل");
+    if (p.lash === "brow" || p.lash === "both") add("للحواجب", "RevitaBrow Advanced Eyebrow Conditioner", "rl", "revitabrow-advanced-eyebrow-conditioner", "سيروم للحواجب، مرة باليوم");
+  }
+  var taken = {}; pharmPicks(p).forEach(function (x) { taken[x.p.n] = 1; });
+  return out.filter(function (x) { if (taken[x.p.n]) return false; taken[x.p.n] = 1; return true; });
+}
 var PHITEMS = { hair: null, skin: null };
 function pharmItems(mode) {
   if (!PHITEMS[mode]) PHITEMS[mode] = PHARM[mode].map(function (r) { return { n: r[0], c: r[1], f: r[2].split(","), st: r[3], ph: r[4], cur: true }; });
@@ -841,6 +884,13 @@ function picksHTML(p) {
       (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>';
   }).join("") + '<p class="small muted">' + (PHARM.code ? 'كود الخصم ' + esc(PHARM.code) + ' ينسخ تلقائياً لما ' + G("تضغط", "تضغطين") + ' على المنتج، ' + G("الصقه", "الصقيه") + ' عند الدفع.' : 'كود الخصم يظهر هنا وينسخ تلقائياً أول ما يتفعّل.') + ' ترشيحات آلية حسب نتيجتك. تعاون تجاري مع Carefinity و RevitaLash و ZO Skin Health.</p></div>';
 }
+function concernHTML(p) {
+  var picks = concernPicks(p); if (!picks.length) return "";
+  return '<div class="picks"><span class="kicker">للأشياء اللي ' + G("ذكرتها", "ذكرتيها") + '</span>' + picks.map(function (x) {
+    return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="1"><span class="slot">' + x.label + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
+      '<span class="why">' + esc(W(x.why)) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip() + '</span></a>';
+  }).join("") + (p.mode === "hair" && p.thin === "yes" ? '<p class="small muted">خفّة الشعر لها أسباب كثيرة، والمنتجات ما تعالج السبب. <a href="https://mohammedqahtani.com/consultation/" style="color:var(--accent)">' + G("احجز", "احجزي") + ' استشارة شعر</a> عشان تعرف السبب.</p>' : '') + '</div>';
+}
 function codeChip() { return PHARM.code ? '<span class="code">' + esc(PHARM.code) + '</span>' : '<span class="code soon">كود الخصم قريباً</span>'; }
 function home() {
   var c = COPY[S.mode], p = P();
@@ -858,7 +908,7 @@ function home() {
 function intro() {
   var c = COPY[S.mode], k = mediaKey();
   return '<span class="micro">' + c.micro + '</span><div class="shot"><video autoplay muted loop playsinline preload="auto" poster="media/intro-' + k + '.webp" src="media/intro-' + k + '.mp4" width="480" height="480" aria-label="مشهد توضيحي"></video></div>' +
-    '<h1>' + c.q1 + '</h1><p class="lead">' + (c.n === 7 ? "سبعة" : "ستة") + ' أسئلة تحدد مكان ' + c.noun + ' على مقياس الدهون. بعدها ' + (HASAI ? G("صوّر", "صوّري") : G("اكتب اسم", "اكتبي اسم")) + ' أي ' + c.kinds + ' و' + G("شوف", "شوفي") + ' يناسبك أو لا، وليش.</p>' +
+    '<h1>' + c.q1 + '</h1><p class="lead">' + "أسئلة قصيرة" + ' تحدد مكان ' + c.noun + ' على مقياس الدهون. بعدها ' + (HASAI ? G("صوّر", "صوّري") : G("اكتب اسم", "اكتبي اسم")) + ' أي ' + c.kinds + ' و' + G("شوف", "شوفي") + ' يناسبك أو لا، وليش.</p>' +
     '<div class="actions"><button class="btn" data-a="quiz">' + G("ابدأ", "ابدئي") + ' الاختبار ' + ARROW + '</button><button class="text-btn" data-a="demo">' + G("جرّب", "جرّبي") + ' بنتيجة جاهزة</button></div>' + scaleHTML(null) +
     '<button class="text-btn" data-a="gender">' + G("لست رجل؟ غيّر الاختيار", "لستِ امرأة؟ غيّري الاختيار") + '</button>';
 }
@@ -874,7 +924,7 @@ function profile() {
     '<dl class="facts">' + m.rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join("") + '</dl>' +
     '<div class="cols"><div><span class="kicker">' + G("دوّر", "دوّري") + ' على</span><ul class="pm plus">' + m.want.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
     (m.avoid.length ? '<div><span class="kicker">' + G("ابتعد", "ابتعدي") + ' عن</span><ul class="pm minus">' + m.avoid.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : '') + '</div>' +
-    picksHTML(p) +
+    picksHTML(p) + concernHTML(p) +
     '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتجاتك الحالية ' + ARROW + '</button><button class="btn line" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك و' + G("شاركها", "شاركيها") + '</button><button class="btn line" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
 }
 var CAM = '<svg viewBox="0 0 44 44" aria-hidden="true"><rect x="5" y="12" width="34" height="24" rx="5"/><circle cx="22" cy="24" r="7"/><path d="M16 12l2.4-4h7.2L28 12"/></svg>';
