@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
+<script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>فاحص منتجات الشعر والبشرة | د. محمد القحطاني</title>
@@ -826,6 +827,7 @@ function W(t) { if (S.gender !== "f") return t; FEM.forEach(function (r) { t = t
 var S = { gender: null, mode: "hair", view: "home", step: 0, answers: {}, profiles: { hair: null, skin: null }, tab: HASAI ? "photo" : "list", q: "", result: null, busy: false, err: "", errSwitch: false };
 try { var sv = JSON.parse(localStorage.getItem("mqProfiles") || "null"); if (sv) { if (sv.hair && sv.hair.mode === "hair") S.profiles.hair = sv.hair; if (sv.skin && sv.skin.mode === "skin") S.profiles.skin = sv.skin; } } catch (e) {}
 try { var g0 = localStorage.getItem("mqGender"); if (g0 === "m" || g0 === "f") S.gender = g0; } catch (e) {}
+var SCAN_URL = window.MQ_SCAN_URL || "";
 var HASAI = !!(window.claude && window.claude.use);
 var sampler = null, canPhoto = false, store = null, LIST = [];
 var V = document.getElementById("view");
@@ -1053,12 +1055,12 @@ function finishScan(j, mode, skipBase) {
 }
 function scan(file) {
   if (!sampler) return; var mode = S.mode; S.busy = true; S.err = ""; S.errName = ""; S.errSwitch = false; render();
-  shrink(file).then(function (blob) { return sampler(promptFor(mode), { images: [blob], cache: false }); }).then(function (r) {
+  shrink(file).then(function (blob) { return sampler(promptFor(mode), { images: [blob], cache: false, mode: mode }); }).then(function (r) {
     if (S.mode !== mode) { S.busy = false; return; }
     return finishScan(parseJSON(r.text), mode, false);
   }).catch(function (err) {
     S.busy = false; if (err && err.code === "not_granted") { canPhoto = false; S.tab = "list"; }
-    S.err = err && err.code === "rate_limited" ? "فيه ضغط حالياً، جرّب بعد دقيقة." : "ما قدرنا نحلل الصورة. جرّب مرة ثانية أو اختر المنتج من القائمة."; render();
+    S.err = err && err.code === "daily_limit" ? W("وصلت حد الفحص بالصور لليوم. ابحث عن المنتج بالاسم أو جرّب بكرة.") : err && err.code === "rate_limited" ? "فيه ضغط حالياً، جرّب بعد دقيقة." : "ما قدرنا نحلل الصورة. جرّب مرة ثانية أو اختر المنتج من القائمة."; render();
   });
 }
 
@@ -1073,6 +1075,20 @@ if (window.claude && window.claude.use) {
     return Promise.resolve(s.limits ? s.limits() : { images: true }).then(function (l) { canPhoto = !!(l && l.images); if (S.view === "check") render(); });
   }).catch(function () {});
   window.claude.use("db").then(function (d) { store = d || null; }).catch(function () {});
+}
+else if (SCAN_URL) {
+  /* own website: photos are read by the site's small scan server */
+  var siteSampler = function (prompt, o) {
+    return new Promise(function (res, rej) { var fr = new FileReader(); fr.onload = function () { res(String(fr.result).split(",")[1] || ""); }; fr.onerror = rej; fr.readAsDataURL(o.images[0]); })
+      .then(function (b64) { return fetch(SCAN_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode: o.mode, image: b64 }) }); })
+      .then(function (r) { if (r.status === 429) throw { code: "daily_limit" }; if (!r.ok) throw { code: "scan_failed" }; return r.json(); });
+  };
+  fetch(SCAN_URL).then(function (r) { return r.json(); }).then(function (j) {
+    if (!(j && j.ready)) return;
+    sampler = siteSampler; canPhoto = true; HASAI = true;
+    if (S.view !== "check" || (S.tab === "list" && !S.q)) S.tab = "photo";
+    if (S.view !== "result" && !S.busy) render();
+  }).catch(function () {});
 }
 
 </script>
