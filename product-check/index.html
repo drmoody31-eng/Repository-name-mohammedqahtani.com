@@ -211,6 +211,31 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
 .actions.two .btn{display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:start;padding:16px 22px;height:auto;white-space:normal}.actions.two .btn>span{display:flex;flex-direction:column;gap:5px;font-weight:700;font-size:18px;line-height:1.35}.actions.two .btn small{font-weight:400;font-size:14px;line-height:1.55;opacity:.78}.actions.two .btn .arr{flex:none}.actions.two .btn{border-radius:22px}
 
+/* simpler layout: folds, verdict sentence, single check screen */
+.folds{border-top:1px solid var(--line)}
+.fold{border-bottom:1px solid var(--line)}
+.fold summary{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 2px;font-size:17px;font-weight:500;cursor:pointer;list-style:none}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary i{font-style:normal;font-family:var(--font-en);font-size:12px;color:var(--ink);background:var(--accent);border-radius:999px;padding:1px 8px;margin-inline-start:6px}
+.fold summary b{font-family:var(--font-en);font-weight:300;font-size:26px;line-height:1;color:var(--accent);transition:transform .3s var(--ease)}
+.fold[open] summary b{transform:rotate(45deg)}
+.fold-body{padding:2px 0 22px;display:flex;flex-direction:column;gap:14px}
+.fold-body dl.facts{border-top:0}
+.pm.big li{font-size:18px;padding:9px 0}
+.minor{display:flex;flex-wrap:wrap;gap:10px 26px}
+.shot.wide{aspect-ratio:16/10}
+.find{display:flex;flex-direction:column;gap:10px}
+.find .or{align-self:center;font-size:14px;color:var(--muted)}
+.find .field{border:1px solid var(--line);border-radius:999px;padding:14px 20px}
+.plist:empty{display:none}
+.say{display:flex;flex-direction:column;gap:6px}
+.say strong{font-family:var(--font-display);font-weight:700;font-size:clamp(34px,10vw,44px);line-height:1.25}
+.say p{font-size:18px;line-height:1.65;color:var(--ink)}
+.score{align-items:baseline}
+.score .lbl{font-size:14px;color:var(--muted-light)}
+.num{font-size:44px}
+@media (max-width:360px){.num{font-size:40px}}
+
 </style>
 </head>
 <body>
@@ -933,7 +958,7 @@ var COPY = {
 function G(m, f) { return S.gender === "f" ? f : m; }
 var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مرّيت إصبعك", "لو مرّيتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق قائمة", "الصقي قائمة"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"]];
 function W(t) { if (S.gender !== "f") return t; FEM.forEach(function (r) { t = t.split(r[0]).join(r[1]); }); return t; }
-var S = { gender: null, mode: "hair", view: "home", step: 0, answers: {}, after: null, profiles: { hair: null, skin: null }, tab: HASAI ? "photo" : "list", q: "", result: null, busy: false, err: "", errSwitch: false };
+var S = { gender: null, mode: "hair", view: "home", step: 0, answers: {}, after: null, profiles: { hair: null, skin: null }, tab: "main", q: "", result: null, busy: false, err: "", errSwitch: false };
 try { var sv = JSON.parse(localStorage.getItem("mqProfiles") || "null"); if (sv) { if (sv.hair && sv.hair.mode === "hair") S.profiles.hair = sv.hair; if (sv.skin && sv.skin.mode === "skin") S.profiles.skin = sv.skin; } } catch (e) {}
 try { var g0 = localStorage.getItem("mqGender"); if (g0 === "m" || g0 === "f") S.gender = g0; } catch (e) {}
 var SCAN_URL = window.MQ_SCAN_URL || "";
@@ -957,7 +982,7 @@ var ARROW = '<span class="arr" aria-hidden="true">←</span>';
 
 function scaleHTML(level, label) {
   var c = COPY[S.mode], has = level != null, h = '<div class="scale' + (has ? " has-level" : "") + '"><div class="scale-head"><span>' + c.scale + '</span><span>' + (has ? '<b>' + (label || LEVELS[level]) + '</b>' : 'من الجاف إلى الدهني') + '</span></div><div class="tiles">';
-  for (var i = 0; i < 5; i++) h += '<div class="tile' + (i === level ? " on" : "") + '"><img src="img/' + S.mode + '-' + i + '.webp" width="538" height="' + (S.mode === "hair" ? 1040 : 725) + '" alt="' + c.alt + " " + LEVELS[i] + '" loading="eager">' + (i === level ? '<span class="here">أنت هنا</span>' : '') + '</div>';
+  for (var i = 0; i < 5; i++) h += '<div class="tile' + (i === level ? " on" : "") + '"><img src="img/' + S.mode + '-' + i + '.webp" width="538" height="' + (S.mode === "hair" ? 1040 : 725) + '" alt="' + c.alt + " " + LEVELS[i] + '" loading="eager">' + (i === level ? '<span class="here">' + G("أنت هنا", "أنتِ هنا") + '</span>' : '') + '</div>';
   h += '</div><div class="ticks">';
   for (i = 0; i < 5; i++) h += '<span' + (i === level ? ' class="on"' : '') + '>' + LEVELS[i] + '</span>';
   return h + '</div></div>';
@@ -973,101 +998,90 @@ function pickCard(x) {
   return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[x.p.st].code) + '"><span class="slot">' + x.label + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
     (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip(x.p) + '</span></a>';
 }
+function foldHTML(title, body, n) { return body ? '<details class="fold"><summary><span>' + title + (n ? ' <i>' + n + '</i>' : '') + '</span><b aria-hidden="true">+</b></summary><div class="fold-body">' + body + '</div></details>' : ''; }
+var DISC = function () { return '<p class="small muted">كود الخصم ينسخ تلقائياً لما ' + G("تضغط", "تضغطين") + ' على المنتج، ' + G("الصقه", "الصقيه") + ' عند الدفع. ترشيحات آلية حسب نتيجتك. تعاون تجاري مع صيدلية ون ميد و Carefinity و RevitaLash و ZO Skin Health.</p>'; };
 function picksHTML(p) {
   var plan = pharmPlan(p), picks = plan.picks; if (!picks.length) return "";
-  var alt = pharmSecond(p);
-  return '<div class="picks"><span class="kicker">الأنسب لك من ' + esc(STORES[plan.st].name) + '</span>' + picks.map(pickCard).join("") +
-    (alt ? '<span class="kicker" style="margin-top:22px">خيار ثاني من ' + esc(STORES[alt.st].name) + '</span>' + alt.picks.map(pickCard).join("") : '') +
-    '<p class="small muted">كود الخصم ينسخ تلقائياً لما ' + G("تضغط", "تضغطين") + ' على المنتج، ' + G("الصقه", "الصقيه") + ' عند الدفع. ترشيحات آلية حسب نتيجتك. تعاون تجاري مع صيدلية ون ميد و Carefinity و RevitaLash و ZO Skin Health.</p></div>';
+  return '<div class="picks"><span class="kicker">روتينك المقترح' + (picks.every(function (k) { return k.p.st === plan.st; }) ? ' من ' + esc(STORES[plan.st].name) : '') + '</span>' + picks.map(pickCard).join("") + DISC() + '</div>';
 }
-function concernHTML(p) {
-  var h = "", c = concernPicks(p), k = compoundPicks(p), sp = suppPicks(p);
-  if (c.length) h += '<div class="picks"><span class="kicker">للأشياء اللي ' + G("ذكرتها", "ذكرتيها") + '</span>' + c.map(pickCard).join("") + '</div>';
-  if (k.length) h += '<div class="picks"><span class="kicker">تركيبات من صيدلية ون ميد</span>' + k.map(pickCard).join("") + '</div>';
-  if (sp.length) h += '<div class="picks"><span class="kicker">مكملات لجودة الشعر</span>' + sp.map(pickCard).join("") + '<p class="small muted">' + W("واحد منها يكفي، والنتيجة تبان بعد ثلاث شهور تقريباً. اسأل طبيبك قبلها لو عندك حمل أو رضاعة أو تاخذ أدوية.") + '</p></div>';
-  if (p.mode === "hair") h += '<div class="picks"><span class="kicker">تركيبات الشعر من د. محمد</span><p class="small muted">تركيبات علاج التساقط تُصرف بعد الاستشارة، لأنها تتحدد حسب التشخيص. <a href="https://mohammedqahtani.com/consultation/" style="color:var(--accent)">' + G("احجز", "احجزي") + ' استشارة شعر</a></p></div>';
-  return h;
+function moreHTML(p, m) {
+  var h = "", alt = pharmSecond(p), c = concernPicks(p), k = compoundPicks(p), sp = suppPicks(p);
+  if (c.length) h += foldHTML('منتجات للأشياء اللي ' + G("ذكرتها", "ذكرتيها"), '<div class="picks">' + c.map(pickCard).join("") + '</div>', c.length);
+  if (alt) h += foldHTML('روتين ثاني من ' + esc(STORES[alt.st].name), '<div class="picks">' + alt.picks.map(pickCard).join("") + '</div>', alt.picks.length);
+  if (sp.length) h += foldHTML('مكملات لجودة الشعر', '<div class="picks">' + sp.map(pickCard).join("") + '<p class="small muted">' + W("واحد منها يكفي، والنتيجة تبان بعد ثلاث شهور تقريباً. اسأل طبيبك قبلها لو عندك حمل أو رضاعة أو تاخذ أدوية.") + '</p></div>', sp.length);
+  if (k.length) h += foldHTML('تركيبات من صيدلية ون ميد', '<div class="picks">' + k.map(pickCard).join("") + '</div>', k.length);
+  if (m.avoid.length) h += foldHTML(G("ابتعد", "ابتعدي") + ' عن', '<ul class="pm minus">' + m.avoid.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>');
+  h += foldHTML('تفاصيل نتيجتك', '<dl class="facts">' + m.rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join("") + '</dl>' + (m.want.length > 3 ? '<ul class="pm plus">' + m.want.slice(3).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : ''));
+  if (p.mode === "hair") h += foldHTML('علاج التساقط', '<p class="small muted">تركيبات علاج التساقط من د. محمد تُصرف بعد الاستشارة، لأنها تتحدد حسب التشخيص. <a href="https://mohammedqahtani.com/consultation/" style="color:var(--accent)">' + G("احجز", "احجزي") + ' استشارة شعر</a></p>');
+  return h ? '<div class="folds">' + h + '</div>' : "";
 }
 function codeChip(prod) { return '<span class="code">' + esc(STORES[prod.st].code) + '</span>'; }
 function home() {
-  var c = COPY[S.mode], p = P();
-  if (!S.gender) {
-    return '<span class="micro">' + c.micro + '</span><h1>' + c.q1 + '<br><em>' + c.q2 + '</em></h1>' +
-      '<div class="who"><span class="kicker">قبل ما نبدأ، أنت</span><div class="who-row"><button class="choice" data-g="m">رجل</button><button class="choice" data-g="f">امرأة</button></div></div>' + scaleHTML(null);
-  }
-  if (p) {
-    var type = typeName(p);
-    return '<span class="micro">' + c.micro + '</span><h1>' + c.noun + '<br><em>' + esc(type) + '.</em></h1>' + typePhoto(p) + scaleHTML(p.oil, p.combo ? "مختلطة، دهنية في الوسط" : null) +
-      '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتجاتك ' + ARROW + '</button><button class="btn line" data-a="profile">تفاصيل نتيجتك والمنتجات المرشحة</button><button class="btn line" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
-  }
-  return intro();
-}
-function intro() {
-  var c = COPY[S.mode], k = mediaKey();
-  return '<span class="micro">' + c.micro + '</span><div class="shot"><video autoplay muted loop playsinline preload="auto" poster="media/intro-' + k + '.webp" src="media/intro-' + k + '.mp4" width="480" height="480" aria-label="مشهد توضيحي"></video></div>' +
-    '<h1>' + c.q1 + '</h1><p class="lead">' + "أسئلة قصيرة" + ' تحدد مكان ' + c.noun + ' على مقياس الدهون. بعدها ' + (HASAI ? G("صوّر", "صوّري") : G("اكتب اسم", "اكتبي اسم")) + ' أي ' + c.kinds + ' و' + G("شوف", "شوفي") + ' يناسبك أو لا، وليش.</p>' +
-    '<div class="actions two"><button class="btn" data-a="quiz"><span>' + G("اعرف", "اعرفي") + ' نوع ' + (S.mode === "hair" ? "شعرك" : "بشرتك") + '<small>اختبار قصير يحدد نوعك ووش المنتجات اللي تناسبك</small></span>' + ARROW + '</button>' +
-    '<button class="btn line" data-a="scanfirst"><span>' + (HASAI ? G("صوّر", "صوّري") + ' منتجك' : G("افحص", "افحصي") + ' منتجك') + '<small>' + (HASAI ? G("صوّر", "صوّري") + ' أو ' + G("ارفع", "ارفعي") + ' صورة ' : G("اكتب", "اكتبي") + ' اسم ') + (S.mode === "hair" ? "منتج شعرك" : "منتج بشرتك") + ' ونقول لك يناسبك أو لا. نسألك عن نوعك أول، دقيقة وحدة</small></span>' + ARROW + '</button>' +
-    '<button class="text-btn" data-a="demo">' + G("جرّب", "جرّبي") + ' بنتيجة جاهزة</button></div>' + scaleHTML(null) +
-    '<button class="text-btn" data-a="gender">' + G("لست رجل؟ غيّر الاختيار", "لستِ امرأة؟ غيّري الاختيار") + '</button>';
+  if (P()) return profile();
+  var c = COPY[S.mode], k = mediaKey(), g = S.gender, hair = S.mode === "hair", mine = hair ? "شعرك" : "بشرتك";
+  return '<span class="micro">' + c.micro + '</span><h1>' + c.q1 + '<br><em>' + c.q2 + '</em></h1>' +
+    '<p class="lead">اختبار دقيقة وحدة يحدد نوع ' + mine + '، وبعده نقول لك أي منتج يناسبك وأي منتج لا، وليش.</p>' +
+    '<div class="actions two"><button class="btn" data-a="quiz"><span>' + (g ? G("اعرف", "اعرفي") + ' نوع ' + mine : 'اختبار نوع ' + mine) + '<small>أسئلة قصيرة، وتطلع لك النتيجة مع روتين يناسبك</small></span>' + ARROW + '</button>' +
+    '<button class="btn line" data-a="scanfirst"><span>' + (HASAI ? (g ? G("صوّر", "صوّري") + ' منتجك' : 'فحص منتجك بالصورة') : (g ? G("افحص", "افحصي") + ' منتجك' : 'فحص منتجك بالاسم')) + '<small>نقول لك يناسبك أو لا. نسألك عن نوع ' + mine + ' أول</small></span>' + ARROW + '</button></div>' +
+    '<div class="shot wide"><video autoplay muted loop playsinline preload="metadata" poster="media/intro-' + k + '.webp" src="media/intro-' + k + '.mp4" width="480" height="480" aria-label="مشهد توضيحي"></video></div>';
 }
 function quiz() {
-  var Q = M().quiz, q = Q[S.step], n = Q.length;
-  return '<div class="count"><b>' + String(S.step + 1).padStart(2, "0") + '</b> / ' + String(n).padStart(2, "0") + '</div><div class="bar"><i style="width:' + ((S.step + 1) / n * 100) + '%"></i></div>' +
-    '<h2>' + esc(W(q.q)) + '</h2><div class="rows">' + q.o.map(function (o, i) { return '<button class="opt" data-ans="' + i + '"><span>' + esc(W(o[1])) + '</span>' + ARROW + '</button>'; }).join("") + '</div>' +
-    '<button class="text-btn" data-a="' + (S.step > 0 ? "back" : "home") + '">' + (S.step > 0 ? "السؤال السابق" : "رجوع") + '</button>';
+  var Q = M().quiz, off = S.gq ? 1 : 0, n = Q.length + off, i = S.gender ? S.step + off : 0, head = '<div class="count"><b>' + String(i + 1).padStart(2, "0") + '</b> / ' + String(n).padStart(2, "0") + '</div><div class="bar"><i style="width:' + ((i + 1) / n * 100) + '%"></i></div>';
+  if (!S.gender) return head + '<h2>أنت؟</h2><div class="rows"><button class="opt" data-g="f"><span>امرأة</span>' + ARROW + '</button><button class="opt" data-g="m"><span>رجل</span>' + ARROW + '</button></div><button class="text-btn" data-a="home">رجوع</button>';
+  var q = Q[S.step], first = S.step === 0;
+  return head + '<h2>' + esc(W(q.q)) + '</h2><div class="rows">' + q.o.map(function (o, j) { return '<button class="opt" data-ans="' + j + '"><span>' + esc(W(o[1])) + '</span>' + ARROW + '</button>'; }).join("") + '</div>' +
+    '<button class="text-btn" data-a="' + (first ? (S.gq ? "gender" : "home") : "back") + '">' + (first && !S.gq ? "رجوع" : "السؤال السابق") + '</button>';
 }
 function profile() {
   var c = COPY[S.mode], p = P(), m = M().summary(p), type = typeName(p);
-  return '<span class="kicker">نتيجتك</span><h2>' + c.noun + ' <em>' + esc(type) + '.</em></h2>' + typePhoto(p) + scaleHTML(p.oil, p.combo ? "مختلطة، دهنية في الوسط" : null) +
-    '<dl class="facts">' + m.rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join("") + '</dl>' +
-    '<div class="cols"><div><span class="kicker">' + G("دوّر", "دوّري") + ' على</span><ul class="pm plus">' + m.want.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
-    (m.avoid.length ? '<div><span class="kicker">' + G("ابتعد", "ابتعدي") + ' عن</span><ul class="pm minus">' + m.avoid.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' : '') + '</div>' +
-    picksHTML(p) + concernHTML(p) +
-    '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتجاتك الحالية ' + ARROW + '</button><button class="btn line" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك و' + G("شاركها", "شاركيها") + '</button><button class="btn line" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
+  var lead = S.mode === "hair" ? m.share.replace("، ", " و") : m.rows[0][1] + "، " + m.rows[1][0] + ": " + m.rows[1][1];
+  return '<span class="kicker">نتيجتك</span><h2>' + c.noun + ' <em>' + esc(type) + '.</em></h2><p class="lead">' + esc(lead) + '.</p>' + scaleHTML(p.oil, p.combo ? "مختلطة، دهنية في الوسط" : null) +
+    '<div><span class="kicker">أهم ثلاث أشياء ' + (S.mode === "hair" ? "لشعرك" : "لبشرتك") + '</span><ul class="pm plus big">' + m.want.slice(0, 3).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
+    '<button class="btn" data-a="check">' + (HASAI ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + ' منتجك ' + G("وشوف", "وشوفي") + ' يناسبك أو لا ' + ARROW + '</button>' +
+    picksHTML(p) + moreHTML(p, m) +
+    '<div class="minor"><button class="text-btn" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك</button><button class="text-btn" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
 }
 var CAM = '<svg viewBox="0 0 44 44" aria-hidden="true"><rect x="5" y="12" width="34" height="24" rx="5"/><circle cx="22" cy="24" r="7"/><path d="M16 12l2.4-4h7.2L28 12"/></svg>';
 function check() {
-  var c = COPY[S.mode], MM = M(), h = '<span class="kicker">' + c.noun + ' ' + esc(typeName(P())) + '</span><h2>' + (HASAI ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + ' أي منتج ' + c.checkWord + '.</h2>' +
-    '<div class="seg" role="tablist">' + [["photo", G("صوّر", "صوّري") + " المنتج"], ["list", HASAI ? "من القائمة" : G("ابحث", "ابحثي") + " بالاسم"], ["paste", G("الصق", "الصقي") + " المكونات"]].filter(function (t) { return HASAI || t[0] !== "photo"; }).map(function (t) { return '<button role="tab" aria-selected="' + (S.tab === t[0]) + '" data-tab="' + t[0] + '">' + t[1] + '</button>'; }).join("") + '</div>';
+  var c = COPY[S.mode], MM = M(), h = '<span class="kicker">' + c.noun + ' ' + esc(typeName(P())) + '</span><h2>' + G("افحص", "افحصي") + ' أي منتج ' + c.checkWord + '.</h2>';
   if (S.err) h += '<div class="err" role="alert">' + (S.errName ? '<span class="pname">' + esc(S.errName) + '</span>' : '') + '<span>' + esc(W(S.err)) + '</span>' + (S.errSwitch ? '<button class="btn fit" data-a="switch">' + c.otherBtn + ' ' + ARROW + '</button>' : '') + '</div>';
-  if (S.tab === "photo") {
-    if (S.busy) h += '<div class="drop static"><div class="pulse"></div><h3>نتعرّف على المنتج…</h3><p class="small muted">ثواني ونطلع لك النتيجة</p></div>';
-    else if (canPhoto) h += '<label class="drop" for="photo">' + CAM + '<h3>' + G("صوّر", "صوّري") + ' واجهة العلبة</h3><p class="small muted">نتعرّف على المنتج ونجيب مكوناته. ولو المنتج مو معروف، ' + G("صوّر", "صوّري") + ' قائمة المكونات من ظهر العلبة.</p><span class="btn fit" style="pointer-events:none">' + G("افتح", "افتحي") + ' الكاميرا أو الصور</span></label><input type="file" accept="image/*" id="photo" hidden>';
-    else h += '<div class="drop static">' + CAM + '<h3>التصوير غير متاح في هذا العرض</h3><p class="small muted">' + W("اختر المنتج من القائمة أو الصق مكوناته.") + '</p></div>';
-  } else if (S.tab === "list") {
-    h += '<input class="field" type="search" id="q" placeholder="ابحث باسم المنتج" value="' + esc(S.q) + '" aria-label="ابحث باسم المنتج"><div class="plist" id="plist">' + listHTML() + '</div><p class="small muted">' + baseSize(S.mode).toLocaleString("en") + ' منتج في القاعدة. ابحث بالاسم الإنجليزي للمنتج أو الماركة.</p>';
-  } else {
-    h += '<div><label class="small muted" for="pcat">نوع المنتج</label><select class="field" id="pcat">' + Object.keys(MM.cats).map(function (k) { return '<option value="' + k + '">' + MM.cats[k] + '</option>'; }).join("") + '</select></div>' +
-      '<div><label class="small muted" for="ing">انسخ قائمة المكونات من موقع المتجر والصقها هنا</label><textarea class="field" id="ing" placeholder="' + c.ph + '"></textarea></div><button class="btn" data-a="analyze">حلّل المكونات ' + ARROW + '</button>';
+  if (S.tab === "paste") {
+    return h + '<div><label class="small muted" for="pcat">نوع المنتج</label><select class="field" id="pcat">' + Object.keys(MM.cats).map(function (k) { return '<option value="' + k + '">' + MM.cats[k] + '</option>'; }).join("") + '</select></div>' +
+      '<div><label class="small muted" for="ing">' + G("انسخ", "انسخي") + ' قائمة المكونات من موقع المتجر و' + G("الصقها", "الصقيها") + ' هنا</label><textarea class="field" id="ing" placeholder="' + c.ph + '"></textarea></div><button class="btn" data-a="analyze">حلّل المكونات ' + ARROW + '</button>' +
+      '<button class="text-btn" data-tab="main">رجوع للتصوير والبحث</button>';
   }
-  return h + '<button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button>';
+  if (S.busy) h += '<div class="drop static"><div class="pulse"></div><h3>نتعرّف على المنتج…</h3><p class="small muted">ثواني ونطلع لك النتيجة</p></div>';
+  else if (canPhoto) h += '<label class="drop" for="photo">' + CAM + '<h3>' + G("صوّر", "صوّري") + ' المنتج</h3><p class="small muted">واجهة العلبة تكفي</p><span class="btn fit" style="pointer-events:none">' + G("افتح", "افتحي") + ' الكاميرا أو الصور</span></label><input type="file" accept="image/*" id="photo" hidden>';
+  h += '<div class="find">' + (canPhoto || S.busy ? '<span class="or">أو</span>' : '') + '<input class="field" type="search" id="q" placeholder="' + G("اكتب", "اكتبي") + ' اسم المنتج بالإنجليزي" value="' + esc(S.q) + '" aria-label="اسم المنتج"><div class="plist" id="plist">' + listHTML() + '</div></div>';
+  return h + '<div class="minor"><button class="text-btn" data-tab="paste">' + G("الصق", "الصقي") + ' المكونات بدل الاسم</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
 }
 function listHTML() {
   var MM = M();
+  if (!S.q.trim()) { LIST = []; return ""; }
   LIST = searchProducts(S.q, S.mode, 40);
-  if (!LIST.length) return '<p class="small muted" style="padding:16px 2px">' + W(HASAI ? "ما لقيناه بالاسم. صوّر المنتج ونتعرّف عليه." : "ما لقيناه بالاسم. الصق مكوناته من ظهر العلبة ونحللها لك.") + '</p>';
+  if (!LIST.length) return '<p class="small muted" style="padding:16px 2px">' + W(canPhoto ? "ما لقيناه بالاسم. صوّر المنتج ونتعرّف عليه." : "ما لقيناه بالاسم. الصق مكوناته من ظهر العلبة ونحللها لك.") + '</p>';
   return LIST.map(function (p, i) { return '<button class="pitem" data-prod="' + i + '"><span class="pname">' + esc(p.n) + (p.ar ? '<small>' + p.ar + '</small>' : '') + '</span><span class="cat">' + MM.cats[p.c] + '</span></button>'; }).join("");
 }
 function result() {
   var MM = M(), r = S.result, x = scoreProduct(r.prod, P()), alts = alternatives(r.prod, P());
-  var word = { good: "يناسبك", warn: "مقبول", bad: "ما يناسبك" }[x.level];
-  var cons = x.cons.map(function (c) { return '<li><span class="sign bad">−</span><span>' + esc(W(c.t)) + '<small>' + c.part + '</small></span></li>'; }).join("");
-  var pros = x.pros.map(function (c) { return '<li><span class="sign good">+</span><span>' + esc(W(c.t)) + '<small>' + c.part + '</small></span></li>'; }).join("");
+  var word = { good: "يناسبك", warn: "يناسبك بحذر", bad: "ما يناسبك" }[x.level];
+  var top = x.level === "good" ? x.pros[0] : (x.cons[0] || x.pros[0]);
+  var why = top ? W(top.t) : "ما فيه شي في تركيبته يتعارض مع نتيجتك، ولا شي يميّزه لك";
+  var rest = (x.level === "good" ? x.pros.concat(x.cons) : x.cons.concat(x.pros)).filter(function (c) { return c !== top; });
+  var li = function (c) { var bad = x.cons.indexOf(c) >= 0; return '<li><span class="sign ' + (bad ? "bad" : "good") + '">' + (bad ? "−" : "+") + '</span><span>' + esc(W(c.t)) + '<small>' + c.part + '</small></span></li>'; };
   var h = '<div class="paper"><div><span class="kicker">' + MM.cats[r.prod.c] + '</span><div class="pname">' + esc(r.prod.n) + '</div></div>' +
-    '<div class="score ' + x.level + '"><div class="num" role="img" aria-label="نسبة التوافق ' + x.score + ' من 100">' + x.score + '<small>/100</small></div><span class="verdict">' + word + '</span></div>' +
+    '<div class="say ' + x.level + '"><strong>' + word + '</strong><p>' + esc(why) + '.</p></div>' +
+    '<div class="score ' + x.level + '"><span class="lbl">نسبة التوافق مع ' + COPY[S.mode].thing + '</span><div class="num" role="img" aria-label="نسبة التوافق ' + x.score + ' من 100">' + x.score + '<small>/100</small></div></div>' +
     '<div class="meter ' + x.level + '"><i style="width:' + x.score + '%"></i></div>' +
-    (x.pros.length + x.cons.length ? '<ul class="reasons">' + (x.level === "good" ? pros + cons : cons + pros) + '</ul>'
-      : '<p class="note">ما فيه شي في تركيبته يتعارض مع نتيجتك، ولا شي يميّزه لك.</p>') +
+    (rest.length ? '<ul class="reasons">' + rest.map(li).join("") + '</ul>' : '') +
     '<p class="note">' + esc(W(r.src)) + (r.note ? ' ' + esc(W(r.note)) : '') + '</p>' +
     (r.scan && r.matched ? '<button class="text-btn dark" data-a="notmine">مو هذا منتجك؟</button>' : '') + '</div>';
-  if (alts.length) h += '<div class="picks"><span class="kicker">أنسب لك من ' + PHARM.name + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[a.p.st].code) + '"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip(a.p) + '</span></a>'; }).join("") + '</div>';
+  if (alts.length) h += '<div class="picks"><span class="kicker">' + (x.level === "good" ? "بدائل تناسبك بعد" : "بدائل أنسب لك") + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[a.p.st].code) + '"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip(a.p) + '</span></a>'; }).join("") + DISC() + '</div>';
   return h + '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتج ثاني ' + ARROW + '</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
 }
 function toast(t) { var el = document.getElementById("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 2600); }
 function render() {
   if ((S.view === "profile" || S.view === "check" || S.view === "result") && !P()) S.view = "home";
-  if (S.view === "quiz" && !S.gender) S.view = "home";
   if (S.view === "result" && !S.result) S.view = "check";
   V.innerHTML = { home: home, quiz: quiz, profile: profile, check: check, result: result }[S.view]();
   V.style.animation = "none"; void V.offsetWidth; V.style.animation = "";
@@ -1079,29 +1093,28 @@ V.addEventListener("click", function (e) {
   var link = e.target.closest("a[data-ph]");
   if (link) { var code = link.getAttribute("data-ph"); if (code) { navigator.clipboard.writeText(code).then(function () { toast("تم نسخ كود الخصم " + code); }).catch(function () {}); } return; }
   var b = e.target.closest("button"); if (!b) return;
-  if (b.dataset.g) { S.gender = b.dataset.g; try { localStorage.setItem("mqGender", S.gender); } catch (err) {} if (S.after === "check" && !P()) { S.step = 0; S.answers = {}; go("quiz"); } else go("home"); return; }
+  if (b.dataset.g) { S.gender = b.dataset.g; try { localStorage.setItem("mqGender", S.gender); } catch (err) {} S.step = 0; S.answers = {}; go("quiz"); return; }
   if (b.dataset.ans != null) {
     var Q = M().quiz, q = Q[S.step]; S.answers[q.k] = q.o[+b.dataset.ans][0];
     if (S.step < Q.length - 1) { S.step++; render(); window.scrollTo(0, 0); }
     else {
       S.profiles[S.mode] = M().build(S.answers); save();
-      if (S.after === "check") { S.after = null; if (!canPhoto && S.tab === "photo") S.tab = "list"; go("check"); toast((S.mode === "hair" ? "نوع شعرك: " : "نوع بشرتك: ") + typeName(P()) + ". الحين " + (canPhoto ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + " منتجك"); }
+      if (S.after === "check") { S.after = null; go("check"); toast((S.mode === "hair" ? "نوع شعرك: " : "نوع بشرتك: ") + typeName(P()) + ". الحين " + (canPhoto ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + " منتجك"); }
       else go("profile");
     }
     return;
   }
-  if (b.dataset.tab) { S.tab = b.dataset.tab; S.err = ""; S.errName = ""; S.errSwitch = false; render(); return; }
+  if (b.dataset.tab) { S.tab = b.dataset.tab; S.q = ""; S.err = ""; S.errName = ""; S.errSwitch = false; render(); return; }
   if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; S.result = { prod: pr, src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
   var a = b.dataset.a;
-  if (a === "quiz") { S.after = null; S.step = 0; S.answers = {}; go("quiz"); }
-  else if (a === "scanfirst") { if (P()) { if (!canPhoto && S.tab === "photo") S.tab = "list"; go("check"); } else { S.after = "check"; S.step = 0; S.answers = {}; go("quiz"); } }
-  else if (a === "reset") { S.profiles = { hair: null, skin: null }; save(); S.gender = null; try { localStorage.removeItem("mqGender"); } catch (err) {} S.step = 0; S.answers = {}; S.result = null; S.q = ""; S.tab = HASAI ? "photo" : "list"; go("home"); }
-  else if (a === "demo") { S.profiles[S.mode] = M().build(M().demo); go("profile"); }
-  else if (a === "back") { S.step--; render(); }
+  if (a === "quiz") { S.after = null; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); }
+  else if (a === "scanfirst") { if (P()) { go("check"); } else { S.after = "check"; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); } }
+  else if (a === "reset") { S.profiles = { hair: null, skin: null }; save(); S.gender = null; try { localStorage.removeItem("mqGender"); } catch (err) {} S.step = 0; S.answers = {}; S.result = null; S.q = ""; S.tab = "main"; go("home"); }
+    else if (a === "back") { S.step--; render(); }
   else if (a === "home") go("home");
-  else if (a === "gender") { S.gender = null; try { localStorage.removeItem("mqGender"); } catch (err) {} go("home"); }
+  else if (a === "gender") { S.gender = null; S.gq = true; try { localStorage.removeItem("mqGender"); } catch (err) {} go("quiz"); }
   else if (a === "profile") go("profile");
-  else if (a === "check") { if (!canPhoto && S.tab === "photo") S.tab = "list"; go("check"); }
+  else if (a === "check") { go("check"); }
   else if (a === "switch") { setMode(S.mode === "hair" ? "skin" : "hair"); }
   else if (a === "notmine") { var again = S.result && S.result.scan; if (!again) return; S.busy = true; go("check"); finishScan(again, S.mode, true); }
   else if (a === "copy") {
@@ -1187,14 +1200,14 @@ function scan(file) {
     if (S.mode !== mode) { S.busy = false; return; }
     return finishScan(parseJSON(r.text), mode, false);
   }).catch(function (err) {
-    S.busy = false; if (err && err.code === "not_granted") { canPhoto = false; S.tab = "list"; }
+    S.busy = false; if (err && err.code === "not_granted") { canPhoto = false; }
     S.err = err && err.code === "daily_limit" ? W("وصلت حد الفحص بالصور لليوم. ابحث عن المنتج بالاسم أو جرّب بكرة.") : err && err.code === "rate_limited" ? "فيه ضغط حالياً، جرّب بعد دقيقة." : "ما قدرنا نحلل الصورة. جرّب مرة ثانية أو اختر المنتج من القائمة."; render();
   });
 }
 
 /* ---------- boot ---------- */
 /* #hair / #skin open that section; #hair-scan / #skin-scan go straight to checking a product (asking the type questions first if needed) */
-function scanIntent() { if (P()) { S.after = null; if (!canPhoto && S.tab === "photo") S.tab = "list"; S.view = "check"; } else { S.after = "check"; if (S.gender) { S.step = 0; S.answers = {}; S.view = "quiz"; } } }
+function scanIntent() { if (P()) { S.after = null; S.view = "check"; } else { S.after = "check"; S.gq = !S.gender; S.step = 0; S.answers = {}; S.view = "quiz"; } }
 function fromHash() {
   var h = location.hash.replace("#", ""), scan = /-scan$/.test(h), m = h.replace(/-scan$/, "");
   if (!MODES[m]) return;
@@ -1221,7 +1234,6 @@ else if (SCAN_URL) {
   fetch(SCAN_URL).then(function (r) { return r.json(); }).then(function (j) {
     if (!(j && j.ready)) return;
     sampler = siteSampler; canPhoto = true; HASAI = true;
-    if (S.view !== "check" || (S.tab === "list" && !S.q)) S.tab = "photo";
     if (S.view !== "result" && !S.busy) render();
   }).catch(function () {});
 }
