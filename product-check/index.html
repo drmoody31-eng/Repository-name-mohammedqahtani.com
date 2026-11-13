@@ -940,14 +940,14 @@ function arQuery(q) {
   return q;
 }
 function searchProducts(q, mode, limit) {
-  var arabic = /[؀-ۿ]/.test(q); if (arabic) q = arQuery(q);
+  var q0 = String(q).trim(), arabic = /[؀-ۿ]/.test(q); if (arabic) q = arQuery(q);
   var B = base(mode), qt = tokens(q), raw = norm(q);
-  if (!qt.length) return arabic ? [] : B.items.filter(function (p) { return p.cur; });
+  if (!qt.length) return arabic ? B.items.filter(function (p) { return p.ar && p.ar.indexOf(q0) >= 0; }) : B.items.filter(function (p) { return p.cur; });
   var out = [];
   B.items.forEach(function (p) {
     var n = norm(p.n), ok = true, sc = 0;
     qt.forEach(function (t) { if (n.indexOf(t) < 0) ok = false; });
-    if (!ok && !(p.ar && p.ar.indexOf(q.trim()) >= 0)) return;
+    if (!ok && !(p.ar && p.ar.indexOf(q0) >= 0)) return;
     sc = (p.cur ? 2 : 0) + (n.indexOf(raw) === 0 ? 1 : 0) - n.length / 200;
     out.push([sc, p]);
   });
