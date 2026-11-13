@@ -854,7 +854,7 @@ function analyzeIngredients(text, cat, mode, name) {
 /* ---------- product base: the reviewed list plus the large open-data list ---------- */
 function norm(s) { return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, " and ").replace(/moisturis/g, "moisturiz").replace(/['’`]/g, "").replace(/\bn[º°o]\.?\s*(?=\d)/g, "no ").replace(/\+/g, " plus ").replace(/[^a-z0-9% ]+/g, " ").replace(/\s+/g, " ").trim(); }
 var STOP = { and: 1, the: 1, of: 1, "for": 1, "with": 1, de: 1, la: 1, le: 1, a: 1, by: 1, paris: 1, ml: 1, oz: 1, fl: 1, g: 1 };
-function tokens(s) { return norm(s).replace(/\bzo skin health\b/g, "zo").replace(/\bby zein obagi( md)?\b/g, "").replace(/\b(for )?all skin types\b/g, "").replace(/\brevitalash cosmetics\b/g, "revitalash")
+function tokens(s) { return norm(s).replace(/\bzo skin health\b/g, "zo").replace(/\bby zein obagi( md)?\b/g, "").replace(/\b(for )?all skin types\b/g, "").replace(/\brevitalash cosmetics\b/g, "revitalash").replace(/\bfixderma cosmetic laboratories( fcl)?\b/g, "fcl")
   .replace(/\blaboratoires? dermatologiques?\b|\blaboratoires?\b|\bdermatologique\b/g, "").replace(/\bshampooing\b/g, "shampoo").replace(/\benergisant\b/g, "energizing").replace(/\banti ?pelliculaire\b/g, "anti dandruff").replace(/\bgel moussant\b|\bmoussant\b/g, "foaming gel").replace(/\bnettoyant\b/g, "cleansing").replace(/\bcreme\b/g, "cream").replace(/\bhydratante?\b/g, "moisturizing").replace(/\bapres shampoo\b/g, "conditioner").replace(/\bmasque\b/g, "mask").split(" ").filter(function (t) { return t && !STOP[t] && !/^\d+(ml|g|oz)$/.test(t) && !/^\d{3,}$/.test(t); }); }
 var BASE = { hair: null, skin: null };
 function base(mode) {
@@ -890,11 +890,13 @@ var PKEYS = {
     [["sebionex", "spf"], "ACM Sebionex SPF50 Mattifying Sunblock Gel"], [["sebionex", "foaming"], "ACM Sebionex Foaming Gel"], [["sebionex", "cleans"], "ACM Sebionex Foaming Gel"], [["sebionex", "gel"], "ACM Sebionex Foaming Gel"],
     [["sensitelial", "emollient"], "ACM Sensitelial Dry Skin Emollient"], [["sensitelial", "gel"], "ACM Sensitelial Cleansing Gel"],
     [["depiwhite", "advanced"], "ACM Depiwhite Advanced Anti Dark Spots Cream"], [["depiwhite", "spf"], "ACM Depiwhite S SPF50+ Sunblock Cream"], [["depiwhite", "foam"], "ACM Depiwhite Brightening Cleansing Foam"],
-    [["rosakalm"], "ACM Rosakalm Anti-Redness Cream"], [["duolys", "=ce"], "ACM Duolys CE Serum"], [["medisun", "=100"], "ACM Medisun SPF100 Cream"], [["medisun", "gel"], "ACM Medisun SPF50 Sunblock Gel"]
+    [["rosakalm"], "ACM Rosakalm Anti-Redness Cream"],
+    [["=fcl", "prox"], "FCL B Prox 10 Wash"], [["=fcl", "scape", "cleans"], "FCL C Scape Cleanser"], [["=fcl", "scape", "serum"], "FCL C Scape Serum 25%"], [["=fcl", "drops"], "FCL Moisturizing Drops Cream"], [["=fcl", "spf", "=80"], "FCL Lightweight SPF 80+ Sunscreen"],
+    [["=fcl", "alpha", "beta"], "FCL Alpha Beta Gel"], [["=fcl", "lightening"], "FCL AHA Lightening Gel"], [["=fcl", "penta"], "FCL Penta Peel Pads"], [["=fcl", "toner"], "FCL Face Toner"], [["duolys", "=ce"], "ACM Duolys CE Serum"], [["medisun", "=100"], "ACM Medisun SPF100 Cream"], [["medisun", "gel"], "ACM Medisun SPF50 Sunblock Gel"]
   ]
 };
 function partnerMatch(name, mode, cat) {
-  var w = norm(name).replace(/\bshampooing\b/g, "shampoo").replace(/\banti ?pelliculaire\b/g, "anti dandruff").replace(/\bmoussant\b/g, "foaming").replace(/\bmasque\b/g, "mask").split(" "), hit = null;
+  var w = norm(name).replace(/\bfixderma cosmetic laboratories( fcl)?\b/g, "fcl").replace(/\bshampooing\b/g, "shampoo").replace(/\banti ?pelliculaire\b/g, "anti dandruff").replace(/\bmoussant\b/g, "foaming").replace(/\bmasque\b/g, "mask").split(" "), hit = null;
   PKEYS[mode].some(function (r) {
     var ok = r[0].every(function (k) { return k.charAt(0) === "=" ? w.indexOf(k.slice(1)) >= 0 : w.some(function (t) { return t.indexOf(k) === 0; }); });
     if (!ok) return false;
