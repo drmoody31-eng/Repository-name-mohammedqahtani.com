@@ -236,6 +236,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .num{font-size:44px}
 @media (max-width:360px){.num{font-size:40px}}
 
+.say .approx{align-self:flex-start;padding:2px 12px;border:1px solid currentColor;border-radius:999px;font-size:13px;font-weight:600}
+
 </style>
 </head>
 <body>
@@ -1036,7 +1038,7 @@ function profile() {
   var c = COPY[S.mode], p = P(), m = M().summary(p), type = typeName(p);
   var lead = S.mode === "hair" ? m.share.replace("، ", " و") : m.rows[0][1] + "، " + m.rows[1][0] + ": " + m.rows[1][1];
   return '<span class="kicker">نتيجتك</span><h2>' + c.noun + ' <em>' + esc(type) + '.</em></h2><p class="lead">' + esc(lead) + '.</p>' + scaleHTML(p.oil, p.combo ? "مختلطة، دهنية في الوسط" : null) +
-    '<div><span class="kicker">أهم ثلاث أشياء ' + (S.mode === "hair" ? "لشعرك" : "لبشرتك") + '</span><ul class="pm plus big">' + m.want.slice(0, 3).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
+    '<div><span class="kicker">أهم شي ' + (S.mode === "hair" ? "لشعرك" : "لبشرتك") + '</span><ul class="pm plus big">' + m.want.slice(0, 3).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
     '<button class="btn" data-a="check">' + (HASAI ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + ' منتجك ' + G("وشوف", "وشوفي") + ' يناسبك أو لا ' + ARROW + '</button>' +
     picksHTML(p) + moreHTML(p, m) +
     '<div class="minor"><button class="text-btn" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك</button><button class="text-btn" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
@@ -1064,13 +1066,14 @@ function listHTML() {
 }
 function result() {
   var MM = M(), r = S.result, x = scoreProduct(r.prod, P()), alts = alternatives(r.prod, P());
-  var word = { good: "يناسبك", warn: "يناسبك بحذر", bad: "ما يناسبك" }[x.level];
+  var word = { good: "يناسبك", warn: x.cons.length ? "يناسبك بحذر" : "مقبول لك", bad: "ما يناسبك" }[x.level];
   var top = x.level === "good" ? x.pros[0] : (x.cons[0] || x.pros[0]);
+  if (x.level === "warn" && !x.cons.length) top = null;
   var why = top ? W(top.t) : "ما فيه شي في تركيبته يتعارض مع نتيجتك، ولا شي يميّزه لك";
   var rest = (x.level === "good" ? x.pros.concat(x.cons) : x.cons.concat(x.pros)).filter(function (c) { return c !== top; });
   var li = function (c) { var bad = x.cons.indexOf(c) >= 0; return '<li><span class="sign ' + (bad ? "bad" : "good") + '">' + (bad ? "−" : "+") + '</span><span>' + esc(W(c.t)) + '<small>' + c.part + '</small></span></li>'; };
   var h = '<div class="paper"><div><span class="kicker">' + MM.cats[r.prod.c] + '</span><div class="pname">' + esc(r.prod.n) + '</div></div>' +
-    '<div class="say ' + x.level + '"><strong>' + word + '</strong><p>' + esc(why) + '.</p></div>' +
+    '<div class="say ' + x.level + '">' + (r.approx ? '<span class="approx">تقييم تقريبي</span>' : '') + '<strong>' + word + '</strong><p>' + esc(why) + '.</p></div>' +
     '<div class="score ' + x.level + '"><span class="lbl">نسبة التوافق مع ' + COPY[S.mode].thing + '</span><div class="num" role="img" aria-label="نسبة التوافق ' + x.score + ' من 100">' + x.score + '<small>/100</small></div></div>' +
     '<div class="meter ' + x.level + '"><i style="width:' + x.score + '%"></i></div>' +
     (rest.length ? '<ul class="reasons">' + rest.map(li).join("") + '</ul>' : '') +
@@ -1145,10 +1148,11 @@ function shrink(file) {
 function promptFor(mode) {
   var MM = MODES[mode];
   return 'You identify a cosmetic product from a photo for a product-suitability tool. Reply with ONE JSON object and nothing else:\n' +
-    '{"readable":true|false,"domain":"hair|skin|other","brand":"brand in English","name":"product name in English as printed, without the brand","category":"' + Object.keys(MM.cats).join("|") + '|other","ingredients":"the ingredient (INCI) list copied from the photo if it is visible, else empty","known_ingredients":"see below","confidence":"high|medium|low","texture":[...]}\n' +
+    '{"readable":true|false,"domain":"hair|skin|other","brand":"brand in English","name":"product name in English as printed, without the brand","category":"' + Object.keys(MM.cats).join("|") + '|other","ingredients":"the ingredient (INCI) list copied from the photo if it is visible, else empty","known_ingredients":"see below","confidence":"high|medium|low","texture":[...],"traits":[...]}\n' +
     'domain: "hair" for hair or scalp products, "skin" for face or body skincare, "other" for anything else. This request is for ' + mode + ' products; if the product belongs to the other domain still fill brand, name and domain.\n' +
     'known_ingredients: only when the ingredient list is NOT visible in the photo. If you recognise this exact product and reliably know its published ingredient list, write that full INCI list in order, comma separated, and set confidence to "high" (you are sure of the list) or "medium" (sure of the main ingredients, less sure of the order or the tail). If you do not reliably know this exact product\'s formula, leave it empty and set confidence "low". Do not guess and do not substitute a different product from the same brand.\n' +
     'texture: any of ' + (mode === "skin" ? '"light" (gel, fluid, lotion or oil-free), "rich" (thick cream, balm or ointment), "matte", "foam" (foaming cleanser), "gentle" (cream, milk or micellar cleanser), "mineral" (mineral-only sunscreen)' : '[] (leave empty)') + ' that clearly apply to this product.\n' +
+    'traits: used for an approximate rating when the formula is not known. From this list, include every trait that applies to this product according to the claims printed on the pack and what you know about this product line: ' + MM.flagGuide + '.' + (mode === "hair" ? ' For a shampoo always include either "ss" or "mild".' : '') + ' Include only traits you are reasonably sure of.\n' +
     'If nothing is legible or it is not a cosmetic product, set readable false. Never invent a brand or a name.';
 }
 function parseJSON(t) { var m = String(t || "").match(/\{[\s\S]*\}/); if (!m) return null; try { return JSON.parse(m[0]); } catch (e) { return null; } }
@@ -1182,6 +1186,13 @@ function resolveScan(j, mode, skipBase) {
       f = MM.finishFlags(f, cat);
       cachePut("scans", key, { mode: mode, name: full, cat: cat, flags: f, conf: j.confidence || "medium", ings: known.slice(0, 4000), status: "auto", at: new Date().toISOString() });
       return { result: { prod: { n: full, c: cat, f: f }, src: "تعرّفنا على المنتج وحللنا تركيبته المعروفة.", note: j.confidence === "high" ? "" : "لو تبي تتأكد أكثر، صوّر قائمة المكونات من ظهر العلبة." } };
+    }
+    var okf = {}; (MM.flagGuide.match(/"(\w+)"/g) || []).forEach(function (x) { okf[x.replace(/"/g, "")] = 1; });
+    var tr = []; (Array.isArray(j.traits) ? j.traits : []).forEach(function (x) { if (okf[x] && tr.indexOf(x) < 0) tr.push(x); });
+    (j.texture || []).forEach(function (x) { if (TEXTURE[x] && tr.indexOf(x) < 0) tr.push(x); });
+    if (tr.filter(function (x) { return x !== "frag" && x !== "fragfree"; }).length) {
+      cachePut("misses", key, { mode: mode, name: full, cat: cat, traits: tr, at: new Date().toISOString() });
+      return { result: { prod: { n: full, c: cat, f: MM.finishFlags(tr, cat) }, approx: true, src: "تقييم تقريبي حسب المكتوب على العلبة واللي نعرفه عن المنتج.", note: "للدقة، صوّر قائمة المكونات من ظهر العلبة." } };
     }
     cachePut("misses", key, { mode: mode, name: full, cat: cat, at: new Date().toISOString() });
     return { err: "تعرّفنا على المنتج. عشان نحلله بدقة، صوّر قائمة المكونات من ظهر العلبة.", name: full };
