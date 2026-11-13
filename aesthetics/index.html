@@ -1671,6 +1671,10 @@ html { background: var(--ink); }
 .tool-shot { display: block; max-width: 340px; width: 100%; justify-self: center; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.18); }
 .tool-shot img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
 @media (max-width: 860px) { .tool-shot { max-width: 100%; order: -1; } .tool-shot img { aspect-ratio: 16/10; } }
+.partner-btn.tool-ghost { background: transparent; color: var(--ink, #070a0e); border: 1.5px solid var(--ink, #070a0e); }
+.partner-btn.tool-ghost:hover { background: var(--ink, #070a0e); color: #fff; }
+.tool-other { margin: 16px 0 0; font-size: 15px; opacity: .8; }
+.tool-other a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .partner-band { padding: clamp(56px, 8vw, 104px) var(--page-pad); background: var(--paper, #f8f5ef); color: var(--ink, #070a0e); border-top: 1px solid var(--line-light, rgba(7,10,14,.14)); }
 .partner-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
 .partner-kicker { margin: 0 0 12px; color: var(--accent); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
@@ -2028,11 +2032,12 @@ aria-hidden="true">
 <div class="partner-copy">
 <p class="partner-kicker"><span class="lang-ar">أداة مجانية</span><span class="lang-en">Free tool</span></p>
 <h2 class="partner-title" id="tool-title"><span class="lang-ar">فاحص منتجات الشعر والبشرة</span><span class="lang-en">Hair & skin product checker</span></h2>
-<p class="partner-text"><span class="lang-ar">اختبار قصير يحدد نوع شعرك أو بشرتك على مقياس الدهون. بعدها افحص أي شامبو أو غسول أو مرطب وشوف يناسبك أو لا، وليش.</span><span class="lang-en">A short quiz places your scalp or skin on an oil scale. Then check any shampoo, cleanser or moisturiser and see whether it suits you, and why. Available in Arabic.</span></p>
+<p class="partner-text"><span class="lang-ar">طريقتين: اختبار قصير يحدد نوع بشرتك ووش يناسبه، أو صوّر منتجك ونقول لك يناسبك أو لا، وليش.</span><span class="lang-en">Two ways in: a short quiz that finds your type and what suits it, or photograph a product you own and see whether it suits you, and why. Available in Arabic.</span></p>
 <div class="partner-actions">
-<a class="partner-btn" href="/product-check/#skin"><span class="lang-ar">افحص منتجات بشرتك ←</span><span class="lang-en">Check your skincare →</span></a>
-<a class="partner-link" href="/product-check/#hair"><span class="lang-ar">افحص منتجات شعرك</span><span class="lang-en">Check your hair products</span></a>
+<a class="partner-btn" href="/product-check/#skin"><span class="lang-ar">اعرف نوع بشرتك ←</span><span class="lang-en">Find your skin type →</span></a>
+<a class="partner-btn tool-ghost" href="/product-check/#skin-scan"><span class="lang-ar">صوّر منتج بشرتك ←</span><span class="lang-en">Photograph your skincare product →</span></a>
 </div>
+<p class="tool-other"><span class="lang-ar">وللشعر: <a href="/product-check/#hair">اعرف نوع شعرك</a> · <a href="/product-check/#hair-scan">صوّر منتج شعرك</a></span><span class="lang-en">For hair: <a href="/product-check/#hair">Find your hair type</a> · <a href="/product-check/#hair-scan">Photograph your hair product</a></span></p>
 </div>
 <a class="tool-shot" href="/product-check/#skin" aria-hidden="true" tabindex="-1"><img src="/product-check/media/type-sf-bal.webp" width="640" height="640" loading="lazy" alt=""></a>
 </div>
