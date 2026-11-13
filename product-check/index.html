@@ -929,9 +929,20 @@ function matchProduct(name, mode, cat) {
 }
 var MATCH_MIN = 0.84;
 var TYPEW = {}; "shampoo conditioner mask masque oil serum cream creme cleanser wash toner lotion spray mousse scrub balm mist essence sunscreen gel foam milk peel exfoliator moisturizer treatment".split(" ").forEach(function (w) { TYPEW[w] = 1; });
+/* people type brand names in Arabic: map the common ones to the names in the base */
+var ARBRAND = [["هيد اند شولدرز", "head shoulders"], ["هيد اند شولدر", "head shoulders"], ["لا روش بوزيه", "la roche posay"], ["لاروش بوزيه", "la roche posay"], ["لا روش", "la roche"], ["لاروش", "la roche"], ["ذا اورديناري", "ordinary"], ["اورديناري", "ordinary"], ["موروكان اويل", "moroccanoil"], ["موروكان", "moroccanoil"],
+  ["بانتين", "pantene"], ["لوريال", "loreal"], ["الفيف", "elvive"], ["دوف", "dove"], ["صانسيلك", "sunsilk"], ["سانسيلك", "sunsilk"], ["هيربل", "herbal"], ["هيربال", "herbal"], ["تريسمي", "tresemme"], ["غارنييه", "garnier"], ["قارنييه", "garnier"], ["جارنييه", "garnier"], ["كيراستاس", "kerastase"], ["اولابلكس", "olaplex"], ["نيزورال", "nizoral"],
+  ["سيرافي", "cerave"], ["سيتافيل", "cetaphil"], ["يوسيرين", "eucerin"], ["بيوديرما", "bioderma"], ["نيوتروجينا", "neutrogena"], ["فيشي", "vichy"], ["افين", "avene"], ["نيفيا", "nivea"], ["يورياج", "uriage"], ["كوسركس", "cosrx"], ["ايسدين", "isdin"], ["نوفوفان", "novophane"], ["سيبيونكس", "sebionex"], ["ديبي وايت", "depiwhite"], ["ديبيوايت", "depiwhite"], ["سيبورادين", "seboradin"], ["ريفيتالاش", "revitalash"], ["ريفيتا لاش", "revitalash"], ["اوباجي", "zo"], ["زو", "zo"], ["اف سي ال", "fcl"],
+  ["شامبو", ""], ["بلسم", ""], ["ماسك", ""], ["غسول", ""], ["مرطب", ""], ["واقي شمس", ""], ["واقي", ""], ["سيروم", ""], ["تونر", ""], ["كريم", ""], ["زيت", ""]];
+function arQuery(q) {
+  q = String(q).replace(/[أإآ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه").replace(/[ًٌٍَُِّْـ]/g, "");
+  ARBRAND.forEach(function (r) { q = q.split(r[0].replace(/ة/g, "ه")).join(" " + r[1] + " "); });
+  return q;
+}
 function searchProducts(q, mode, limit) {
+  var arabic = /[؀-ۿ]/.test(q); if (arabic) q = arQuery(q);
   var B = base(mode), qt = tokens(q), raw = norm(q);
-  if (!qt.length) return B.items.filter(function (p) { return p.cur; });
+  if (!qt.length) return arabic ? [] : B.items.filter(function (p) { return p.cur; });
   var out = [];
   B.items.forEach(function (p) {
     var n = norm(p.n), ok = true, sc = 0;
@@ -1056,7 +1067,7 @@ function check() {
   }
   if (S.busy) h += '<div class="drop static"><div class="pulse"></div><h3>نتعرّف على المنتج…</h3><p class="small muted">ثواني ونطلع لك النتيجة</p></div>';
   else if (canPhoto) h += '<label class="drop" for="photo">' + CAM + '<h3>' + G("صوّر", "صوّري") + ' المنتج</h3><p class="small muted">واجهة العلبة تكفي</p><span class="btn fit" style="pointer-events:none">' + G("افتح", "افتحي") + ' الكاميرا أو الصور</span></label><input type="file" accept="image/*" id="photo" hidden>';
-  h += '<div class="find">' + (canPhoto || S.busy ? '<span class="or">أو</span>' : '') + '<input class="field" type="search" id="q" placeholder="' + G("اكتب", "اكتبي") + ' اسم المنتج بالإنجليزي" value="' + esc(S.q) + '" aria-label="اسم المنتج"><div class="plist" id="plist">' + listHTML() + '</div></div>';
+  h += '<div class="find">' + (canPhoto || S.busy ? '<span class="or">أو</span>' : '') + '<input class="field" type="search" id="q" placeholder="' + G("اكتب", "اكتبي") + ' اسم المنتج أو الماركة" value="' + esc(S.q) + '" aria-label="اسم المنتج"><div class="plist" id="plist">' + listHTML() + '</div></div>';
   return h + '<div class="minor"><button class="text-btn" data-tab="paste">' + G("الصق", "الصقي") + ' المكونات بدل الاسم</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
 }
 function listHTML() {
