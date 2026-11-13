@@ -887,7 +887,7 @@ var PKEYS = {
   ],
   skin: [
     [["sebionex", "trio"], "ACM Sebionex Trio Anti-Imperfection Cream"], [["sebionex", "=k"], "ACM Sebionex K Cream"], [["sebionex", "hydra"], "ACM Sebionex Hydra Repair Cream"],
-    [["sebionex", "spf"], "ACM Sebionex SPF50 Mattifying Sunblock Gel"], [["sebionex", "foaming"], "ACM Sebionex Foaming Gel"],
+    [["sebionex", "spf"], "ACM Sebionex SPF50 Mattifying Sunblock Gel"], [["sebionex", "foaming"], "ACM Sebionex Foaming Gel"], [["sebionex", "cleans"], "ACM Sebionex Foaming Gel"], [["sebionex", "gel"], "ACM Sebionex Foaming Gel"],
     [["sensitelial", "emollient"], "ACM Sensitelial Dry Skin Emollient"], [["sensitelial", "gel"], "ACM Sensitelial Cleansing Gel"],
     [["depiwhite", "advanced"], "ACM Depiwhite Advanced Anti Dark Spots Cream"], [["depiwhite", "spf"], "ACM Depiwhite S SPF50+ Sunblock Cream"], [["depiwhite", "foam"], "ACM Depiwhite Brightening Cleansing Foam"],
     [["rosakalm"], "ACM Rosakalm Anti-Redness Cream"], [["duolys", "=ce"], "ACM Duolys CE Serum"], [["medisun", "=100"], "ACM Medisun SPF100 Cream"], [["medisun", "gel"], "ACM Medisun SPF50 Sunblock Gel"]
@@ -958,7 +958,7 @@ var COPY = {
 };
 /* Arabic wording follows the visitor's answer to the first question: G(masculine, feminine) */
 function G(m, f) { return S.gender === "f" ? f : m; }
-var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مرّيت إصبعك", "لو مرّيتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق قائمة", "الصقي قائمة"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"]];
+var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مرّيت إصبعك", "لو مرّيتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["أو اكتب اسم", "أو اكتبي اسم"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق قائمة", "الصقي قائمة"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"]];
 function W(t) { if (S.gender !== "f") return t; FEM.forEach(function (r) { t = t.split(r[0]).join(r[1]); }); return t; }
 var S = { gender: null, mode: "hair", view: "home", step: 0, answers: {}, after: null, profiles: { hair: null, skin: null }, tab: "main", q: "", result: null, busy: false, err: "", errSwitch: false };
 try { var sv = JSON.parse(localStorage.getItem("mqProfiles") || "null"); if (sv) { if (sv.hair && sv.hair.mode === "hair") S.profiles.hair = sv.hair; if (sv.skin && sv.skin.mode === "skin") S.profiles.skin = sv.skin; } } catch (e) {}
@@ -1155,7 +1155,23 @@ function promptFor(mode) {
     'traits: used for an approximate rating when the formula is not known. From this list, include every trait that applies to this product according to the claims printed on the pack and what you know about this product line: ' + MM.flagGuide + '.' + (mode === "hair" ? ' For a shampoo always include either "ss" or "mild".' : '') + ' Include only traits you are reasonably sure of.\n' +
     'If nothing is legible or it is not a cosmetic product, set readable false. Never invent a brand or a name.';
 }
-function parseJSON(t) { var m = String(t || "").match(/\{[\s\S]*\}/); if (!m) return null; try { return JSON.parse(m[0]); } catch (e) { return null; } }
+function parseJSON(t) {
+  t = String(t || ""); var m = t.match(/\{[\s\S]*\}/);
+  if (m) { try { return JSON.parse(m[0]); } catch (e) {} }
+  /* a reply cut off mid-way still carries the fields we need */
+  var str = function (k) { var x = t.match(new RegExp('"' + k + '"\\s*:\\s*"((?:[^"\\\\]|\\\\.)*)')); return x ? x[1].replace(/\\"/g, '"') : ""; };
+  var arr = function (k) { var x = t.match(new RegExp('"' + k + '"\\s*:\\s*\\[([^\\]]*)')); return x ? (x[1].match(/"(\w+)"/g) || []).map(function (v) { return v.replace(/"/g, ""); }) : []; };
+  if (!/"readable"\s*:\s*true/.test(t) || !(str("brand") || str("name"))) return null;
+  var known = str("known_ingredients");
+  return { readable: true, domain: str("domain"), brand: str("brand"), name: str("name"), category: str("category"), ingredients: str("ingredients"), known_ingredients: known, confidence: known ? "medium" : "low", texture: arr("texture"), traits: arr("traits") };
+}
+function guessCat(name, mode) {
+  var n = String(name).toLowerCase(), R = mode === "skin"
+    ? [["sunscreen", /spf|sun ?(screen|block)|uv/], ["cleanser", /cleans|wash|foam|micellar/], ["eye", /\beye/], ["mask", /mask|peel/], ["toner", /toner|tonic|mist|essence/], ["serum", /serum|ampoule|concentrate|corrector|booster|retinol|depigment|spot|treatment|acid/], ["moisturizer", /cream|creme|lotion|moistur|balm|emulsion|fluid|gel|emollient/]]
+    : [["shampoo", /shampoo/], ["conditioner", /conditioner/], ["mask", /mask|masque/], ["oil", /\boil\b/], ["scalp", /scalp|tonic|lotion|scrub/], ["serum", /serum|ampoule/], ["leavein", /leave|cream|milk|spray|protect/], ["styling", /gel|wax|mousse|foam|styl/]];
+  for (var i = 0; i < R.length; i++) if (R[i][1].test(n)) return R[i][0];
+  return "";
+}
 var TEXTURE = { light: 1, rich: 1, matte: 1, foam: 1, gentle: 1, mineral: 1 };
 function scanKey(mode, name) { return mode + "-" + norm(name).replace(/%/g, "").replace(/\s+/g, "-").slice(0, 110); }
 function withTimeout(p, ms) { return Promise.race([p, new Promise(function (res) { setTimeout(function () { res(null); }, ms); })]); }
@@ -1169,9 +1185,14 @@ function resolveScan(j, mode, skipBase) {
   var MM = MODES[mode], other = mode === "hair" ? "skin" : "hair";
   if (!j || !j.readable) return Promise.resolve({ err: "ما قدرنا نقرأ المنتج من الصورة. صوّر الواجهة أو قائمة المكونات عن قرب وبإضاءة واضحة." });
   if (j.domain === other) return Promise.resolve({ err: COPY[mode].other, sw: true });
-  if (!MM.cats[j.category]) return Promise.resolve({ err: "هذا النوع من المنتجات ما نفحصه حالياً." });
-  var full = ((j.brand || "") + " " + (j.name || "")).trim(), cat = j.category;
-  var db = skipBase ? null : matchProduct(full, mode, cat);
+  var full = ((j.brand || "") + " " + (j.name || "")).trim(), cat = j.category, db = null;
+  if (!MM.cats[cat]) {
+    if (j.domain !== mode && j.domain) return Promise.resolve({ err: "هذا النوع من المنتجات ما نفحصه حالياً." });
+    db = skipBase ? null : matchProduct(full, mode, null);
+    cat = db ? db.c : guessCat(full, mode);
+    if (!MM.cats[cat]) return Promise.resolve({ err: "هذا النوع من المنتجات ما نفحصه حالياً." });
+  }
+  if (!db) db = skipBase ? null : matchProduct(full, mode, cat);
   if (j.ingredients && j.ingredients.length > 40)
     return Promise.resolve({ result: { prod: { n: db ? db.n : (full || "منتجك"), c: cat, f: analyzeIngredients(j.ingredients, cat, mode, full) }, src: "قرأنا قائمة المكونات من الصورة وحللناها." } });
   if (db) return Promise.resolve({ result: { prod: db, src: "تعرّفنا على المنتج وجبنا مكوناته من قاعدة منتجاتنا.", scan: j, matched: true } });
@@ -1212,7 +1233,7 @@ function scan(file) {
     return finishScan(parseJSON(r.text), mode, false);
   }).catch(function (err) {
     S.busy = false; if (err && err.code === "not_granted") { canPhoto = false; }
-    S.err = err && err.code === "daily_limit" ? W("وصلت حد الفحص بالصور لليوم. ابحث عن المنتج بالاسم أو جرّب بكرة.") : err && err.code === "rate_limited" ? "فيه ضغط حالياً، جرّب بعد دقيقة." : "ما قدرنا نحلل الصورة. جرّب مرة ثانية أو اختر المنتج من القائمة."; render();
+    S.err = err && err.code === "daily_limit" ? W("وصلت حد الفحص بالصور لليوم. ابحث عن المنتج بالاسم أو جرّب بكرة.") : err && err.code === "rate_limited" ? "فيه ضغط حالياً، جرّب بعد دقيقة." : W("ما قدرنا نحلل الصورة. جرّب مرة ثانية أو اكتب اسم المنتج."); render();
   });
 }
 
