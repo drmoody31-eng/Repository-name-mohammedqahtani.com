@@ -1237,6 +1237,22 @@ body.show-en { direction: ltr !important; text-align: start; }
   var isAes = (params.get('type') || '').toLowerCase() === 'aesthetics';
   var base = SOURCE_MESSAGES[src];
   if (isAes) {
+    /* arriving from the skin and aesthetics pages: this is a skin consultation, so the page says so */
+    window.__aes = true;
+    document.title = 'احجز استشارة بشرة وتجميل — د. محمد القحطاني | عيادة نويا الرياض';
+    var SWAP = [
+      ['شعرك يستحق طبيب يفهمه', 'بشرتك تستحق طبيب يفهمها'],
+      ['Your hair deserves a doctor', 'Your skin deserves a doctor who understands it'],
+      ['تساقط الشعر مو مجرد مظهر', 'العناية بالبشرة والتجميل مو مجرد مظهر. هي ثقتك بنفسك، والصورة التي تشوفها في المرآة كل يوم. هدفي أفهم بشرتك بدقة، وأشرح لك وش يناسبها، وأبني معك خطة تناسبك أنت.'],
+      ['Hair loss isn\'t just appearance', 'Skin care and aesthetics are not just about appearance. They are your confidence and the image you see every morning. My goal is to understand your skin precisely, explain what suits it, and build a plan tailored to you.'],
+      ['ممكن لاحظت شعر أكثر على وسادتك', 'ممكن جربت منتجات كثيرة وما عرفت أيها يناسب بشرتك. أو بدأت تلاحظ تصبغات أو خطوط أو إن النضارة مو مثل أول. أو محتار بين البوتوكس ومحفزات الكولاجين، وتسأل نفسك: وش اللي أحتاجه فعلاً؟'],
+      ['Maybe you\'ve noticed more hair on your pillow', 'Maybe you have tried many products and still do not know which suits your skin. Or you have started to notice pigmentation, lines, or less glow than before. Or you are unsure between botox and collagen stimulators, and you are asking yourself: what do I actually need?'],
+      ['تنظير لفروة الرأس بجهاز متخصص', 'فحص مباشر للبشرة وتقييم لحالتها، ونحدد مع بعض وش تحتاج فعلاً ووش ما تحتاجه.']
+    ];
+    document.querySelectorAll('.ar-only, .en-only').forEach(function (el) {
+      if (el.children.length) return; var t = el.textContent.trim();
+      for (var i = 0; i < SWAP.length; i++) if (t.indexOf(SWAP[i][0]) === 0) { el.textContent = SWAP[i][1]; break; }
+    });
     base = base ? base.replace('عن تساقط الشعر', 'عن التجميل (محفزات الكولاجين / البوتوكس)')
                 : 'مرحبًا، أتواصل معكم عن طريق الموقع الإلكتروني للدكتور، وأرغب في استشارة تجميل.';
   }
@@ -1330,7 +1346,7 @@ function submitConsult(e) {
   const name = document.getElementById('cf-name').value.trim();
   const phone = document.getElementById('cf-phone').value.trim();
   const issue = document.getElementById('cf-issue').value.trim();
-  let msg = 'السلام عليكم، أرغب في استشارة شعر.\n';
+  let msg = window.__aes ? 'السلام عليكم، أرغب في استشارة بشرة وتجميل.\n' : 'السلام عليكم، أرغب في استشارة شعر.\n';
   msg += 'الاسم: ' + name + '\n';
   msg += 'الجوال: ' + phone;
   if (issue) msg += '\nوصف: ' + issue;

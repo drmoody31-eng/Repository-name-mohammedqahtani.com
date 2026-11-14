@@ -1186,20 +1186,20 @@ function result() {
   var word = { good: "يناسبك", warn: x.cons.length ? "يناسبك بحذر" : "يناسبك", bad: "ما يناسبك" }[x.level];
   var top = x.level === "good" ? x.pros[0] : (x.cons[0] || x.pros[0]);
   if (x.level === "warn" && !x.cons.length) top = null;
-  var why = top ? W(top.t) : approx ? "تقييم مبدئي حسب المعلومات المتوفرة. نحتاج قائمة المكونات كاملة عشان نعطيك تقييم أدق" : "ما فيه شي في تركيبته يتعارض مع نتيجتك";
+  var why = top ? W(top.t) : approx ? "يناسب نتيجتك حسب معلومات المنتج عندنا" : "ما فيه شي في تركيبته يتعارض مع نتيجتك";
   var rest = (x.level === "good" ? x.pros.concat(x.cons) : x.cons.concat(x.pros)).filter(function (c) { return c !== top; });
   var li = function (c) { var bad = x.cons.indexOf(c) >= 0; return '<li><span class="sign ' + (bad ? "bad" : "good") + '">' + (bad ? "−" : "+") + '</span><span>' + esc(W(c.t)) + '<small>' + c.part + '</small></span></li>'; };
-  var src = pr.v ? "حللنا تركيبته المنشورة من الشركة، ونفس التحليل يطلع لو صوّرته أو لصقت مكوناته." : approx && !r.approx ? "تقييم تقريبي من معلومات المنتج العامة، ما عندنا تركيبته الكاملة. للدقة الصق المكونات أو صوّر ظهر العلبة." : r.src;
+  var src = pr.v ? "حللنا تركيبته المنشورة من الشركة، ونفس التحليل يطلع لو صوّرته أو لصقت مكوناته." : approx && !r.approx ? "حللناه حسب معلومات المنتج المسجلة عندنا." : r.src;
   var okLevel = x.level === "good" || (x.level === "warn" && !x.cons.length);
   var h = '<div class="paper"><div><span class="kicker">' + MM.cats[pr.c] + '</span><div class="pname">' + esc(pr.n) + '</div></div>' +
-    '<div class="say ' + x.level + '">' + (approx ? '<span class="approx">تقييم تقريبي</span>' : '') + '<strong>' + word + '</strong><p>' + esc(why) + '.</p></div>' +
+    '<div class="say ' + x.level + '">' + '<strong>' + word + '</strong><p>' + esc(why) + '.</p></div>' +
     '<div class="score ' + x.level + '"><span class="lbl">نسبة التوافق مع ' + COPY[S.mode].thing + '</span><div class="num" role="img" aria-label="نسبة التوافق ' + x.score + ' من 100">' + x.score + '<small>/100</small></div></div>' +
     '<div class="meter ' + x.level + '"><i style="width:' + x.score + '%"></i></div>' +
     '<p class="note">النسبة تقيس توافق مكونات المنتج مع نتيجتك في الاختبار. مو نسبة نجاح ولا ضمان إنه ما يسبب تحسس.</p>' +
     (rest.length ? '<ul class="reasons">' + rest.map(li).join("") + '</ul>' : '') +
     '<p class="note">' + esc(W(src)) + (r.note ? ' ' + esc(W(r.note)) : '') + '</p>' +
     (okLevel && partner ? '<a class="pick light" href="' + pharmLink(pr) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[pr.st].code) + '"><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(pr)) + ' ' + ARROW + '</span>' + codeChip(pr) + '</span></a>' : '') +
-    (okLevel && !partner && !approx ? '<p class="keep">' + W("منتجك مناسب لك مبدئياً. إذا مرتاح عليه، ما تحتاج تغيّره.") + '</p>' : '') +
+    (okLevel && !partner ? '<p class="keep">' + W("منتجك مناسب لك. إذا مرتاح عليه، ما تحتاج تغيّره.") + '</p>' : '') +
     (r.scan && r.matched ? '<button class="text-btn dark" data-a="notmine">مو هذا منتجك؟</button>' : '') + '</div>';
   if (okLevel) alts = [];
   if (alts.length) h += '<div class="picks"><span class="kicker">' + "بدائل أنسب لك" + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[a.p.st].code) + '"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip(a.p) + '</span></a>'; }).join("") + DISC() + '</div>';
@@ -1366,7 +1366,7 @@ function resolveScan(j, mode, skipBase) {
     (j.texture || []).forEach(function (x) { if (TEXTURE[x] && tr.indexOf(x) < 0) tr.push(x); });
     if (tr.filter(function (x) { return x !== "frag" && x !== "fragfree"; }).length) {
       cachePut("misses", key, { mode: mode, name: full, cat: cat, traits: tr, at: new Date().toISOString() });
-      return { result: { prod: { n: full, c: cat, f: MM.finishFlags(tr, cat) }, approx: true, src: "تقييم تقريبي حسب المكتوب على العلبة واللي نعرفه عن المنتج.", note: "للدقة، صوّر قائمة المكونات من ظهر العلبة." } };
+      return { result: { prod: { n: full, c: cat, f: MM.finishFlags(tr, cat) }, approx: true, src: "حللناه حسب المكتوب على العلبة واللي نعرفه عن المنتج." } };
     }
     cachePut("misses", key, { mode: mode, name: full, cat: cat, at: new Date().toISOString() });
     return { err: "تعرّفنا على المنتج. عشان نحلله بدقة، صوّر قائمة المكونات من ظهر العلبة.", name: full };
