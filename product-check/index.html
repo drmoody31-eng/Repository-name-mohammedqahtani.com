@@ -263,6 +263,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .pick.gap{border-style:dashed;background:none}
 .pick.gap:hover{transform:none;border-color:var(--line)}
 
+.pick .use{font-size:15px;line-height:1.65}
+.pick .use b{display:inline-block;margin-inline-end:8px;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.1);font-size:12.5px;font-weight:600;color:var(--accent-soft)}
+
 </style>
 </head>
 <body>
@@ -293,6 +296,9 @@ function dry(p) { return p.oil <= 1 ? (p.oil === 0 ? 1.25 : 1) : 0; }
 function is(k, v) { return function (p) { return p[k] === v ? 1 : 0; }; }
 function not(k, v) { return function (p) { return p[k] !== v ? 1 : 0; }; }
 function sens(p) { return p.sens === "yes" ? 1 : p.sens === "some" ? 0.5 : 0; }
+/* fragrance is only held against a product for a very sensitive scalp or skin; there is no reason to avoid it otherwise */
+function verySens(p) { return p.sens === "yes" || p.issue === "vsens" ? 1 : 0; }
+function scalpSens(p) { return p.issue === "sensitive" || p.issue === "vsens" ? 1 : 0; }
 function acne(p) { return p.acne === "yes" ? 1 : p.acne === "some" ? 0.6 : 0; }
 function noAcne(p) { return p.acne === "no" ? 1 : 0; }
 function combo(p) { return p.combo ? 1 : 0; }
@@ -308,7 +314,7 @@ var HAIR = {
   quiz: [
     { k: "q1", q: "بعد ما تغسل شعرك، متى تحس فروتك دهنت؟", o: [[4, "نفس اليوم"], [3, "ثاني يوم"], [2, "بعد يومين أو ثلاثة"], [1, "بعد أربعة أو خمسة أيام"], [0, "ما تدهن، بالعكس تنشف وتشدّ"]] },
     { k: "q2", q: "لو مرّيت إصبعك على فروتك آخر اليوم؟", o: [[4, "يطلع يلمع من الدهون"], [2, "عادي، ما فيه شي"], [0, "ناشفة، ويمكن فيها قشور بيضاء صغيرة"]] },
-    { k: "issue", q: "هل عندك قشرة أو حكة في الفروة؟", o: [["dandruff", "قشرة واضحة"], ["sensitive", "حكة أو حرقان مع بعض المنتجات"], ["none", "لا، فروتي مرتاحة"]] },
+    { k: "issue", q: "هل عندك قشرة أو حكة في الفروة؟", o: [["dandruff", "قشرة واضحة"], ["sensitive", "حكة أو حرقان مع بعض المنتجات"], ["vsens", "فروتي حساسة جداً، تتهيّج من أغلب المنتجات"], ["none", "لا، فروتي مرتاحة"]] },
     { k: "lengths", q: "كيف ملمس شعرك من النص إلى الأطراف؟", o: [["normal", "ناعم ويلمع"], ["dry", "جاف وخشن"], ["brittle", "يتقصف ويتكسر بسهولة"]] },
     { k: "chem", q: "هل شعرك معالَج كيميائياً؟", o: [["none", "لا"], ["color", "صبغة"], ["bleach", "تشقير أو هايلايت"], ["keratin", "بروتين أو كيراتين"]] },
     { k: "heat", q: "كم مرة تستخدم الاستشوار أو السيراميك؟", o: [["high", "ثلاث مرات بالأسبوع أو أكثر"], ["low", "قليل أو أبداً"]] },
@@ -322,7 +328,7 @@ var HAIR = {
   },
   summary: function (p) {
     var rows = [
-      ["الفروة", "فروة " + LEVELS[p.oil] + (p.issue === "dandruff" ? "، مع قشرة" : p.issue === "sensitive" ? "، وحساسة" : "")],
+      ["الفروة", "فروة " + LEVELS[p.oil] + (p.issue === "dandruff" ? "، مع قشرة" : p.issue === "sensitive" ? "، وحساسة" : p.issue === "vsens" ? "، وحساسة جداً" : "")],
       ["الأطوال", { normal: "سليمة", dry: "جافة", brittle: "متقصفة" }[p.lengths]],
       ["المعالجة", { none: "بدون معالجة", color: "مصبوغ", bleach: "مشقّر", keratin: "بروتين أو كيراتين" }[p.chem]],
       ["الحرارة", p.heat === "high" ? "استشوار وسيراميك كثير" : "قليل"],
@@ -333,7 +339,7 @@ var HAIR = {
     var want = [], avoid = [];
     if (p.oil >= 3) want.push("شامبو ينظف بعمق"); else if (p.oil <= 1) want.push("شامبو لطيف بدون سلفات قوية"); else want.push("شامبو متوازن للاستخدام اليومي");
     if (p.issue === "dandruff") want.push("مادة فعّالة ضد القشرة");
-    if (p.issue === "sensitive") { want.push("منتجات بدون عطور"); avoid.push("العطور القوية"); }
+    if (p.issue === "vsens") { want.push("منتجات بدون عطور"); avoid.push("العطور القوية"); }
     if (p.lengths !== "normal") want.push("بلسم وماسك مرطب للأطراف");
     if (p.chem === "bleach" || p.lengths === "brittle") want.push("بروتين أو علاج روابط");
     if (p.heat === "high") want.push("واقي حرارة قبل الاستشوار");
@@ -373,14 +379,14 @@ var HAIR = {
   rules: [
     ["wash", "ss", oily, 10, "s", "ينظف الدهون بقوة، وهذا اللي تحتاجه فروتك الدهنية"],
     ["wash", "ss", dry, -15, "s", "فيه سلفات قوية تنشّف فروتك الجافة زيادة"],
-    ["wash", "ss", is("issue", "sensitive"), -12, "s", "السلفات القوية ممكن تهيّج الفروة الحساسة"],
+    ["wash", "ss", scalpSens, -12, "s", "السلفات القوية ممكن تهيّج الفروة الحساسة"],
     ["wash", "ss", is("chem", "color"), -10, "l", "يبهّت لون الصبغة أسرع"],
     ["wash", "ss", is("chem", "bleach"), -12, "l", "قاسي على الشعر المشقّر"],
     ["wash", "ss", is("chem", "keratin"), -20, "l", "السلفات تشيل البروتين أو الكيراتين من شعرك بسرعة"],
     ["wash", "ss", dmg, -8, "l", "قاسي على أطرافك، لازم بلسم بعده"],
     ["wash", "ss", is("texture", "curly"), -6, "l", "ينشّف الشعر الكيرلي ويزيد الهيشان"],
     ["wash", "mild", dry, 10, "s", "منظفاته لطيفة وما تنشّف فروتك"],
-    ["wash", "mild", is("issue", "sensitive"), 10, "s", "لطيف على الفروة الحساسة"],
+    ["wash", "mild", scalpSens, 10, "s", "لطيف على الفروة الحساسة"],
     ["wash", "mild", not("chem", "none"), 8, "l", "لطيف على الشعر المعالَج ويحافظ عليه"],
     ["wash", "mild", is("texture", "curly"), 5, "l", "يناسب الشعر الكيرلي لأنه ما ينشّفه"],
     ["wash", "mild", oily, -8, "s", "تنظيفه لطيف، ممكن ما يكفي فروتك الدهنية"],
@@ -394,8 +400,8 @@ var HAIR = {
     ["wash", "sil", oily, -6, "s", "السيليكون ممكن يثقّل الشعر ويتراكم على الفروة الدهنية"],
     ["wash", "sil", is("texture", "fine"), -6, "l", "يثقّل شعرك الناعم الخفيف"],
     ["wash", "sil", dmg, 4, "l", "السيليكون ينعّم أطرافك شوي مع الغسيل"],
-    ["wash", "frag", is("issue", "sensitive"), -8, "s", "معطّر، والعطور ممكن تهيّج الفروة الحساسة"],
-    ["wash", "fragfree", is("issue", "sensitive"), 6, "s", "بدون عطور، وهذا أفضل لفروتك الحساسة"],
+    ["wash", "frag", verySens, -8, "s", "معطّر، والعطور ممكن تهيّج الفروة الحساسة"],
+    ["wash", "fragfree", verySens, 6, "s", "بدون عطور، وهذا أفضل لفروتك الحساسة"],
     ["care", "sil", dmg, 8, "l", "السيليكون يغلّف الأطراف ويقلل التقصف"],
     ["care", "sil", is("heat", "high"), 5, "l", "يحمي شوي من حرارة الاستشوار والسيراميك"],
     ["care", "sil", is("texture", "fine"), -6, "l", "ممكن يثقّل شعرك الناعم، حطه على الأطراف بس"],
@@ -424,7 +430,7 @@ var HAIR = {
     ["oil", "light", is("heat", "high"), 8, "l", "يحمي من حرارة الاستشوار والسيراميك"],
     ["oil", "sil", is("heat", "high"), 4, "l", "السيليكون يسوّي طبقة حماية من الحرارة"],
     ["oil", "sil", is("texture", "fine"), -3, "l", "قطرة وحدة تكفي شعرك الناعم"],
-    ["oil", "frag", is("issue", "sensitive"), -8, "s", "زيوت عطرية ممكن تهيّج فروتك الحساسة"]
+    ["oil", "frag", verySens, -8, "s", "زيوت عطرية ممكن تهيّج فروتك الحساسة"]
   ],
   /* [flag, pattern, only within the first N ingredients (0 = anywhere)] */
   ing: [
@@ -488,7 +494,8 @@ var SKIN = {
     else if (p.oil <= 1) { want.push("غسول كريمي لطيف"); want.push("مرطب غني بالسيراميد"); avoid.push("الغسول الرغوي القوي"); avoid.push("الكحول"); }
     else { want.push("غسول لطيف"); want.push("مرطب متوسط"); }
     if (p.acne !== "no") { want.push("ساليسيليك أو ريتينويد"); avoid.push("الزيوت اللي تسد المسام"); }
-    if (p.sens !== "no") { want.push("منتجات بدون عطور"); avoid.push("العطور والمقشرات القوية"); }
+    if (p.sens === "yes") { want.push("منتجات بدون عطور"); avoid.push("العطور والمقشرات القوية"); }
+    else if (p.sens === "some") avoid.push("المقشرات القوية");
     if (p.goal === "pigment") want.push("فيتامين سي أو نياسيناميد");
     if (p.goal === "aging") want.push("ريتينول بالتدريج");
     if (p.goal === "dull") want.push("فيتامين سي ومقشّر لطيف");
@@ -544,8 +551,8 @@ var SKIN = {
     ["cleanse", "bpo", noAcne, -8, "a", "علاج حبوب وأنت ما عندك حبوب"],
     ["cleanse", "bpo", any(dry, sens), -10, "n", "ينشّف ويهيّج"],
     ["cleanse", "cer", dry, 6, "o", "فيه سيراميد يحافظ على حاجز البشرة"],
-    ["cleanse", "frag", sens, -8, "n", "معطّر، والعطور ممكن تهيّج بشرتك"],
-    ["cleanse", "fragfree", sens, 5, "n", "بدون عطور"],
+    ["cleanse", "frag", verySens, -8, "n", "معطّر، والعطور ممكن تهيّج بشرتك"],
+    ["cleanse", "fragfree", verySens, 5, "n", "بدون عطور"],
     ["moist", "rich", dry, 12, "o", "غني ويحبس الترطيب في بشرتك الجافة"],
     ["moist", "rich", oily, -14, "o", "ثقيل على بشرتك الدهنية ويزيد اللمعة"],
     ["moist", "rich", combo, -6, "o", "ثقيل على منطقة الوسط، حطه على الأطراف بس"],
@@ -567,8 +574,8 @@ var SKIN = {
     ["moist", "nia", oily, 6, "o", "النياسيناميد ينظم الدهون"],
     ["moist", "nia", is("goal", "pigment"), 5, "g", "النياسيناميد يساعد على توحيد اللون"],
     ["moist", "alc", any(dry, sens), -10, "n", "فيه كحول ينشّف ويهيّج"],
-    ["moist", "frag", sens, -10, "n", "معطّر، والعطور ممكن تهيّج بشرتك"],
-    ["moist", "fragfree", sens, 6, "n", "بدون عطور"],
+    ["moist", "frag", verySens, -10, "n", "معطّر، والعطور ممكن تهيّج بشرتك"],
+    ["moist", "fragfree", verySens, 6, "n", "بدون عطور"],
     ["sun", "spf", is("goal", "pigment"), 8, "g", "واقي الشمس أهم خطوة للتصبغات"],
     ["sun", "spf", is("goal", "aging"), 6, "g", "واقي الشمس أقوى شي ضد التجاعيد"],
     ["sun", "spf", function (p) { return p.goal === "none" || p.goal === "dull" ? 1 : 0; }, 5, "g", "واقي الشمس أهم منتج لكل بشرة"],
@@ -585,8 +592,8 @@ var SKIN = {
     ["sun", "cer", dry, 5, "o", "فيه سيراميد مرطب"],
     ["sun", "alc", dry, -8, "o", "فيه كحول ينشّف بشرتك"],
     ["sun", "alc", sens, -8, "n", "الكحول ممكن يهيّج بشرتك"],
-    ["sun", "frag", sens, -8, "n", "معطّر"],
-    ["sun", "fragfree", sens, 4, "n", "بدون عطور"],
+    ["sun", "frag", verySens, -8, "n", "معطّر"],
+    ["sun", "fragfree", verySens, 4, "n", "بدون عطور"],
     ["treat", "ret", is("goal", "aging"), 12, "g", "الريتينول أقوى مادة مثبتة للخطوط"],
     ["treat", "ret", acne, 10, "a", "الريتينويد ينظم المسام ويقلل الحبوب"],
     ["treat", "ret", is("goal", "pigment"), 6, "g", "يساعد على تفتيح الآثار مع الوقت"],
@@ -615,7 +622,7 @@ var SKIN = {
     ["treat", "ha", oily, 3, "o", "ترطيب خفيف بدون دهون"],
     ["treat", "light", oily, 4, "o", "قوامه خفيف"],
     ["treat", "alc", any(dry, sens), -10, "n", "فيه كحول ينشّف ويهيّج"],
-    ["treat", "frag", sens, -8, "n", "معطّر"]
+    ["treat", "frag", verySens, -8, "n", "معطّر"]
   ],
   ing: [
     ["sa", /salicylic acid|betaine salicylate/, 0],
@@ -693,8 +700,37 @@ var STORES = {
   om: { name: "صيدلية ون ميد", code: "MQ5", link: function (r) { return "https://onemedph.com/ar/-/p" + r; } },
   cf: { name: "Carefinity", code: "MQ10", link: function (r) { return "https://carefinity-sa.com/-/p" + r; } },
   rl: { name: "RevitaLash", code: "MQ10", link: function (r) { return "https://revitalash.sa/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } },
-  zo: { name: "ZO Skin Health", code: "MQ10", link: function (r) { return "https://zoskinhealthsa.com/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } }
+  zo: { name: "ZO Skin Health", code: "MQ10", link: function (r) { return "https://zoskinhealthsa.com/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } },
+  az: { name: "أمازون", code: "", link: function (r) { return "https://www.amazon.sa/s?k=" + encodeURIComponent(r); } }
 };
+/* used only for a step where no partner product suits the person: gentle shampoos for a sensitive or flaky scalp */
+var EXTRA = {
+  gentle: { n: "CeraVe Gentle Hydrating Shampoo", c: "shampoo", f: ["mild", "hum", "fragfree"], st: "az", ph: "CeraVe Gentle Hydrating Shampoo", cur: true },
+  flake: { n: "CeraVe Anti-Dandruff Hydrating Shampoo", c: "shampoo", f: ["mild", "ad", "hum", "fragfree"], st: "az", ph: "CeraVe Anti-Dandruff Hydrating Shampoo", cur: true }
+};
+/* how often to use each step, by the person's type */
+function usageFor(key, prod, p) {
+  var f = prod.f || [], has = function (x) { return f.indexOf(x) >= 0; };
+  if (p.mode === "hair") {
+    if (key === "shampoo") {
+      if (has("ad")) return "مرتين بالأسبوع، وخله على الفروة ٣ إلى ٥ دقايق قبل الشطف";
+      return ["مرة بالأسبوع", "مرة إلى مرتين بالأسبوع", "مرتين إلى ثلاث بالأسبوع", "يوم ويوم", "كل يوم"][p.oil];
+    }
+    if (key === "care") return prod.c === "mask" ? "مرة بالأسبوع بدل البلسم، ٥ إلى ١٠ دقايق على الأطراف" : "بعد كل غسلة، على الأطراف بس";
+    if (key === "after") return "بعد كل غسلة على شعر رطب، على الأطراف";
+    return "";
+  }
+  if (key === "cleanser") return p.oil <= 1 ? "مرة باليوم مساءً، والصباح موية بس" : "مرتين باليوم، صباح ومساء";
+  if (key === "moist") return "مرتين باليوم، صباح ومساء";
+  if (key === "sun") return "كل صباح، وجدّده كل ساعتين لو طالع بالشمس";
+  if (key === "treat") {
+    if (/retinol/i.test(prod.n)) return "مساءً فقط. ليلة وليلة أول أسبوعين، ثم كل ليلة";
+    if (has("aha") || has("sa") || has("bpo")) return p.sens === "yes" ? "مساءً، مرتين بالأسبوع" : "مساءً، يوم ويوم";
+    if (/vitamin c|c scape|duolys/i.test(prod.n)) return "كل صباح قبل واقي الشمس";
+    return "مرة إلى مرتين باليوم";
+  }
+  return "";
+}
 var PHARM = {
   name: "متاجرنا الشريكة",
   code: "MQ10",   /* same code on the three partner stores; shown and copied on click */
@@ -864,29 +900,34 @@ var TIERS = { hair: { eco: ["om"], pro: ["rl"] }, skin: { eco: ["om", "cf"], pro
 var CORE = { shampoo: 1, care: 1, cleanser: 1, moist: 1, sun: 1 };
 /* the fragrance line every recommendation card carries for someone who reacts to products */
 function scentNote(prod, p) {
-  if (!(p.issue === "sensitive" || p.sens === "yes")) return "";
+  if (!verySens(p)) return "";
   if (!prod.f) { var known = pharmItems(p.mode).filter(function (x) { return x.n === prod.n; })[0]; prod = known || { f: [], v: false }; }
-  if (prod.f.indexOf("frag") >= 0) return "فيه عطر. انتبه إذا سبق وسبّب لك العطر تهيّج، وجرّبه على منطقة صغيرة أول";
-  if (!prod.v && prod.f.indexOf("fragfree") < 0) return "ما تأكدنا إذا فيه عطر. شيّك على العلبة لأنك تتحسس من بعض المنتجات";
-  return "";
+  return prod.f.indexOf("frag") >= 0 ? "معطّر، والأفضل لك بدون عطور" : "";
 }
 function tierPlan(p, tier) {
-  var items = pharmItems(p.mode), slots = PHARM.slots[p.mode], sts = TIERS[p.mode][tier], touchy = p.issue === "sensitive" || p.sens === "yes";
+  var items = pharmItems(p.mode), slots = PHARM.slots[p.mode], sts = TIERS[p.mode][tier], touchy = !!verySens(p);
   /* someone who reacts to products gets the unscented option whenever a suitable one exists */
   function best(slot, only) {
     var b = null, clean = null;
     items.forEach(function (x) {
       if (slot[2].indexOf(x.c) < 0 || (only && only.indexOf(x.st) < 0)) return; var r = scoreProduct(x, p), c = { p: x, r: r };
       if (!b || r.score > b.r.score) b = c;
-      if (x.v && x.f.indexOf("frag") < 0 && (!clean || r.score > clean.r.score)) clean = c;
+      if (x.f.indexOf("frag") < 0 && (!clean || r.score > clean.r.score)) clean = c;
     });
     return touchy && clean && clean.r.score >= 62 ? clean : b;
   }
   var picks = slots.map(function (slot) {
     var b = best(slot, sts); if ((!b || b.r.score < 62) && (CORE[slot[0]] || tier === "pro")) { var any = best(slot, null); if (any && (!b || any.r.score > b.r.score + 8)) b = any; }
     if (!b || b.r.score < 62) return null;
-    return { label: slot[1], core: !!CORE[slot[0]], p: b.p, s: b.r.score, why: scentNote(b.p, p) || (b.r.pros.length ? b.r.pros[0].t : "") };
+    return { label: slot[1], key: slot[0], core: !!CORE[slot[0]], p: b.p, s: b.r.score, why: scentNote(b.p, p) || (b.r.pros.length ? b.r.pros[0].t : ""), use: usageFor(slot[0], b.p, p) };
   });
+  /* no partner shampoo suits this scalp: a gentle one, plus an anti-dandruff one when the scalp is oily or flaky */
+  if (p.mode === "hair" && !picks[0]) {
+    var two = p.issue === "dandruff" || (p.oil >= 3 && scalpSens(p)), g = EXTRA.gentle, fl = EXTRA.flake, extra = [];
+    if (two) extra.push({ label: "شامبو القشرة والدهون", key: "shampoo", core: true, p: fl, s: scoreProduct(fl, p).score, why: "يهدّي الفروة وينظفها بدون ما يهيّجها", use: "مرتين بالأسبوع، وخله على الفروة ٣ إلى ٥ دقايق قبل الشطف" });
+    extra.push({ label: two ? "شامبو باقي الأيام" : "الشامبو", key: "shampoo", core: true, p: g, s: scoreProduct(g, p).score, why: "لطيف وبدون سلفات، يناسب الفروة الحساسة", use: two ? "في باقي الغسلات" : usageFor("shampoo", g, p) });
+    picks = extra.concat(picks.slice(1));
+  }
   var gaps = slots.filter(function (slot, i) { return !picks[i] && CORE[slot[0]]; }).map(function (slot) { return slot[1]; });
   return { st: sts[0], tier: tier, picks: picks.filter(Boolean), gaps: gaps };
 }
@@ -1066,7 +1107,7 @@ var COPY = {
 };
 /* Arabic wording follows the visitor's answer to the first question: G(masculine, feminine) */
 function G(m, f) { return S.gender === "f" ? f : m; }
-var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مرّيت إصبعك", "لو مرّيتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["أو اكتب اسم", "أو اكتبي اسم"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"], ["اختر لين", "اختاري لين"], ["وجرّبه على منطقة", "وجرّبيه على منطقة"], ["لأنك تتحسس", "لأنك تتحسسين"], ["انتبه إذا", "انتبهي إذا"], ["دوّر على نوع", "دوّري على نوع"], ["وافحصه هنا قبل تشتريه", "وافحصيه هنا قبل تشترينه"], ["شيّك على", "شيّكي على"], ["تقدر تختار", "تقدرين تختارين"], ["شيل اختيار قبل تضيف", "شيلي اختيار قبل تضيفين"], ["اكتب اسمه", "اكتبي اسمه"], ["مرتاح عليه", "مرتاحة عليه"], ["ما تحتاج تغيّره", "ما تحتاجين تغيّرينه"], ["الصق المكونات", "الصقي المكونات"], ["صوّر ظهر", "صوّري ظهر"], ["اسأل طبيبك", "اسألي طبيبك"], ["أو تاخذ أدوية", "أو تاخذين أدوية"], ["الصق قائمة", "الصقي قائمة"]];
+var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مرّيت إصبعك", "لو مرّيتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["أو اكتب اسم", "أو اكتبي اسم"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"], ["اختر لين", "اختاري لين"], ["وجرّبه على منطقة", "وجرّبيه على منطقة"], ["لأنك تتحسس", "لأنك تتحسسين"], ["وخله على الفروة", "وخليه على الفروة"], ["وجدّده كل ساعتين لو طالع", "وجدّديه كل ساعتين لو طالعة"], ["دوّر على نوع", "دوّري على نوع"], ["وافحصه هنا قبل تشتريه", "وافحصيه هنا قبل تشترينه"], ["شيّك على", "شيّكي على"], ["تقدر تختار", "تقدرين تختارين"], ["شيل اختيار قبل تضيف", "شيلي اختيار قبل تضيفين"], ["اكتب اسمه", "اكتبي اسمه"], ["مرتاح عليه", "مرتاحة عليه"], ["ما تحتاج تغيّره", "ما تحتاجين تغيّرينه"], ["الصق المكونات", "الصقي المكونات"], ["صوّر ظهر", "صوّري ظهر"], ["اسأل طبيبك", "اسألي طبيبك"], ["أو تاخذ أدوية", "أو تاخذين أدوية"], ["الصق قائمة", "الصقي قائمة"]];
 function W(t) { if (S.gender !== "f") return t; FEM.forEach(function (r) { t = t.split(r[0]).join(r[1]); }); return t; }
 var S = { gender: null, mode: "hair", view: "home", step: 0, answers: {}, after: null, profiles: { hair: null, skin: null }, tab: "main", q: "", result: null, busy: false, err: "", errSwitch: false, tier: "eco" };
 try { var t0 = localStorage.getItem("mqTier"); if (t0 === "eco" || t0 === "pro") S.tier = t0; } catch (e) {}
@@ -1108,7 +1149,7 @@ function typePhoto(p) {
 function pickCard(x) {
   var tag = x.core === true ? '<i class="tag core">أساسي</i>' : x.core === false ? '<i class="tag">اختياري</i>' : '';
   return '<a class="pick" href="' + pharmLink(x.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[x.p.st].code) + '"><span class="slot">' + x.label + tag + '</span><span class="pname">' + esc(x.p.n) + '</span>' +
-    (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip(x.p) + '</span></a>';
+    (x.why ? '<span class="why">' + esc(W(x.why)) + '</span>' : '') + (x.use ? '<span class="use"><b>الاستخدام</b>' + esc(W(x.use)) + '</span>' : '') + '<span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(x.p)) + ' ' + ARROW + '</span>' + codeChip(x.p) + '</span></a>';
 }
 function foldHTML(title, body, n) { return body ? '<details class="fold"><summary><span>' + title + (n ? ' <i>' + n + '</i>' : '') + '</span><b aria-hidden="true">+</b></summary><div class="fold-body">' + body + '</div></details>' : ''; }
 var DISC = function () { return '<p class="small muted">' + G("اضغط", "اضغطي") + ' على الكود عشان ' + G("تنسخه", "تنسخينه") + '، و' + G("الصقه", "الصقيه") + ' عند الدفع في المتجر. ترشيحات آلية حسب نتيجتك، ونوضّح سبب كل ترشيح. تعاون تجاري مع صيدلية ون ميد و Carefinity و RevitaLash و ZO Skin Health.</p>'; };
@@ -1129,7 +1170,7 @@ function moreHTML(p, m) {
   if (p.mode === "hair") h += foldHTML('علاج التساقط', '<p class="small muted">تركيبات علاج التساقط من د. محمد تُصرف بعد الاستشارة، لأنها تتحدد حسب التشخيص. <a href="https://mohammedqahtani.com/consultation/" style="color:var(--accent)">' + G("احجز", "احجزي") + ' استشارة شعر</a></p>');
   return h ? '<div class="folds">' + h + '</div>' : "";
 }
-function codeChip(prod) { return '<span class="code" data-copy="' + esc(STORES[prod.st].code) + '" role="button" tabindex="0"><small>كود الخصم · نسخ</small>' + esc(STORES[prod.st].code) + '</span>'; }
+function codeChip(prod) { return !STORES[prod.st].code ? '' : '<span class="code" data-copy="' + esc(STORES[prod.st].code) + '" role="button" tabindex="0"><small>كود الخصم · نسخ</small>' + esc(STORES[prod.st].code) + '</span>'; }
 function home() {
   if (P()) return profile();
   var c = COPY[S.mode], k = mediaKey(), g = S.gender, hair = S.mode === "hair", mine = hair ? "شعرك" : "بشرتك";
@@ -1156,7 +1197,7 @@ function profile() {
     '<div><span class="kicker">أهم شي ' + (S.mode === "hair" ? "لشعرك" : "لبشرتك") + '</span><ul class="pm plus big">' + m.want.slice(0, 3).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
     '<button class="btn" data-a="check">' + (HASAI ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + ' منتجك ' + G("وشوف", "وشوفي") + ' يناسبك أو لا ' + ARROW + '</button>' +
     picksHTML(p) + moreHTML(p, m) +
-    '<div class="minor"><button class="text-btn" data-a="card">' + G("نزّل", "نزّلي") + ' بطاقة نتيجتك للسناب</button><button class="text-btn" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك</button><button class="text-btn" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
+    '<div class="minor"><button class="text-btn" data-a="card">' + G("نزّل", "نزّلي") + ' روتينك كصورة للسناب</button><button class="text-btn" data-a="copy" id="copyBtn">' + G("انسخ", "انسخي") + ' نتيجتك</button><button class="text-btn" data-a="reset">' + G("أعد", "أعيدي") + ' الاختبار من البداية</button></div>';
 }
 var CAM = '<svg viewBox="0 0 44 44" aria-hidden="true"><rect x="5" y="12" width="34" height="24" rx="5"/><circle cx="22" cy="24" r="7"/><path d="M16 12l2.4-4h7.2L28 12"/></svg>';
 function check() {
@@ -1195,7 +1236,7 @@ function result() {
     '<div class="say ' + x.level + '">' + '<strong>' + word + '</strong><p>' + esc(why) + '.</p></div>' +
     '<div class="score ' + x.level + '"><span class="lbl">نسبة التوافق مع ' + COPY[S.mode].thing + '</span><div class="num" role="img" aria-label="نسبة التوافق ' + x.score + ' من 100">' + x.score + '<small>/100</small></div></div>' +
     '<div class="meter ' + x.level + '"><i style="width:' + x.score + '%"></i></div>' +
-    '<p class="note">النسبة تقيس توافق مكونات المنتج مع نتيجتك في الاختبار. مو نسبة نجاح ولا ضمان إنه ما يسبب تحسس.</p>' +
+    '<p class="note">النسبة تقيس توافق مكونات المنتج مع نتيجتك في الاختبار.</p>' +
     (rest.length ? '<ul class="reasons">' + rest.map(li).join("") + '</ul>' : '') +
     '<p class="note">' + esc(W(src)) + (r.note ? ' ' + esc(W(r.note)) : '') + '</p>' +
     (okLevel && partner ? '<a class="pick light" href="' + pharmLink(pr) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[pr.st].code) + '"><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(pr)) + ' ' + ARROW + '</span>' + codeChip(pr) + '</span></a>' : '') +
@@ -1205,22 +1246,32 @@ function result() {
   if (alts.length) h += '<div class="picks"><span class="kicker">' + "بدائل أنسب لك" + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[a.p.st].code) + '"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip(a.p) + '</span></a>'; }).join("") + DISC() + '</div>';
   return h + '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتج ثاني ' + ARROW + '</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
 }
-/* a 1080 x 1920 story card of the result, drawn on a canvas and downloaded */
+/* a 1080 x 1920 story card of the result with the whole routine, drawn on a canvas and downloaded */
 function shareCard() {
-  var p = P(), m = M().summary(p), cs = getComputedStyle(document.documentElement), ink = cs.getPropertyValue("--ink").trim() || "#070a0e", acc = cs.getPropertyValue("--accent").trim() || "#c59a6c", ivory = "#f3efe7";
+  var p = P(), m = M().summary(p), plan = tierPlan(p, S.tier), cs = getComputedStyle(document.documentElement), ink = cs.getPropertyValue("--ink").trim() || "#070a0e", acc = cs.getPropertyValue("--accent").trim() || "#c59a6c", ivory = "#f3efe7";
   var c = document.createElement("canvas"); c.width = 1080; c.height = 1920; var g = c.getContext("2d"), ff = getComputedStyle(document.body).fontFamily;
-  g.fillStyle = ink; g.fillRect(0, 0, 1080, 1920); g.direction = "rtl"; g.textAlign = "right";
-  var R = 980, y = 420;
-  function line(t, size, weight, color, gap) { g.font = weight + " " + size + "px " + ff; g.fillStyle = color; var words = t.split(" "), cur = ""; words.forEach(function (w) { var nx = cur ? cur + " " + w : w; if (g.measureText(nx).width > 880 && cur) { g.fillText(cur, R, y); y += size * 1.5; cur = w; } else cur = nx; }); if (cur) { g.fillText(cur, R, y); y += size * 1.5; } y += gap || 0; }
-  g.fillStyle = acc; g.fillRect(R - 120, 300, 120, 6);
-  line(S.mode === "hair" ? "نتيجة فحص شعري" : "نتيجة فحص بشرتي", 46, "500", acc, 30);
-  line(S.mode === "hair" ? m.share.replace("، ", " و") : m.head, 92, "700", ivory, 50);
-  line(m.want[0] || "", 54, "400", ivory, 20);
-  if (m.want[1]) line(m.want[1], 54, "400", ivory, 20);
-  y = 1560; line(S.mode === "hair" ? G("اعرف نوع شعرك وافحص منتجاتك", "اعرفي نوع شعرك وافحصي منتجاتك") : G("اعرف نوع بشرتك وافحص منتجاتك", "اعرفي نوع بشرتك وافحصي منتجاتك"), 46, "500", acc, 10);
-  line("د. محمد القحطاني", 54, "700", ivory, 0);
-  g.direction = "ltr"; g.textAlign = "right"; g.font = "400 38px " + ff; g.fillStyle = ivory; g.globalAlpha = 0.75; g.fillText("mohammedqahtani.com/product-check", R, y + 10);
-  try { c.toBlob(function (b) { var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "my-" + S.mode + "-result.png"; document.body.appendChild(a); a.click(); a.remove(); toast("نزّلنا بطاقة نتيجتك"); }, "image/png"); } catch (e) { toast("ما قدرنا ننزّل البطاقة"); }
+  g.fillStyle = ink; g.fillRect(0, 0, 1080, 1920);
+  var R = 990, y = 250;
+  function line(t, size, weight, color, gap, ltr) {
+    g.direction = ltr ? "ltr" : "rtl"; g.textAlign = "right"; g.font = weight + " " + size + "px " + ff; g.fillStyle = color;
+    var words = String(t).split(" "), cur = ""; words.forEach(function (w) { var nx = cur ? cur + " " + w : w; if (g.measureText(nx).width > 900 && cur) { g.fillText(cur, R, y); y += size * 1.45; cur = w; } else cur = nx; }); if (cur) { g.fillText(cur, R, y); y += size * 1.45; } y += gap || 0;
+  }
+  g.fillStyle = acc; g.fillRect(R - 120, 150, 120, 6);
+  line(S.mode === "hair" ? "نتيجة فحص شعري" : "نتيجة فحص بشرتي", 42, "500", acc, 6);
+  line(S.mode === "hair" ? m.share.replace("، ", " و") : m.head, 76, "700", ivory, 34);
+  line(S.mode === "hair" ? "روتيني للشعر" : "روتيني للبشرة", 42, "500", acc, 14);
+  var items = plan.picks.slice(0, 5), small = items.length > 4;
+  items.forEach(function (x) {
+    g.globalAlpha = 0.18; g.fillStyle = ivory; g.fillRect(90, y - 34, 900, 2); g.globalAlpha = 1; y += 22;
+    line(x.label, small ? 32 : 36, "500", acc, 0);
+    line(x.p.n, small ? 38 : 42, "700", ivory, 0, true);
+    if (x.use) line(W(x.use), small ? 32 : 36, "400", ivory, 0);
+    y += small ? 16 : 24;
+  });
+  y = 1700; line(S.mode === "hair" ? G("اعرف نوع شعرك وروتينك", "اعرفي نوع شعرك وروتينك") : G("اعرف نوع بشرتك وروتينك", "اعرفي نوع بشرتك وروتينك"), 42, "500", acc, 6);
+  line("د. محمد القحطاني", 50, "700", ivory, 0);
+  g.direction = "ltr"; g.textAlign = "right"; g.font = "400 36px " + ff; g.fillStyle = ivory; g.globalAlpha = 0.75; g.fillText("mohammedqahtani.com/product-check", R, y + 8);
+  try { c.toBlob(function (b) { var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "my-" + S.mode + "-routine.png"; document.body.appendChild(a); a.click(); a.remove(); toast("نزّلنا بطاقة روتينك"); }, "image/png"); } catch (e) { toast("ما قدرنا ننزّل البطاقة"); }
 }
 function toast(t) { var el = document.getElementById("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 2600); }
 function render() {
