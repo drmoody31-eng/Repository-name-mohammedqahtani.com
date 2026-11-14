@@ -1322,6 +1322,11 @@ function result() {
 }
 /* a 1080 x 1920 story card of the result with the whole routine, drawn on a canvas and downloaded */
 function shareCard() {
+  var bg = new Image(), done = false, go = function (im) { if (done) return; done = true; drawCard(im); };
+  bg.onload = function () { go(bg); }; bg.onerror = function () { go(null); }; setTimeout(function () { go(null); }, 4000);
+  bg.src = "media/card-" + S.mode + ".jpg";
+}
+function drawCard(bg) {
   var p = P(), m = M().summary(p), plan = tierPlan(p, S.tier), extras = concernPicks(p, S.tier), cs = getComputedStyle(document.documentElement), ink = cs.getPropertyValue("--ink").trim() || "#070a0e", acc = cs.getPropertyValue("--accent").trim() || "#c59a6c", ivory = "#f3efe7";
   var groups = schedule(plan, p, extras), count = groups.reduce(function (n, gr) { return n + gr.steps.length; }, 0);
   var k = 1, px = function (n) { return Math.round(n * k); };
@@ -1329,16 +1334,22 @@ function shareCard() {
   var R = 1000, y = 150;
   function line(t, size, weight, color, gap, ltr, maxw) {
     g.direction = ltr ? "ltr" : "rtl"; g.textAlign = "right"; g.font = weight + " " + size + "px " + ff; g.fillStyle = color;
-    var words = String(t).split(" "), cur = ""; words.forEach(function (w) { var nx = cur ? cur + " " + w : w; if (g.measureText(nx).width > (maxw || 920) && cur) { g.fillText(cur, R, y); y += size * 1.4; cur = w; } else cur = nx; }); if (cur) { g.fillText(cur, R, y); y += size * 1.4; } y += gap || 0;
+    var words = String(t).split(" "), cur = ""; words.forEach(function (w) { var nx = cur ? cur + " " + w : w; if (g.measureText(nx).width > (maxw || (bg ? 770 : 920)) && cur) { g.fillText(cur, R, y); y += size * 1.4; cur = w; } else cur = nx; }); if (cur) { g.fillText(cur, R, y); y += size * 1.4; } y += gap || 0;
   }
   function body() {
   g.globalAlpha = 1; g.fillStyle = ink; g.fillRect(0, 0, 1080, 1920); y = 150;
+  if (bg) {
+    g.drawImage(bg, 0, 0, 1080, 1920);
+    /* fade the sketch out under the text column so every line stays readable */
+    var gr0 = g.createLinearGradient(150, 0, 380, 0); gr0.addColorStop(0, "rgba(0,0,0,0)"); gr0.addColorStop(1, ink);
+    g.globalAlpha = 0.9; g.fillStyle = gr0; g.fillRect(150, 0, 230, 1920); g.fillStyle = ink; g.fillRect(380, 0, 700, 1920); g.globalAlpha = 1;
+  }
   g.fillStyle = acc; g.fillRect(R - 120, 84, 120, 6);
   line(S.mode === "hair" ? "نتيجة فحص شعري" : "نتيجة فحص بشرتي", 38, "500", acc, 4);
   line(S.mode === "hair" ? m.share.replace("، ", " و") : m.head.replace("بشرتك", "بشرتي").replace(/\.$/, ""), 64, "700", ivory, 6);
   line((S.mode === "hair" ? "روتيني للشعر" : "روتيني للبشرة") + "  ·  " + (S.tier === "pro" ? "طبي فاخر" : "اقتصادي"), 36, "500", acc, px(26));
   groups.forEach(function (gr) {
-    g.globalAlpha = 0.14; g.fillStyle = ivory; g.fillRect(80, y - px(46), 920, px(66)); g.globalAlpha = 1;
+    g.globalAlpha = 0.14; g.fillStyle = ivory; g.fillRect(bg ? 230 : 80, y - px(46), bg ? 770 : 920, px(66)); g.globalAlpha = 1; g.fillStyle = acc; g.fillRect(R - 6, y - px(46), 6, px(66)); g.globalAlpha = 1;
     line((SICON[gr.ic] || "") + " " + gr.t + (gr.sub ? "  ·  " + gr.sub : ""), px(38), "700", ivory, px(14));
     gr.steps.forEach(function (st, i) {
       line((i + 1) + ". " + st.label + (st.opt && gr.ic !== "plus" ? " (اختياري)" : ""), px(29), "500", acc, 0);
@@ -1353,8 +1364,9 @@ function shareCard() {
   for (k = 1; k > 0.5; k -= 0.04) { if (body() <= 1660) break; }
   var codes = {}; plan.picks.concat(extras).forEach(function (x) { var st = STORES[x.p.st]; if (!st || !st.code) return; codes[st.code] = codes[st.code] || []; if (codes[st.code].indexOf(st.name) < 0) codes[st.code].push(st.name); });
   var codeLine = Object.keys(codes).map(function (cd) { return cd + " عند " + codes[cd].join(" و"); }).join("  ·  ");
-  y = 1700;
-  line("كود الخصم: " + codeLine, codeLine.length > 48 ? 27 : 32, "600", ivory, 10);
+  y = 1700; g.globalAlpha = 0.5; g.fillStyle = acc; g.fillRect(bg ? 430 : 80, 1648, bg ? 570 : 920, 2); g.globalAlpha = 1;
+  var cl = "كود الخصم: " + codeLine, cs2 = 32; g.direction = "rtl"; for (; cs2 > 20; cs2--) { g.font = "600 " + cs2 + "px " + ff; if (g.measureText(cl).width <= (bg ? 770 : 920)) break; }
+  line(cl, cs2, "600", ivory, 10);
   line(S.mode === "hair" ? G("اعرف نوع شعرك وروتينك", "اعرفي نوع شعرك وروتينك") : G("اعرف نوع بشرتك وروتينك", "اعرفي نوع بشرتك وروتينك"), 38, "500", acc, 2);
   line("د. محمد القحطاني", 46, "700", ivory, 0);
   g.direction = "ltr"; g.textAlign = "right"; g.font = "400 34px " + ff; g.fillStyle = ivory; g.globalAlpha = 0.75; g.fillText("mohammedqahtani.com/product-check", R, 1890);
