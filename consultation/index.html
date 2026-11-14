@@ -1239,6 +1239,8 @@ body.show-en { direction: ltr !important; text-align: start; }
   if (isAes) {
     /* arriving from the skin and aesthetics pages: this is a skin consultation, so the page says so */
     window.__aes = true;
+    /* the before-and-after gallery is hair work only, so it is not shown on a skin consultation */
+    var rb = document.querySelector('.results-banner'); if (rb) rb.remove();
     document.title = 'احجز استشارة بشرة وتجميل — د. محمد القحطاني | عيادة نويا الرياض';
     var SWAP = [
       ['شعرك يستحق طبيب يفهمه', 'بشرتك تستحق طبيب يفهمها'],
