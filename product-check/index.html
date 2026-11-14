@@ -1371,7 +1371,7 @@ function drawCard(bg) {
   line(S.mode === "hair" ? G("اعرف نوع شعرك وروتينك", "اعرفي نوع شعرك وروتينك") : G("اعرف نوع بشرتك وروتينك", "اعرفي نوع بشرتك وروتينك"), 38, "500", acc, 2);
   line("د. محمد القحطاني", 46, "700", ivory, 0);
   g.direction = "ltr"; g.textAlign = "right"; g.font = "400 34px " + ff; g.fillStyle = ivory; g.globalAlpha = 0.75; g.fillText("mohammedqahtani.com/product-check", R, 1890);
-  try { c.toBlob(function (b) { var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "my-" + S.mode + "-routine.png"; document.body.appendChild(a); a.click(); a.remove(); toast("نزّلنا صورة روتينك"); }, "image/png"); } catch (e) { toast("ما قدرنا ننزّل الصورة"); }
+  try { c.toBlob(function (b) { var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "my-" + S.mode + "-routine.png"; document.body.appendChild(a); a.click(); a.remove(); toast("نزّلنا صورة روتينك"); }, "image/png"); } catch (e) { if (bg) drawCard(null); else toast("ما قدرنا ننزّل الصورة"); }
 }
 function toast(t) { var el = document.getElementById("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 2600); }
 function render() {
