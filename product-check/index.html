@@ -266,6 +266,19 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .pick .use{font-size:15px;line-height:1.65}
 .pick .use b{display:inline-block;margin-inline-end:8px;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.1);font-size:12.5px;font-weight:600;color:var(--accent-soft)}
 
+.sched{display:flex;flex-direction:column;gap:10px}
+.sg{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.sg-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:10px 16px;background:rgba(255,255,255,.07)}
+.sg-h b{font-size:17px;font-weight:600}
+.sg-h span{font-size:14px;color:var(--accent-soft)}
+.sg ol{list-style:none;margin:0;padding:4px 16px 8px;counter-reset:st}
+.sg li{counter-increment:st;display:grid;grid-template-columns:auto 1fr;column-gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.sg li:last-child{border-bottom:0}
+.sg li::before{content:counter(st);grid-row:1 / span 3;font-family:var(--font-en);font-size:14px;font-weight:600;color:var(--ink);background:var(--accent);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;margin-top:3px}
+.sg .sl{font-size:14px;color:var(--accent-soft)}
+.sg .sn{font-size:16px;font-weight:600;line-height:1.5}
+.sg small{font-size:14px;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -700,42 +713,51 @@ var STORES = {
   om: { name: "صيدلية ون ميد", code: "MQ5", link: function (r) { return "https://onemedph.com/ar/-/p" + r; } },
   cf: { name: "Carefinity", code: "MQ10", link: function (r) { return "https://carefinity-sa.com/-/p" + r; } },
   rl: { name: "RevitaLash", code: "MQ10", link: function (r) { return "https://revitalash.sa/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } },
-  zo: { name: "ZO Skin Health", code: "MQ10", link: function (r) { return "https://zoskinhealthsa.com/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } },
-  az: { name: "أمازون", code: "", link: function (r) { return "https://www.amazon.sa/s?k=" + encodeURIComponent(r); } }
+  zo: { name: "ZO Skin Health", code: "MQ10", link: function (r) { return "https://zoskinhealthsa.com/discount/MQ10?redirect=" + encodeURIComponent("/products/" + r); } }
 };
-/* used only for a step where no partner product suits the person: gentle shampoos for a sensitive or flaky scalp */
-var EXTRA = {
-  gentle: { n: "CeraVe Gentle Hydrating Shampoo", c: "shampoo", f: ["mild", "hum", "fragfree"], st: "az", ph: "CeraVe Gentle Hydrating Shampoo", cur: true },
-  flake: { n: "CeraVe Anti-Dandruff Hydrating Shampoo", c: "shampoo", f: ["mild", "ad", "hum", "fragfree"], st: "az", ph: "CeraVe Anti-Dandruff Hydrating Shampoo", cur: true }
-};
-/* how often to use each step, by the person's type */
+/* how and when to use each step, by the person's type */
 function usageFor(key, prod, p) {
   var f = prod.f || [], has = function (x) { return f.indexOf(x) >= 0; };
   if (p.mode === "hair") {
-    if (key === "shampoo") {
-      if (has("ad")) return "مرتين بالأسبوع، وخله على الفروة ٣ إلى ٥ دقايق قبل الشطف";
-      return ["مرة بالأسبوع", "مرة إلى مرتين بالأسبوع", "مرتين إلى ثلاث بالأسبوع", "يوم ويوم", "كل يوم"][p.oil];
-    }
-    if (key === "care") return prod.c === "mask" ? "مرة بالأسبوع بدل البلسم، ٥ إلى ١٠ دقايق على الأطراف" : "بعد كل غسلة، على الأطراف بس";
-    if (key === "after") return "بعد كل غسلة على شعر رطب، على الأطراف";
+    var freq = ["مرة بالأسبوع", "مرة إلى مرتين بالأسبوع", "مرتين إلى ثلاث بالأسبوع", "يوم ويوم", "كل يوم"][p.oil];
+    if (key === "shampoo") return has("ad") ? "مرتين بالأسبوع. دلّك فيه الفروة وخله ٣ إلى ٥ دقايق ثم اشطفه" : freq + ". دلّك فيه الفروة دقيقة ثم اشطفه";
+    if (key === "cond") return "بعد الشامبو كل غسلة. من نص الشعر للأطراف، دقيقتين ثم اشطفه";
+    if (key === "mask") return "مرة بالأسبوع بدل البلسم. على الأطراف ٥ إلى ١٠ دقايق ثم اشطفه";
+    if (key === "after") return "بعد الغسيل على شعر رطب. على الأطراف وبدون شطف";
     return "";
   }
-  if (key === "cleanser") return p.oil <= 1 ? "مرة باليوم مساءً، والصباح موية بس" : "مرتين باليوم، صباح ومساء";
-  if (key === "moist") return "مرتين باليوم، صباح ومساء";
-  if (key === "sun") return "كل صباح، وجدّده كل ساعتين لو طالع بالشمس";
+  if (key === "cleanser") return p.oil <= 1 ? "مساءً. والصباح اغسل وجهك بالموية بس" : "صباح ومساء. على وجه مبلول نص دقيقة ثم اشطفه";
+  if (key === "moist") return "صباح ومساء بعد الغسول";
+  if (key === "sun") return "كل صباح آخر خطوة، وجدّده كل ساعتين لو طالع بالشمس";
   if (key === "treat") {
-    if (/retinol/i.test(prod.n)) return "مساءً فقط. ليلة وليلة أول أسبوعين، ثم كل ليلة";
-    if (has("aha") || has("sa") || has("bpo")) return p.sens === "yes" ? "مساءً، مرتين بالأسبوع" : "مساءً، يوم ويوم";
-    if (/vitamin c|c scape|duolys/i.test(prod.n)) return "كل صباح قبل واقي الشمس";
-    return "مرة إلى مرتين باليوم";
+    if (/retinol/i.test(prod.n)) return "مساءً بعد الغسول. ليلة وليلة أول أسبوعين، ثم كل ليلة";
+    if (has("aha") || has("sa") || has("bpo")) return p.sens === "yes" ? "مساءً بعد الغسول، مرتين بالأسبوع" : "مساءً بعد الغسول، يوم ويوم";
+    if (/vitamin c|c scape|duolys/i.test(prod.n)) return "كل صباح بعد الغسول وقبل المرطب";
+    return "مساءً بعد الغسول وقبل المرطب";
   }
   return "";
+}
+/* the routine laid out by time: morning and evening for skin, wash day and weekly for hair */
+function schedule(plan, p) {
+  var by = {}; plan.picks.forEach(function (x) { by[x.key] = x; });
+  var step = function (k, note) { return by[k] ? { label: by[k].label, n: by[k].p.n, note: note || "" } : null; }, G2 = [];
+  if (p.mode === "hair") {
+    var freq = by.shampoo && by.shampoo.p.f.indexOf("ad") >= 0 ? "مرتين بالأسبوع" : ["مرة بالأسبوع", "مرة إلى مرتين بالأسبوع", "مرتين إلى ثلاث بالأسبوع", "يوم ويوم", "كل يوم"][p.oil];
+    G2.push({ t: "يوم الغسيل", sub: freq, steps: [step("shampoo", "على الفروة"), step("cond", "على الأطراف، دقيقتين"), step("after", "على شعر رطب بدون شطف")] });
+    if (by.mask) G2.push({ t: "مرة بالأسبوع", sub: "بدل البلسم", steps: [step("mask", "٥ إلى ١٠ دقايق على الأطراف")] });
+  } else {
+    var t = by.treat, am = t && /vitamin c|c scape|duolys/i.test(t.p.n), tf = t ? (/يوم ويوم|مرتين بالأسبوع|ليلة وليلة/.exec(t.use) || [""])[0] : "";
+    G2.push({ t: "الصباح", sub: "", steps: [p.oil <= 1 ? { label: "الغسول", n: "موية بس", note: "" } : step("cleanser"), am ? step("treat") : null, step("moist"), step("sun", "آخر خطوة")] });
+    G2.push({ t: "المساء", sub: "", steps: [step("cleanser"), !am ? step("treat", tf) : null, step("moist")] });
+  }
+  G2.forEach(function (g) { g.steps = g.steps.filter(Boolean); });
+  return G2.filter(function (g) { return g.steps.length; });
 }
 var PHARM = {
   name: "متاجرنا الشريكة",
   code: "MQ10",   /* same code on the three partner stores; shown and copied on click */
   slots: {
-    hair: [["shampoo", "الشامبو", ["shampoo"]], ["care", "البلسم أو الماسك", ["conditioner", "mask"]], ["after", "بعد الغسيل", ["leavein", "oil", "serum"]]],
+    hair: [["shampoo", "الشامبو", ["shampoo"]], ["cond", "البلسم", ["conditioner"]], ["mask", "الماسك", ["mask"]], ["after", "بعد الغسيل", ["leavein", "oil", "serum"]]],
     skin: [["cleanser", "الغسول", ["cleanser"]], ["moist", "المرطب", ["moisturizer"]], ["sun", "واقي الشمس", ["sunscreen"]], ["treat", "العلاج", ["serum", "toner"]]]
   },
   /* name, category, flags, store, product reference on that store */
@@ -744,6 +766,7 @@ var PHARM = {
     ["ACM Novophane Energizing Shampoo", "shampoo", "mild", "om", 2001290223],
     ["ACM Novophane DS Anti-Dandruff Shampoo", "shampoo", "ad,mild", "om", 1267140077],
     ["ACM Novophane K Shampoo", "shampoo", "ad,sal", "om", 1091986152],
+    ["RevitaLash Thickening Shampoo", "shampoo", "hum,frag", "om", 1854194843, "pro"],
     ["Seboradin Forte Hair Mask", "mask", "hum,frag", "om", 125472762],
     ["Seboradin Hydrobalance Moisturising Hair Cream", "conditioner", "hum", "om", 420099842],
     ["RevitaLash Thickening Conditioner", "conditioner", "light,hum,frag", "rl", "thickening-conditioner"],
@@ -862,7 +885,7 @@ var TEXF = { light: 1, rich: 1, matte: 1 };
 var PHITEMS = { hair: null, skin: null };
 function pharmItems(mode) {
   if (!PHITEMS[mode]) PHITEMS[mode] = PHARM[mode].map(function (r) {
-    var hand = r[2] ? r[2].split(",") : [], it = { n: r[0], c: r[1], f: hand, st: r[3], ph: r[4], cur: true };
+    var hand = r[2] ? r[2].split(",") : [], it = { n: r[0], c: r[1], f: hand, st: r[3], ph: r[4], cur: true, tr: r[5] || "" };
     if (PINCI[r[0]]) {
       var f = analyzeIngredients(PINCI[r[0]], r[1], mode, r[0]);
       hand.forEach(function (x) { if (TEXF[x] && f.indexOf(x) < 0 && !(x === "light" && f.indexOf("rich") >= 0) && !(x === "rich" && f.indexOf("light") >= 0)) f.push(x); });
@@ -897,7 +920,7 @@ function matchInci(text, mode) {
 }
 /* two tiers of routine: "eco" = pharmacy brands at a lower price, "pro" = high-grade medical ranges */
 var TIERS = { hair: { eco: ["om"], pro: ["rl"] }, skin: { eco: ["om", "cf"], pro: ["zo"] } };
-var CORE = { shampoo: 1, care: 1, cleanser: 1, moist: 1, sun: 1 };
+var CORE = { shampoo: 1, cond: 1, cleanser: 1, moist: 1, sun: 1 };
 /* the fragrance line every recommendation card carries for someone who reacts to products */
 function scentNote(prod, p) {
   if (!verySens(p)) return "";
@@ -906,30 +929,26 @@ function scentNote(prod, p) {
 }
 function tierPlan(p, tier) {
   var items = pharmItems(p.mode), slots = PHARM.slots[p.mode], sts = TIERS[p.mode][tier], touchy = !!verySens(p);
-  /* someone who reacts to products gets the unscented option whenever a suitable one exists */
-  function best(slot, only) {
+  /* every step is filled from the partner ranges: this tier's stores first, then any partner. A very sensitive
+     person gets the unscented option when one scores well enough. */
+  function best(slot, pool) {
     var b = null, clean = null;
-    items.forEach(function (x) {
-      if (slot[2].indexOf(x.c) < 0 || (only && only.indexOf(x.st) < 0)) return; var r = scoreProduct(x, p), c = { p: x, r: r };
+    pool.forEach(function (x) {
+      if (slot[2].indexOf(x.c) < 0) return; var r = scoreProduct(x, p), c = { p: x, r: r };
       if (!b || r.score > b.r.score) b = c;
       if (x.f.indexOf("frag") < 0 && (!clean || r.score > clean.r.score)) clean = c;
     });
     return touchy && clean && clean.r.score >= 62 ? clean : b;
   }
+  var mine = items.filter(function (x) { return x.tr ? x.tr === tier : sts.indexOf(x.st) >= 0; });
+  var rest = items.filter(function (x) { return !x.tr || x.tr === tier; });
   var picks = slots.map(function (slot) {
-    var b = best(slot, sts); if ((!b || b.r.score < 62) && (CORE[slot[0]] || tier === "pro")) { var any = best(slot, null); if (any && (!b || any.r.score > b.r.score + 8)) b = any; }
-    if (!b || b.r.score < 62) return null;
+    var b = best(slot, mine), any = best(slot, rest);
+    if (!b || (any && any.r.score >= b.r.score + 15 && b.r.score < 62)) b = any;
+    if (!b) return null;
     return { label: slot[1], key: slot[0], core: !!CORE[slot[0]], p: b.p, s: b.r.score, why: scentNote(b.p, p) || (b.r.pros.length ? b.r.pros[0].t : ""), use: usageFor(slot[0], b.p, p) };
-  });
-  /* no partner shampoo suits this scalp: a gentle one, plus an anti-dandruff one when the scalp is oily or flaky */
-  if (p.mode === "hair" && !picks[0]) {
-    var two = p.issue === "dandruff" || (p.oil >= 3 && scalpSens(p)), g = EXTRA.gentle, fl = EXTRA.flake, extra = [];
-    if (two) extra.push({ label: "شامبو القشرة والدهون", key: "shampoo", core: true, p: fl, s: scoreProduct(fl, p).score, why: "يهدّي الفروة وينظفها بدون ما يهيّجها", use: "مرتين بالأسبوع، وخله على الفروة ٣ إلى ٥ دقايق قبل الشطف" });
-    extra.push({ label: two ? "شامبو باقي الأيام" : "الشامبو", key: "shampoo", core: true, p: g, s: scoreProduct(g, p).score, why: "لطيف وبدون سلفات، يناسب الفروة الحساسة", use: two ? "في باقي الغسلات" : usageFor("shampoo", g, p) });
-    picks = extra.concat(picks.slice(1));
-  }
-  var gaps = slots.filter(function (slot, i) { return !picks[i] && CORE[slot[0]]; }).map(function (slot) { return slot[1]; });
-  return { st: sts[0], tier: tier, picks: picks.filter(Boolean), gaps: gaps };
+  }).filter(Boolean);
+  return { st: sts[0], tier: tier, picks: picks, gaps: [] };
 }
 function pharmLink(prod) { return STORES[prod.st].link(prod.ph); }
 function pharmStore(prod) { return STORES[prod.st].name; }
@@ -1107,7 +1126,7 @@ var COPY = {
 };
 /* Arabic wording follows the visitor's answer to the first question: G(masculine, feminine) */
 function G(m, f) { return S.gender === "f" ? f : m; }
-var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مرّيت إصبعك", "لو مرّيتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["أو اكتب اسم", "أو اكتبي اسم"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"], ["اختر لين", "اختاري لين"], ["وجرّبه على منطقة", "وجرّبيه على منطقة"], ["لأنك تتحسس", "لأنك تتحسسين"], ["وخله على الفروة", "وخليه على الفروة"], ["وجدّده كل ساعتين لو طالع", "وجدّديه كل ساعتين لو طالعة"], ["دوّر على نوع", "دوّري على نوع"], ["وافحصه هنا قبل تشتريه", "وافحصيه هنا قبل تشترينه"], ["شيّك على", "شيّكي على"], ["تقدر تختار", "تقدرين تختارين"], ["شيل اختيار قبل تضيف", "شيلي اختيار قبل تضيفين"], ["اكتب اسمه", "اكتبي اسمه"], ["مرتاح عليه", "مرتاحة عليه"], ["ما تحتاج تغيّره", "ما تحتاجين تغيّرينه"], ["الصق المكونات", "الصقي المكونات"], ["صوّر ظهر", "صوّري ظهر"], ["اسأل طبيبك", "اسألي طبيبك"], ["أو تاخذ أدوية", "أو تاخذين أدوية"], ["الصق قائمة", "الصقي قائمة"]];
+var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مرّيت إصبعك", "لو مرّيتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["أو اكتب اسم", "أو اكتبي اسم"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"], ["اختر لين", "اختاري لين"], ["وجرّبه على منطقة", "وجرّبيه على منطقة"], ["لأنك تتحسس", "لأنك تتحسسين"], ["دلّك فيه الفروة وخله", "دلّكي فيه الفروة وخليه"], ["دلّك فيه الفروة", "دلّكي فيه الفروة"], ["ثم اشطفه", "ثم اشطفيه"], ["اغسل وجهك", "اغسلي وجهك"], ["وجدّده كل ساعتين لو طالع", "وجدّديه كل ساعتين لو طالعة"], ["دوّر على نوع", "دوّري على نوع"], ["وافحصه هنا قبل تشتريه", "وافحصيه هنا قبل تشترينه"], ["شيّك على", "شيّكي على"], ["تقدر تختار", "تقدرين تختارين"], ["شيل اختيار قبل تضيف", "شيلي اختيار قبل تضيفين"], ["اكتب اسمه", "اكتبي اسمه"], ["مرتاح عليه", "مرتاحة عليه"], ["ما تحتاج تغيّره", "ما تحتاجين تغيّرينه"], ["الصق المكونات", "الصقي المكونات"], ["صوّر ظهر", "صوّري ظهر"], ["اسأل طبيبك", "اسألي طبيبك"], ["أو تاخذ أدوية", "أو تاخذين أدوية"], ["الصق قائمة", "الصقي قائمة"]];
 function W(t) { if (S.gender !== "f") return t; FEM.forEach(function (r) { t = t.split(r[0]).join(r[1]); }); return t; }
 var S = { gender: null, mode: "hair", view: "home", step: 0, answers: {}, after: null, profiles: { hair: null, skin: null }, tab: "main", q: "", result: null, busy: false, err: "", errSwitch: false, tier: "eco" };
 try { var t0 = localStorage.getItem("mqTier"); if (t0 === "eco" || t0 === "pro") S.tier = t0; } catch (e) {}
@@ -1157,8 +1176,13 @@ function picksHTML(p) {
   var plan = tierPlan(p, S.tier), picks = plan.picks;
   var tb = function (k, t, sub) { return '<button data-tier="' + k + '" aria-pressed="' + (S.tier === k) + '"><b>' + t + '</b><small>' + sub + '</small></button>'; };
   return '<div class="picks" id="routine"><span class="kicker">روتينك المقترح</span><div class="tier" role="group" aria-label="مستوى الروتين">' + tb("eco", "اقتصادي", "ماركات صيدلية بسعر أقل") + tb("pro", "طبي فاخر", "منتجات طبية عالية الجودة") + '</div>' +
-    plan.gaps.map(function (g) { return '<div class="pick gap"><span class="slot">' + g + '<i class="tag core">أساسي</i></span><span class="why">' + W("ما عندنا عند شركائنا حالياً منتج يناسب نتيجتك في هذي الخطوة. " + (p.mode === "hair" ? "دوّر على نوع لطيف بدون عطور، وافحصه هنا قبل تشتريه." : "دوّر على نوع لطيف بدون عطور، وافحصه هنا قبل تشتريه.")) + '</span></div>'; }).join("") +
+    schedHTML(plan, p) + '<span class="kicker">منتجات روتينك</span>' +
     picks.map(pickCard).join("") + DISC() + '</div>';
+}
+function schedHTML(plan, p) {
+  return '<div class="sched">' + schedule(plan, p).map(function (g) {
+    return '<div class="sg"><div class="sg-h"><b>' + g.t + '</b>' + (g.sub ? '<span>' + g.sub + '</span>' : '') + '</div><ol>' + g.steps.map(function (st) { return '<li><span class="sl">' + st.label + '</span><span class="sn">' + esc(st.n) + '</span>' + (st.note ? '<small>' + esc(W(st.note)) + '</small>' : '') + '</li>'; }).join("") + '</ol></div>';
+  }).join("") + '</div>';
 }
 function moreHTML(p, m) {
   var h = "", c = concernPicks(p, S.tier), k = compoundPicks(p), sp = suppPicks(p);
@@ -1251,22 +1275,24 @@ function shareCard() {
   var p = P(), m = M().summary(p), plan = tierPlan(p, S.tier), cs = getComputedStyle(document.documentElement), ink = cs.getPropertyValue("--ink").trim() || "#070a0e", acc = cs.getPropertyValue("--accent").trim() || "#c59a6c", ivory = "#f3efe7";
   var c = document.createElement("canvas"); c.width = 1080; c.height = 1920; var g = c.getContext("2d"), ff = getComputedStyle(document.body).fontFamily;
   g.fillStyle = ink; g.fillRect(0, 0, 1080, 1920);
-  var R = 990, y = 250;
+  var R = 990, y = 210;
   function line(t, size, weight, color, gap, ltr) {
     g.direction = ltr ? "ltr" : "rtl"; g.textAlign = "right"; g.font = weight + " " + size + "px " + ff; g.fillStyle = color;
     var words = String(t).split(" "), cur = ""; words.forEach(function (w) { var nx = cur ? cur + " " + w : w; if (g.measureText(nx).width > 900 && cur) { g.fillText(cur, R, y); y += size * 1.45; cur = w; } else cur = nx; }); if (cur) { g.fillText(cur, R, y); y += size * 1.45; } y += gap || 0;
   }
-  g.fillStyle = acc; g.fillRect(R - 120, 150, 120, 6);
+  g.fillStyle = acc; g.fillRect(R - 120, 120, 120, 6);
   line(S.mode === "hair" ? "نتيجة فحص شعري" : "نتيجة فحص بشرتي", 42, "500", acc, 6);
-  line(S.mode === "hair" ? m.share.replace("، ", " و") : m.head, 76, "700", ivory, 34);
-  line(S.mode === "hair" ? "روتيني للشعر" : "روتيني للبشرة", 42, "500", acc, 14);
-  var items = plan.picks.slice(0, 5), small = items.length > 4;
-  items.forEach(function (x) {
-    g.globalAlpha = 0.18; g.fillStyle = ivory; g.fillRect(90, y - 34, 900, 2); g.globalAlpha = 1; y += 22;
-    line(x.label, small ? 32 : 36, "500", acc, 0);
-    line(x.p.n, small ? 38 : 42, "700", ivory, 0, true);
-    if (x.use) line(W(x.use), small ? 32 : 36, "400", ivory, 0);
-    y += small ? 16 : 24;
+  line(S.mode === "hair" ? m.share.replace("، ", " و") : m.head, 70, "700", ivory, 30);
+  line(S.mode === "hair" ? "روتيني للشعر" : "روتيني للبشرة", 40, "500", acc, 26);
+  var groups = schedule(plan, p), count = groups.reduce(function (n, gr) { return n + gr.steps.length; }, 0), small = count > 6;
+  groups.forEach(function (gr) {
+    y += 10; g.globalAlpha = 0.14; g.fillStyle = ivory; g.fillRect(90, y - 44, 900, small ? 62 : 68); g.globalAlpha = 1;
+    line(gr.t + (gr.sub ? "  ·  " + gr.sub : ""), small ? 36 : 40, "700", ivory, small ? 12 : 18);
+    gr.steps.forEach(function (st, i) {
+      line((i + 1) + ". " + st.label + (st.note ? "  ·  " + W(st.note) : ""), small ? 30 : 34, "500", acc, 0);
+      line(st.n, small ? 34 : 38, "600", ivory, small ? 8 : 14, /[A-Za-z]/.test(st.n));
+    });
+    y += small ? 10 : 18;
   });
   y = 1700; line(S.mode === "hair" ? G("اعرف نوع شعرك وروتينك", "اعرفي نوع شعرك وروتينك") : G("اعرف نوع بشرتك وروتينك", "اعرفي نوع بشرتك وروتينك"), 42, "500", acc, 6);
   line("د. محمد القحطاني", 50, "700", ivory, 0);
