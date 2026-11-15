@@ -305,6 +305,12 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .ex-row ol{margin:0}
 .ex-row ol:only-child{grid-column:1 / -1}
 
+.ex-row{display:block;margin:8px 0 10px;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.ex-row figure{position:relative;top:auto;margin:0}
+.ex-row figure::after{content:"";position:absolute;inset:auto 0 0 0;height:60%;background:linear-gradient(to bottom,transparent,var(--ink))}
+.ex-row img{width:100%;height:210px;object-fit:cover;object-position:center 35%;border:0;border-radius:0}
+.ex-row ol,.expect .ex-row ol{border:0;border-radius:0;margin:0}
+
 </style>
 </head>
 <body>
@@ -1283,7 +1289,7 @@ function picksHTML(p) {
     schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
 }
 function expectHTML(p) {
-  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="360" height="480" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"><figcaption>صورة توضيحية</figcaption></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
+  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="360" height="480" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
 }
 var SICON = { sun: "☀️", moon: "🌙", wash: "🚿", week: "🗓️", plus: "➕" };
 function schedHTML(plan, p) {
