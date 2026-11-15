@@ -291,6 +291,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .sg .ord .code{padding:4px 12px;font-size:12px}
 .sg .ord .go{font-size:14px}.sg .ord .code{padding:3px 10px}.sg .ord .code small{font-size:10px}
 
+.expect{margin-top:18px}
+.expect ol{list-style:none;margin:8px 0 10px;padding:0;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.expect li{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.expect li:last-child{border-bottom:0}
+.expect li b{font-size:14px;font-weight:600;color:var(--accent)}
+.expect li span{font-size:16px;line-height:1.6}
+
 </style>
 </head>
 <body>
@@ -1020,6 +1027,24 @@ function tierPlan(p, tier) {
   }
   return { st: sts[0], tier: tier, picks: picks, gaps: [] };
 }
+/* what the person can expect from the routine, as a short timeline tied to their own result */
+function expectations(p, tier) {
+  var out = [], ex = concernPicks(p, tier).map(function (e) { return e.p.n; }).join(" ");
+  if (p.mode === "hair") {
+    out.push(["بعد أسبوعين", p.issue === "dandruff" ? "القشرة والحكة تخف، والفروة تقعد نظيفة أطول" : p.oil >= 3 ? "الفروة تقعد نظيفة وخفيفة يوم زيادة بين الغسلات" : p.oil <= 1 ? "الفروة أرطب، والشد والنشفان يخف" : "الفروة مرتاحة والشعر أخف وأنظف"]);
+    out.push(["بعد شهر", (p.lengths === "brittle" || p.lengths === "dry" || p.chem === "bleach") ? "الأطراف أنعم وأقل تقصف، والشعر يلمع وتسريحه أسهل" : "شعر ألمع وأنعم، وتسريحه أسهل"]);
+    out.push(["بعد ٣ شهور", "شعر أقوى، تكسّر أقل ولمعة واضحة" + (/Eyelash|Eyebrow/.test(ex) ? "، والرموش والحواجب تبان أكثف" : "")]);
+  } else {
+    out.push(["بعد أسبوعين", p.oil >= 3 ? "اللمعة الدهنية تخف، والبشرة أنظف وأنعم" : p.oil <= 1 ? "البشرة أرطب وأنعم، والشد يخف" : "البشرة أرطب وأنعم"]);
+    var mid = [];
+    if (p.acne === "often" || p.acne === "some") mid.push("الحبوب تقل وآثارها تهدأ");
+    if (p.pig === "yes" || p.pig === "light") mid.push("البقع تبدأ تفتح، بشرط واقي الشمس كل يوم");
+    if (!mid.length) mid.push("النضارة تبدأ تبان ولون البشرة يتوحّد");
+    out.push(["بعد ٦ إلى ٨ أسابيع", mid.join("، و")]);
+    out.push(["بعد ٣ شهور", "بشرة أنضر ولونها موحّد" + (p.lines === "yes" ? "، والخطوط الدقيقة تبان أنعم" : "") + (p.dark === "yes" ? "، وتحت العين أفتح" : "")]);
+  }
+  return out;
+}
 function pharmLink(prod) { return STORES[prod.st].link(prod.ph); }
 function pharmStore(prod) { return STORES[prod.st].name; }
 /* the best-matching partner product for each step of a routine, kept on ONE store where possible:
@@ -1230,6 +1255,8 @@ function scaleHTML(level, label, combo) {
 }
 function typeName(p) { return M().summary(p).head.replace(COPY[S.mode].noun, "").trim(); }
 function mediaKey() { return (S.mode === "hair" ? "h" : "s") + (S.gender || "f"); }
+/* the skin intro always shows the glowing-skin clip */
+function introKey() { return S.mode === "skin" ? "sf" : mediaKey(); }
 function typePhoto(p) {
   var c = COPY[S.mode], b = p.oil <= 1 ? "dry" : p.oil === 2 ? "bal" : "oil", word = p.oil <= 1 ? "الجاف" : p.oil === 2 ? "المتوازن" : "الدهني";
   if (S.mode === "skin") word = p.oil <= 1 ? "الجافة" : p.oil === 2 ? "المتوازنة" : "الدهنية";
@@ -1246,7 +1273,10 @@ function picksHTML(p) {
   var plan = tierPlan(p, S.tier), picks = plan.picks;
   var tb = function (k, t, sub) { return '<button data-tier="' + k + '" aria-pressed="' + (S.tier === k) + '"><b>' + t + '</b><small>' + sub + '</small></button>'; };
   return '<div class="picks" id="routine"><span class="kicker">روتينك المقترح</span><div class="tier" role="group" aria-label="مستوى الروتين">' + tb("eco", "اقتصادي", "ماركات صيدلية بسعر أقل") + tb("pro", "طبي فاخر", "منتجات طبية عالية الجودة") + '</div>' +
-    schedHTML(plan, p) + DISC() + '</div>';
+    schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
+}
+function expectHTML(p) {
+  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
 }
 var SICON = { sun: "☀️", moon: "🌙", wash: "🚿", week: "🗓️", plus: "➕" };
 function schedHTML(plan, p) {
@@ -1277,7 +1307,7 @@ function home() {
     '<p class="lead">أسئلة قصيرة تحدد نوع ' + mine + '، وبعدها نقول لك أي منتج يناسبك وأي منتج لا، وليش.</p>' +
     '<div class="actions two"><button class="btn" data-a="quiz"><span>' + (g ? G("اعرف", "اعرفي") + ' نوع ' + mine : 'اختبار نوع ' + mine) + '<small>أسئلة قصيرة، وتطلع لك النتيجة مع روتين يناسبك</small></span>' + ARROW + '</button>' +
     '<button class="btn line" data-a="scanfirst"><span>' + (HASAI ? (g ? G("صوّر", "صوّري") + ' منتجك' : 'فحص منتجك بالصورة') : (g ? G("افحص", "افحصي") + ' منتجك' : 'فحص منتجك بالاسم')) + '<small>نقول لك يناسبك أو لا. نسألك عن نوع ' + mine + ' أول</small></span>' + ARROW + '</button></div>' +
-    '<div class="shot wide"><video autoplay muted loop playsinline preload="metadata" poster="media/intro-' + k + '.webp" src="media/intro-' + k + '.mp4" width="480" height="480" aria-label="مشهد توضيحي"></video></div>';
+    '<div class="shot wide"><video autoplay muted loop playsinline preload="metadata" poster="media/intro-' + introKey() + '.webp" src="media/intro-' + introKey() + '.mp4" width="480" height="480" aria-label="مشهد توضيحي"></video></div>';
 }
 function quiz() {
   var Q = M().quiz, off = S.gq ? 1 : 0, n = Q.length + off, i = S.gender ? S.step + off : 0, head = '<div class="count"><b>' + String(i + 1).padStart(2, "0") + '</b> / ' + String(n).padStart(2, "0") + '</div><div class="bar"><i style="width:' + ((i + 1) / n * 100) + '%"></i></div>';
@@ -1384,6 +1414,8 @@ function drawCard(bg) {
     });
     y += px(14);
   });
+  var e3 = expectations(p, S.tier).pop();
+  y += px(6); line("المتوقع " + e3[0] + ": " + e3[1], px(31), "600", acc, 0);
   return y;
   }
   for (k = 1; k > 0.5; k -= 0.04) { if (body() <= 1660) break; }
