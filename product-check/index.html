@@ -282,6 +282,15 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .sg-h b i{font-style:normal;margin-inline-end:4px}
 .sg .sl em{font-style:normal;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px;margin-inline-start:6px}
 
+.sg li{display:block;position:relative;padding:12px 0 12px;padding-inline-start:36px}
+.sg li::before{position:absolute;inset-inline-start:0;top:14px;margin:0}
+.sg .step{display:flex;flex-direction:column;gap:2px;color:inherit;text-decoration:none}
+.sg .ord{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.sg .ord .go{font-size:15px;font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:4px}
+.sg .ord .go .arr{font-family:var(--font-en)}
+.sg .ord .code{padding:4px 12px;font-size:12px}
+.sg .ord .go{font-size:14px}.sg .ord .code{padding:3px 10px}.sg .ord .code small{font-size:10px}
+
 </style>
 </head>
 <body>
@@ -757,6 +766,7 @@ function treatNights(prod, p) {
 }
 /* how to use the extra products offered by concern */
 function extraUse(n) {
+  if (/Duolys/i.test(n)) return "الصبح على وجه نظيف، قبل المرطب وواقي الشمس";
   if (/scrub/i.test(n)) return "مرة بالأسبوع قبل الشامبو. على فروة مبلولة، دلّك دقيقة ثم اشطفه";
   if (/anti-dandruff serum/i.test(n)) return "بعد الغسيل على فروة نظيفة. دلّكه على الفروة وبدون شطف";
   if (/foam/i.test(n)) return "مرة باليوم على الفروة، دلّكه بأطراف أصابعك وبدون شطف";
@@ -776,13 +786,13 @@ function extraUse(n) {
 /* the routine laid out by time: morning and evening for skin, wash day and weekly for hair, then the extras */
 function schedule(plan, p, extras) {
   var by = {}; plan.picks.forEach(function (x) { by[x.key] = x; });
-  var step = function (k, note) { return by[k] ? { label: by[k].label, n: by[k].p.n, note: note || "", opt: !by[k].core } : null; }, G2 = [];
+  var step = function (k, note) { return by[k] ? { label: by[k].label, n: by[k].p.n, note: note || "", opt: !by[k].core, p: by[k].p, use: by[k].use || "" } : null; }, G2 = [];
   extras = extras || [];
   var ex = function (re) { var x = extras.filter(function (e) { return re.test(e.p.n); })[0]; return x || null; };
   if (p.mode === "hair") {
     var scrub = ex(/scrub/i);
-    G2.push({ t: "يوم الغسيل", ic: "wash", sub: WASHFREQ[p.oil], steps: [by.shampoo2 ? step("shampoo", "في غسلتين بالأسبوع، خله ٣ إلى ٥ دقايق") : step("shampoo", by.shampoo && by.shampoo.p.f.indexOf("ad") >= 0 ? "على الفروة، خله ٣ إلى ٥ دقايق" : "على الفروة، دقيقة"), step("shampoo2", "في باقي الغسلات"), step("cond", "على الأطراف دقيقتين، بعيد عن الفروة"), step("after", "على شعر رطب، بدون شطف")] });
-    var wk = [scrub ? { label: "مقشّر الفروة", n: scrub.p.n, note: "قبل الشامبو، دلّك دقيقة ثم اشطفه", opt: true } : null, step("mask", "بدل البلسم، ٥ إلى ١٠ دقايق على الأطراف")];
+    G2.push({ t: "يوم الغسيل", ic: "wash", sub: WASHFREQ[p.oil], steps: [by.shampoo2 ? step("shampoo", "في غسلتين بالأسبوع، خله ٣ إلى ٥ دقايق") : step("shampoo", by.shampoo && by.shampoo.p.f.indexOf("ad") >= 0 ? "على الفروة، خله ٣ إلى ٥ دقايق" : "على الفروة، دقيقة"), step("shampoo2", "في باقي الغسلات"), step("cond", "على الأطراف دقيقتين، بعيد عن الفروة"), by.mask && by.mask.asCond ? step("mask", "بعد الشامبو على الأطراف، ٣ إلى ٥ دقايق ثم اشطفه") : null, step("after", "على شعر رطب، بدون شطف")] });
+    var wk = [scrub ? { label: "مقشّر الفروة", n: scrub.p.n, note: "قبل الشامبو، دلّك دقيقة ثم اشطفه", opt: true, p: scrub.p, use: scrub.use || "" } : null, by.mask && by.mask.asCond ? null : step("mask", "بدل البلسم، ٥ إلى ١٠ دقايق على الأطراف")];
     G2.push({ t: "مرة بالأسبوع", ic: "week", sub: "", steps: wk });
     extras = extras.filter(function (e) { return e !== scrub; });
   } else {
@@ -790,7 +800,7 @@ function schedule(plan, p, extras) {
     G2.push({ t: "الصباح", ic: "sun", sub: "", steps: [p.oil <= 1 ? { label: "الغسول", n: "موية بس", note: "" } : step("cleanser", "نص دقيقة ثم اشطفه"), am ? step("treat", "قبل المرطب") : null, step("moist"), step("sun", "آخر خطوة، وجدّده كل ساعتين برا")] });
     G2.push({ t: "المساء", ic: "moon", sub: "", steps: [step("cleanser", "نص دقيقة ثم اشطفه"), !am ? step("treat", t ? treatNights(t.p, p) : "") : null, step("moist")] });
   }
-  if (extras.length) G2.push({ t: "إضافات اختيارية", ic: "plus", sub: "", steps: extras.map(function (e) { return { label: e.label, n: e.p.n, note: (e.use || "").split(".")[0] + (/ليلتين بالأسبوع/.test(e.use || "") ? "، وابدأ ليلتين بالأسبوع" : ""), opt: true }; }) });
+  if (extras.length) G2.push({ t: "إضافات اختيارية", ic: "plus", sub: "", steps: extras.map(function (e) { return { label: e.label, n: e.p.n, note: (e.use || "").split(".")[0] + (/ليلتين بالأسبوع/.test(e.use || "") ? "، وابدأ ليلتين بالأسبوع" : ""), opt: true, p: e.p, use: e.use || "" }; }) });
   G2.forEach(function (g) { g.steps = g.steps.filter(Boolean); });
   return G2.filter(function (g) { return g.steps.length; });
 }
@@ -899,8 +909,9 @@ function concernPicks(p, tier) {
     if (p.lash === "lash" || p.lash === "both") add("للرموش", "RevitaLash Advanced Eyelash Conditioner", "rl", "revita-lash-advanced-eye-lash-conditioner", "سيروم للرموش، خط رفيع على منبت الرموش بالليل");
     if (p.lash === "brow" || p.lash === "both") add("للحواجب", "RevitaBrow Advanced Eyebrow Conditioner", "rl", "revitabrow-advanced-eyebrow-conditioner", "سيروم للحواجب، مرة باليوم");
   }
+  if (tier === "eco" && p.mode === "skin" && p.lines === "yes") add("للخطوط", "ACM Duolys CE Serum", "om", 951983589, "سيروم فيتامين سي وإي مضاد للأكسدة، يحسّن مظهر الخطوط والنضارة");
   var taken = {}; plan.picks.forEach(function (x) { taken[x.p.n] = 1; });
-  return out.filter(function (x) { if (taken[x.p.n]) return false; taken[x.p.n] = 1; return true; });
+  return out.filter(function (x) { if (tier && brandTier(x.p.n) !== tier) return false; if (taken[x.p.n]) return false; taken[x.p.n] = 1; return true; });
 }
 /* supplements for hair quality: brittle or chemically treated hair */
 function suppPicks(p) {
@@ -971,6 +982,8 @@ function scentNote(prod, p) {
   if (!prod.f) { var known = pharmItems(p.mode).filter(function (x) { return x.n === prod.n; })[0]; prod = known || { f: [], v: false }; }
   return prod.f.indexOf("frag") >= 0 ? "معطّر، والأفضل لك بدون عطور" : "";
 }
+/* the two tiers never share a product: RevitaLash and ZO are the medical-grade tier, everything else is economy */
+function brandTier(n) { return /^(RevitaLash|RevitaBrow|ZO )/i.test(n) ? "pro" : "eco"; }
 function tierPlan(p, tier) {
   var items = pharmItems(p.mode), slots = PHARM.slots[p.mode], sts = TIERS[p.mode][tier], touchy = !!verySens(p);
   /* every step is filled from the partner ranges: this tier's stores first, then any partner. A very sensitive
@@ -984,8 +997,9 @@ function tierPlan(p, tier) {
     });
     return touchy && clean && clean.r.score >= 62 ? clean : b;
   }
-  var mine = items.filter(function (x) { return x.tr ? x.tr === tier : sts.indexOf(x.st) >= 0; });
-  var rest = items.filter(function (x) { return !x.tr || x.tr === tier; });
+  /* one exception: the medical-grade hair range has no dandruff shampoo, so a dandruff plan borrows the treating shampoo */
+  var mine = items.filter(function (x) { return brandTier(x.n) === tier || (tier === "pro" && p.mode === "hair" && p.issue === "dandruff" && x.c === "shampoo" && x.f.indexOf("ad") >= 0); });
+  var rest = mine;
   var picks = slots.map(function (slot) {
     var b = best(slot, mine), any = best(slot, rest);
     if (!b || (any && any.r.score >= b.r.score + 15 && b.r.score < 62)) b = any;
@@ -997,6 +1011,12 @@ function tierPlan(p, tier) {
     var other = null;
     [mine, rest].forEach(function (pool) { if (other) return; pool.forEach(function (x) { if (x.c !== "shampoo" || x.f.indexOf("ad") >= 0) return; var r = scoreProduct(x, p); if (!other || r.score > other.r.score) other = { p: x, r: r }; }); });
     if (other) { sh.label = "شامبو القشرة"; picks.splice(1, 0, { label: "شامبو باقي الغسلات", key: "shampoo2", core: true, p: other.p, s: other.r.score, why: "للغسلات اللي بين شامبو القشرة", use: usageFor("shampoo2", other.p, p) }); }
+  }
+  if (p.mode === "hair" && !picks.some(function (x) { return x.key === "cond"; })) {
+    /* this range has no conditioner: the mask does that job after every shampoo */
+    var mk = picks.filter(function (x) { return x.key === "mask"; })[0];
+    if (!mk) { var mb = best(slots.filter(function (sl) { return sl[0] === "mask"; })[0], mine); if (mb) { mk = { key: "mask", p: mb.p, s: mb.r.score, why: mb.r.pros.length ? mb.r.pros[0].t : "" }; picks.push(mk); } }
+    if (mk) { mk.label = "الماسك بدل البلسم"; mk.core = true; mk.asCond = true; mk.use = "بعد الشامبو كل غسلة. على الأطوال والأطراف وبعيد عن الفروة، خله ٣ إلى ٥ دقايق ثم اشطفه"; }
   }
   return { st: sts[0], tier: tier, picks: picks, gaps: [] };
 }
@@ -1226,13 +1246,17 @@ function picksHTML(p) {
   var plan = tierPlan(p, S.tier), picks = plan.picks;
   var tb = function (k, t, sub) { return '<button data-tier="' + k + '" aria-pressed="' + (S.tier === k) + '"><b>' + t + '</b><small>' + sub + '</small></button>'; };
   return '<div class="picks" id="routine"><span class="kicker">روتينك المقترح</span><div class="tier" role="group" aria-label="مستوى الروتين">' + tb("eco", "اقتصادي", "ماركات صيدلية بسعر أقل") + tb("pro", "طبي فاخر", "منتجات طبية عالية الجودة") + '</div>' +
-    schedHTML(plan, p) + '<span class="kicker">منتجات روتينك</span>' +
-    picks.map(pickCard).join("") + DISC() + '</div>';
+    schedHTML(plan, p) + DISC() + '</div>';
 }
 var SICON = { sun: "☀️", moon: "🌙", wash: "🚿", week: "🗓️", plus: "➕" };
 function schedHTML(plan, p) {
   return '<div class="sched">' + schedule(plan, p, concernPicks(p, S.tier)).map(function (g) {
-    return '<div class="sg"><div class="sg-h"><b><i aria-hidden="true">' + (SICON[g.ic] || "") + '</i> ' + g.t + '</b>' + (g.sub ? '<span>' + g.sub + '</span>' : '') + '</div><ol>' + g.steps.map(function (st) { return '<li><span class="sl">' + st.label + (st.opt ? ' <em>اختياري</em>' : '') + '</span><span class="sn">' + esc(st.n) + '</span>' + (st.note ? '<small>' + esc(W(st.note)) + '</small>' : '') + '</li>'; }).join("") + '</ol></div>';
+    return '<div class="sg"><div class="sg-h"><b><i aria-hidden="true">' + (SICON[g.ic] || "") + '</i> ' + g.t + '</b>' + (g.sub ? '<span>' + g.sub + '</span>' : '') + '</div><ol>' + g.steps.map(function (st) {
+      var body = '<span class="sl">' + st.label + (st.opt ? ' <em>اختياري</em>' : '') + '</span><span class="sn">' + esc(st.n) + '</span>' + (st.note ? '<small>' + esc(W(st.note)) + '</small>' : '');
+      /* each step is the order link itself: press it and the store opens with the code copied */
+      if (!st.p) return '<li><span class="step">' + body + '</span></li>';
+      return '<li><a class="step" href="' + pharmLink(st.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[st.p.st].code) + '">' + body + '<span class="ord"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(st.p)) + ' ' + ARROW + '</span>' + codeChip(st.p) + '</span></a></li>';
+    }).join("") + '</ol></div>';
   }).join("") + '</div>';
 }
 function moreHTML(p, m) {
