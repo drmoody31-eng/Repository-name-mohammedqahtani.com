@@ -310,6 +310,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .ex-row figure::after{content:"";position:absolute;inset:auto 0 0 0;height:60%;background:linear-gradient(to bottom,transparent,var(--ink))}
 .ex-row img{width:100%;height:210px;object-fit:cover;object-position:center 35%;border:0;border-radius:0}
 .ex-row ol,.expect .ex-row ol{border:0;border-radius:0;margin:0}
+.ex-row img{height:auto;aspect-ratio:3/2;object-position:center}.ex-row figure::after{height:28%}
 
 </style>
 </head>
@@ -1044,17 +1045,17 @@ function tierPlan(p, tier) {
 function expectations(p, tier) {
   var out = [], ex = concernPicks(p, tier).map(function (e) { return e.p.n; }).join(" ");
   if (p.mode === "hair") {
-    out.push(["بعد أسبوعين", p.issue === "dandruff" ? "القشرة والحكة تخف، والفروة تقعد نظيفة أطول" : p.oil >= 3 ? "الفروة تقعد نظيفة وخفيفة يوم زيادة بين الغسلات" : p.oil <= 1 ? "الفروة أرطب، والشد والنشفان يخف" : "الفروة مرتاحة والشعر أخف وأنظف"]);
-    out.push(["بعد شهر", (p.lengths === "brittle" || p.lengths === "dry" || p.chem === "bleach") ? "الأطراف أنعم وأقل تقصف، والشعر يلمع وتسريحه أسهل" : "شعر ألمع وأنعم، وتسريحه أسهل"]);
-    out.push(["بعد ٣ شهور", "شعر أقوى، تكسّر أقل ولمعة واضحة" + (/Eyelash|Eyebrow/.test(ex) ? "، والرموش والحواجب تبان أكثف" : "")]);
+    out.push(["بعد أسبوعين", p.issue === "dandruff" ? "قشرة أقل وحكة أقل، وفروة نظيفة لوقت أطول" : p.oil >= 3 ? "فروة نظيفة لوقت أطول بين الغسلات" : p.oil <= 1 ? "فروة أكثر ترطيب وأقل نشفان" : "فروة مرتاحة وشعر أنظف وأخف"]);
+    out.push(["بعد شهر", (p.lengths === "brittle" || p.lengths === "dry" || p.chem === "bleach") ? "أطراف أكثر نعومة وأقل تقصف، وشعر أكثر لمعان وأسهل في التسريح" : "شعر أكثر لمعان ونعومة، وأسهل في التسريح"]);
+    out.push(["بعد ٣ شهور", "شعر أقوى وتكسّر أقل ولمعان واضح" + (/Eyelash|Eyebrow/.test(ex) ? "، ورموش وحواجب أكثر كثافة" : "")]);
   } else {
-    out.push(["بعد أسبوعين", p.oil >= 3 ? "اللمعة الدهنية تخف، والبشرة أنظف وأنعم" : p.oil <= 1 ? "البشرة أرطب وأنعم، والشد يخف" : "البشرة أرطب وأنعم"]);
+    out.push(["بعد أسبوعين", p.oil >= 3 ? "لمعة دهون أقل، وبشرة أنظف وأكثر نعومة" : p.oil <= 1 ? "بشرة أكثر ترطيب ونعومة، وشد أقل" : "بشرة أكثر ترطيب ونعومة"]);
     var mid = [];
-    if (p.acne === "often" || p.acne === "some") mid.push("الحبوب تقل وآثارها تهدأ");
-    if (p.pig === "yes" || p.pig === "light") mid.push("البقع تبدأ تفتح، بشرط واقي الشمس كل يوم");
-    if (!mid.length) mid.push("النضارة تبدأ تبان ولون البشرة يتوحّد");
+    if (p.acne === "often" || p.acne === "some") mid.push("حبوب أقل وآثار أخف");
+    if (p.pig === "yes" || p.pig === "light") mid.push("بقع أفتح، بشرط واقي الشمس كل يوم");
+    if (!mid.length) mid.push("بشرة أكثر نضارة ولون موحّد أكثر");
     out.push(["بعد ٦ إلى ٨ أسابيع", mid.join("، و")]);
-    out.push(["بعد ٣ شهور", "بشرة أنضر ولونها موحّد" + (p.lines === "yes" ? "، والخطوط الدقيقة تبان أنعم" : "") + (p.dark === "yes" ? "، وتحت العين أفتح" : "")]);
+    out.push(["بعد ٣ شهور", "بشرة أكثر نضارة ولونها موحّد" + (p.lines === "yes" ? "، وخطوط أقل وضوح" : "") + (p.dark === "yes" ? "، وهالات أفتح تحت العين" : "")]);
   }
   return out;
 }
@@ -1289,7 +1290,7 @@ function picksHTML(p) {
     schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
 }
 function expectHTML(p) {
-  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="360" height="480" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
+  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="780" height="520" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
 }
 var SICON = { sun: "☀️", moon: "🌙", wash: "🚿", week: "🗓️", plus: "➕" };
 function schedHTML(plan, p) {
