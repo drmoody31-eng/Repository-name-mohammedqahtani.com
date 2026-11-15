@@ -312,6 +312,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .ex-row ol,.expect .ex-row ol{border:0;border-radius:0;margin:0}
 .ex-row img{height:auto;aspect-ratio:3/2;object-position:center}.ex-row figure::after{height:28%}
 
+.expect li.now b{color:var(--muted)}.expect li.now span{color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -1041,21 +1043,22 @@ function tierPlan(p, tier) {
   }
   return { st: sts[0], tier: tier, picks: picks, gaps: [] };
 }
-/* what the person can expect from the routine, as a short timeline tied to their own result */
+/* what the person can expect from the routine: where they are now, then a short timeline, all built from their own result */
 function expectations(p, tier) {
-  var out = [], ex = concernPicks(p, tier).map(function (e) { return e.p.n; }).join(" ");
+  var out = [], ex = concernPicks(p, tier).map(function (e) { return e.p.n; }).join(" "), j = function (a) { return a.filter(Boolean).join("، و"); };
   if (p.mode === "hair") {
-    out.push(["بعد أسبوعين", p.issue === "dandruff" ? "قشرة أقل وحكة أقل، وفروة نظيفة لوقت أطول" : p.oil >= 3 ? "فروة نظيفة لوقت أطول بين الغسلات" : p.oil <= 1 ? "فروة أكثر ترطيب وأقل نشفان" : "فروة مرتاحة وشعر أنظف وأخف"]);
-    out.push(["بعد شهر", (p.lengths === "brittle" || p.lengths === "dry" || p.chem === "bleach") ? "أطراف أكثر نعومة وأقل تقصف، وشعر أكثر لمعان وأسهل في التسريح" : "شعر أكثر لمعان ونعومة، وأسهل في التسريح"]);
-    out.push(["بعد ٣ شهور", "شعر أقوى وتكسّر أقل ولمعان واضح" + (/Eyelash|Eyebrow/.test(ex) ? "، ورموش وحواجب أكثر كثافة" : "")]);
+    var oily = p.oil >= 3, dryS = p.oil <= 1, dand = p.issue === "dandruff", sensS = p.issue === "sensitive" || p.issue === "vsens";
+    var dmg = p.lengths === "brittle" || p.chem === "bleach", dryL = p.lengths === "dry" || p.chem === "color" || p.chem === "keratin" || p.heat === "high";
+    out.push(["وضعك الحين", j([oily ? "فروة دهنية تتزيّت بسرعة" : dryS ? "فروة جافة ومشدودة" : "فروة متوازنة", dand ? "قشرة وحكة" : sensS ? "فروة حساسة تتهيّج" : "", dmg ? "أطراف متقصفة وتالفة" : dryL ? "أطراف جافة" : "", p.texture === "fine" ? "شعر رفيع ما يمسك التسريحة" : p.texture === "curly" ? "شعر كيرلي يهيش" : ""])]);
+    out.push(["بعد أسبوعين", dand ? "قشرة أقل وحكة أقل، وفروة نظيفة لوقت أطول" : sensS ? "فروة أهدأ وتهيّج أقل" : oily ? "فروة نظيفة لوقت أطول بين الغسلات" : dryS ? "فروة أكثر ترطيب وأقل نشفان" : "فروة مرتاحة وشعر أنظف وأخف"]);
+    out.push(["بعد شهر", j([dmg ? "أطراف أكثر نعومة وأقل تقصف" : dryL ? "أطراف أكثر ترطيب ونعومة" : "شعر أكثر لمعان ونعومة", p.texture === "fine" ? "شعر يبان أكثف ويمسك التسريحة" : p.texture === "curly" ? "تموّجات مرتبة وهيشان أقل" : "شعر أسهل في التسريح"])]);
+    out.push(["بعد ٣ شهور", j([oily ? "فروة متوازنة ما تتزيّت بسرعة" : dryS ? "فروة مرتاحة بدون نشفان" : dand ? "فروة نظيفة بدون قشرة" : "", dmg || dryL ? "شعر أقوى وتكسّر أقل" : "شعر أقوى", "لمعان واضح", /Eyelash|Eyebrow/.test(ex) ? "رموش وحواجب أكثر كثافة" : ""])]);
   } else {
-    out.push(["بعد أسبوعين", p.oil >= 3 ? "لمعة دهون أقل، وبشرة أنظف وأكثر نعومة" : p.oil <= 1 ? "بشرة أكثر ترطيب ونعومة، وشد أقل" : "بشرة أكثر ترطيب ونعومة"]);
-    var mid = [];
-    if (p.acne === "often" || p.acne === "some") mid.push("حبوب أقل وآثار أخف");
-    if (p.pig === "yes" || p.pig === "light") mid.push("بقع أفتح، بشرط واقي الشمس كل يوم");
-    if (!mid.length) mid.push("بشرة أكثر نضارة ولون موحّد أكثر");
-    out.push(["بعد ٦ إلى ٨ أسابيع", mid.join("، و")]);
-    out.push(["بعد ٣ شهور", "بشرة أكثر نضارة ولونها موحّد" + (p.lines === "yes" ? "، وخطوط أقل وضوح" : "") + (p.dark === "yes" ? "، وهالات أفتح تحت العين" : "")]);
+    var oilyK = p.oil >= 3, dryK = p.oil <= 1, acne = p.acne === "yes" || p.acne === "some", pig = p.pig === "yes" || p.pig === "light", sens = p.sens === "yes";
+    out.push(["وضعك الحين", j([p.combo ? "بشرة مختلطة، دهنية في الوسط" : oilyK ? "بشرة دهنية ولمعة" : dryK ? "بشرة جافة ومشدودة" : "بشرة متوازنة", acne ? "حبوب" : "", pig ? "تصبغات" : "", p.lines === "yes" ? "خطوط" : "", p.dark === "yes" ? "هالات" : "", sens ? "تتهيّج بسرعة" : ""])]);
+    out.push(["بعد أسبوعين", j([oilyK || p.combo ? "لمعة دهون أقل، وبشرة أنظف وأكثر نعومة" : dryK ? "بشرة أكثر ترطيب ونعومة، وشد أقل" : "بشرة أكثر ترطيب ونعومة", sens ? "تهيّج واحمرار أقل" : ""])]);
+    out.push(["بعد ٦ إلى ٨ أسابيع", j([acne ? "حبوب أقل وآثار أخف" : "", pig ? "بقع أفتح، بشرط واقي الشمس كل يوم" : "", !acne && !pig ? "بشرة أكثر نضارة ولون موحّد أكثر" : ""])]);
+    out.push(["بعد ٣ شهور", j([oilyK || p.combo ? "دهون متوازنة ومسام أقل وضوح" : dryK ? "بشرة مرطبة طول اليوم بدون شد" : "", "بشرة أكثر نضارة ولونها موحّد", p.lines === "yes" ? "خطوط أقل وضوح" : "", p.dark === "yes" ? "هالات أفتح تحت العين" : ""])]);
   }
   return out;
 }
@@ -1290,7 +1293,7 @@ function picksHTML(p) {
     schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
 }
 function expectHTML(p) {
-  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="780" height="520" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
+  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="780" height="520" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li' + (e[0] === "وضعك الحين" ? ' class="now"' : '') + '><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
 }
 var SICON = { sun: "☀️", moon: "🌙", wash: "🚿", week: "🗓️", plus: "➕" };
 function schedHTML(plan, p) {
