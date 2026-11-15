@@ -932,9 +932,11 @@ function concernPicks(p, tier) {
     if (p.lash === "lash" || p.lash === "both") add("للرموش", "RevitaLash Advanced Eyelash Conditioner", "rl", "revita-lash-advanced-eye-lash-conditioner", "سيروم للرموش، خط رفيع على منبت الرموش بالليل");
     if (p.lash === "brow" || p.lash === "both") add("للحواجب", "RevitaBrow Advanced Eyebrow Conditioner", "rl", "revitabrow-advanced-eyebrow-conditioner", "سيروم للحواجب، مرة باليوم");
   }
+  /* economy hair has no conditioner of its own, so it borrows this leave-in twice a week; lash and brow serums are offered in both tiers */
+  if (tier === "eco" && p.mode === "hair") { add("بلسم بدون شطف", "RevitaLash Leave-In Hair Mask Conditioner", "rl", "leave-in-hair-mask-conditioner-90ml", "بلسم خفيف يُترك على الشعر، يرطّب الأطراف ويسهّل التسريح"); out[out.length - 1].use = "مرتين بالأسبوع بعد الغسيل، على الأطراف وهي رطبة وبدون شطف"; }
   if (tier === "eco" && p.mode === "skin" && p.lines === "yes") add("للخطوط", "ACM Duolys CE Serum", "om", 951983589, "سيروم فيتامين سي وإي مضاد للأكسدة، يحسّن مظهر الخطوط والنضارة");
   var taken = {}; plan.picks.forEach(function (x) { taken[x.p.n] = 1; });
-  return out.filter(function (x) { if (tier && brandTier(x.p.n) !== tier) return false; if (taken[x.p.n]) return false; taken[x.p.n] = 1; return true; });
+  return out.filter(function (x) { if (tier && brandTier(x.p.n) !== tier && !(tier === "eco" && /Eyelash|Eyebrow|Leave-In Hair Mask/.test(x.p.n))) return false; if (taken[x.p.n]) return false; taken[x.p.n] = 1; return true; });
 }
 /* supplements for hair quality: brittle or chemically treated hair */
 function suppPicks(p) {
