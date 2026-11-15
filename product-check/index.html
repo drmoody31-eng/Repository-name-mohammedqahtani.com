@@ -298,6 +298,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .expect li b{font-size:14px;font-weight:600;color:var(--accent)}
 .expect li span{font-size:16px;line-height:1.6}
 
+.ex-row{display:grid;grid-template-columns:112px 1fr;gap:12px;align-items:start;margin:8px 0 10px}
+.ex-row figure{margin:0;position:sticky;top:12px}
+.ex-row img{display:block;width:112px;height:150px;object-fit:cover;border-radius:var(--r-md);border:1px solid var(--line)}
+.ex-row figcaption{font-size:11px;color:var(--muted);text-align:center;margin-top:4px}
+.ex-row ol{margin:0}
+.ex-row ol:only-child{grid-column:1 / -1}
+
 </style>
 </head>
 <body>
@@ -1276,7 +1283,7 @@ function picksHTML(p) {
     schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
 }
 function expectHTML(p) {
-  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
+  return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="360" height="480" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"><figcaption>صورة توضيحية</figcaption></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.") + '</p></div>';
 }
 var SICON = { sun: "☀️", moon: "🌙", wash: "🚿", week: "🗓️", plus: "➕" };
 function schedHTML(plan, p) {
