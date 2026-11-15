@@ -1232,7 +1232,7 @@ var PDB = (typeof window !== "undefined" && window.PDB) || { hair: [], skin: [] 
 /* UI for the product checker. Depends on engine.js (MODES, LEVELS, scoreProduct, ...). */
 var COPY = {
   hair: { micro: "فاحص منتجات الشعر", q1: "وش نوع شعرك؟", q2: "وأي منتج يناسبه؟", thing: "شعرك", n: 7,
-    scale: "مقياس دهون الفروة", noun: "فروتك", alt: "خصلة شعر", look: "شكل الشعر", ph: "Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Dimethicone, Parfum…",
+    scale: "شكل شعرك الحين", noun: "فروتك", alt: "خصلة شعر", look: "شكل الشعر", ph: "Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Dimethicone, Parfum…",
     kinds: "شامبو أو بلسم أو زيت", other: "هذا منتج بشرة. نفحصه لك في قسم البشرة.", otherBtn: "افتح قسم البشرة", checkWord: "شعر" },
   skin: { micro: "فاحص منتجات البشرة", q1: "وش نوع بشرتك؟", q2: "وأي منتج يناسبها؟", thing: "بشرتك", n: 6,
     scale: "مقياس دهون البشرة", noun: "بشرتك", alt: "بشرة", look: "شكل البشرة", ph: "Aqua, Glycerin, Niacinamide, Ceramide NP, Dimethicone, Parfum…",
@@ -1265,11 +1265,17 @@ function setMode(m, keepView) {
 }
 var ARROW = '<span class="arr" aria-hidden="true">←</span>';
 
+/* the hair pictures show the hair itself, so the marker follows the lengths: damaged or dry lengths sit on the dry side whatever the scalp is */
+function shaftLevel(p) {
+  if (p.lengths === "brittle") return 0;
+  if (p.lengths === "dry") return 1;
+  return p.oil <= 2 ? 2 : p.oil;
+}
 function scaleHTML(level, label, combo) {
-  var c = COPY[S.mode], has = level != null, h = '<div class="scale' + (has ? " has-level" : "") + '"><div class="scale-head"><span>' + c.scale + '</span><span>' + (has ? '<b>' + (label || LEVELS[level]) + '</b>' : 'من الجاف إلى الدهني') + '</span></div><div class="tiles">';
-  for (var i = 0; i < 5; i++) h += '<div class="tile' + (i === level || (combo && i === 2) ? " on" : "") + '"><img src="img/' + S.mode + '-' + i + '.webp" width="538" height="' + (S.mode === "hair" ? 1040 : 725) + '" alt="' + c.alt + " " + LEVELS[i] + '" loading="eager">' + (combo ? (i === 3 ? '<span class="here">وسط الوجه</span>' : i === 2 ? '<span class="here">الأطراف</span>' : '') : i === level ? '<span class="here">' + G("أنت هنا", "أنتِ هنا") + '</span>' : '') + '</div>';
+  var c = COPY[S.mode], L = S.mode === "hair" ? ["جاف جداً", "جاف", "متوازن", "دهني", "دهني جداً"] : LEVELS, has = level != null, h = '<div class="scale' + (has ? " has-level" : "") + '"><div class="scale-head"><span>' + c.scale + '</span><span>' + (has ? '<b>' + (label || L[level]) + '</b>' : 'من الجاف إلى الدهني') + '</span></div><div class="tiles">';
+  for (var i = 0; i < 5; i++) h += '<div class="tile' + (i === level || (combo && i === 2) ? " on" : "") + '"><img src="img/' + S.mode + '-' + i + '.webp" width="538" height="' + (S.mode === "hair" ? 1040 : 725) + '" alt="' + c.alt + " " + L[i] + '" loading="eager">' + (combo ? (i === 3 ? '<span class="here">وسط الوجه</span>' : i === 2 ? '<span class="here">الأطراف</span>' : '') : i === level ? '<span class="here">' + G("أنت هنا", "أنتِ هنا") + '</span>' : '') + '</div>';
   h += '</div><div class="ticks">';
-  for (i = 0; i < 5; i++) h += '<span' + (i === level || (combo && i === 2) ? ' class="on"' : '') + '>' + LEVELS[i] + '</span>';
+  for (i = 0; i < 5; i++) h += '<span' + (i === level || (combo && i === 2) ? ' class="on"' : '') + '>' + L[i] + '</span>';
   return h + '</div></div>';
 }
 function typeName(p) { return M().summary(p).head.replace(COPY[S.mode].noun, "").trim(); }
@@ -1341,7 +1347,7 @@ function quiz() {
 function profile() {
   var c = COPY[S.mode], p = P(), m = M().summary(p), type = typeName(p);
   var lead = S.mode === "hair" ? m.share.replace("، ", " و") : m.rows[0][1] + "، " + m.rows[1][0] + ": " + m.rows[1][1];
-  return '<span class="kicker">نتيجتك</span><h2>' + c.noun + ' <em>' + esc(type) + '.</em></h2><p class="lead">' + esc(lead) + '.</p>' + scaleHTML(p.combo ? 3 : p.oil, p.combo ? "مختلطة" : null, p.combo) +
+  return '<span class="kicker">نتيجتك</span><h2>' + c.noun + ' <em>' + esc(type) + '.</em></h2><p class="lead">' + esc(lead) + '.</p>' + scaleHTML(p.mode === "hair" ? shaftLevel(p) : p.combo ? 3 : p.oil, p.combo ? "مختلطة" : null, p.combo) +
     '<div><span class="kicker">أهم شي ' + (S.mode === "hair" ? "لشعرك" : "لبشرتك") + '</span><ul class="pm plus big">' + m.want.slice(0, 3).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>' +
     '<button class="btn" data-a="check">' + (HASAI ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + ' منتجك ' + G("وشوف", "وشوفي") + ' يناسبك أو لا ' + ARROW + '</button>' +
     picksHTML(p) + moreHTML(p, m) +
