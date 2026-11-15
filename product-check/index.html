@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="8bd381ded8";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="d9145222e2";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -314,6 +314,22 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .ex-row img{height:auto;aspect-ratio:3/2;object-position:center}.ex-row figure::after{height:28%}
 
 .expect li.now b{color:var(--muted)}.expect li.now span{color:var(--muted)}
+
+.pack{margin:14px 0 6px;padding:16px;border:1px solid var(--accent);border-radius:var(--r-md);display:flex;flex-direction:column;gap:10px}
+.pack .pk-n{font-size:20px;font-weight:600;line-height:1.4}
+.pack .pk-n span{font-family:var(--font-en);font-size:15px;color:var(--muted);font-weight:500;display:block}
+.pack p{margin:0}
+.pk-items{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.pk-items li{display:flex;flex-direction:column;gap:1px;padding:9px 0;border-bottom:1px solid var(--line)}
+.pk-items .sl{font-size:13px;color:var(--accent)}
+.pk-items .sn{font-family:var(--font-en);font-size:15px;direction:ltr;text-align:right}
+.pk-items small{font-size:14px;color:var(--muted);line-height:1.6}
+.pk-price{display:flex;flex-direction:column;gap:6px}
+.pk-price div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:15px}
+.pk-price s{color:var(--muted)}
+.pk-price .pk-save{margin-top:4px;padding-top:8px;border-top:1px solid var(--line);font-size:18px;color:var(--accent)}
+.pack .btn{text-align:center}
+.pack .tag{align-self:flex-start}.pack .btn{text-decoration:none}
 
 </style>
 </head>
@@ -1065,6 +1081,41 @@ function expectations(p, tier) {
   }
   return out;
 }
+/* Carefinity's ready-made FCL sets (prices in riyals read from their offers page): shown in the economy skin routine when the set fits the person.
+   was = the products bought one by one, now = the set price; the doctor's code takes 10% more off the set price */
+var PACKS = {
+  acne: { n: "FCL Acne Kit", ar: "باقة حب الشباب", off: 20, was: 838, now: 670, ph: 283496472, items: [
+    ["FCL B Prox 10 Wash", "الغسول", "صباح ومساء، دلّكه نص دقيقة على وجه مبلول ثم اشطفه"],
+    ["FCL Alpha Beta Acne Gel", "جل الحبوب", "بالليل على مناطق الحبوب. ابدأ ليلتين بالأسبوع"],
+    ["FCL Penta Peel Pads", "بادز التقشير", "مرة بالأسبوع بالليل، في ليلة غير ليلة الجل"],
+    ["FCL C Scape 25 Serum", "سيروم فيتامين سي", "الصبح قبل المرطب"],
+    ["FCL Moisturizing Drops Cream", "المرطب", "صباح ومساء بعد الغسول"]], miss: "واقي الشمس" },
+  acneMini: { n: "FCL Acne Mini Kit", ar: "باقة حب الشباب الصغيرة", off: 10, was: 574, now: 516, ph: 82654111, items: [
+    ["FCL B Prox 10 Wash", "الغسول", "صباح ومساء، دلّكه نص دقيقة على وجه مبلول ثم اشطفه"],
+    ["FCL Alpha Beta Acne Gel", "جل الحبوب", "بالليل على مناطق الحبوب. ابدأ ليلتين بالأسبوع"],
+    ["FCL Moisturizing Drops Cream", "المرطب", "صباح ومساء بعد الغسول"]], miss: "واقي الشمس" },
+  white: { n: "FCL Whitening Kit", ar: "باقة التصبغات", off: 20, was: 872, now: 697, ph: 887933544, items: [
+    ["FCL C Scape Cleanser", "الغسول", "صباح ومساء، دلّكه نص دقيقة على وجه مبلول ثم اشطفه"],
+    ["FCL AHA Lightening Gel", "جل التفتيح", "بالليل على مناطق التصبغ فقط. ابدأ ليلتين بالأسبوع"],
+    ["FCL Moisturizing Drops Cream", "المرطب", "صباح ومساء بعد الغسول"],
+    ["FCL Lightweight SPF 80", "واقي الشمس", "آخر خطوة الصباح، وجدّده كل ساعتين وأنت برا"]] },
+  bright: { n: "FCL Skin Brightening Kit", ar: "باقة النضارة", off: 20, was: 1235, now: 988, ph: 1437117149, items: [
+    ["FCL C Scape Cleanser", "الغسول", "صباح ومساء، دلّكه نص دقيقة على وجه مبلول ثم اشطفه"],
+    ["FCL C Scape 25 Serum", "سيروم فيتامين سي", "الصبح قبل واقي الشمس"],
+    ["FCL Eye Refining Matrix", "كريم العين", "صباح ومساء حول العين"],
+    ["FCL Lightweight SPF 80", "واقي الشمس", "آخر خطوة الصباح، وجدّده كل ساعتين وأنت برا"]], miss: "المرطب" },
+  pore: { n: "FCL Pore Minimizing Set", ar: "باقة المسام", off: 10, was: 436, now: 392, ph: 712650889, items: [
+    ["FCL Face Toner", "التونر", "بالليل بعد الغسول"],
+    ["FCL Penta Peel Pads", "بادز التقشير", "مرة بالأسبوع بالليل بدل التونر"]], miss: "الغسول والمرطب وواقي الشمس" }
+};
+/* the set that fits this person, or nothing: sensitive skin gets no set because every set carries acids or strong vitamin C */
+function packFor(p, tier) {
+  if (p.mode !== "skin" || tier !== "eco" || p.sens === "yes") return null;
+  var k = p.acne === "yes" ? "acne" : p.acne === "some" ? "acneMini" : p.pig === "yes" ? "white" : (p.goal === "dull" || p.dark === "yes" || p.lines === "yes") ? "bright" : p.oil >= 3 ? "pore" : null;
+  if (!k) return null;
+  var d = PACKS[k], fin = Math.round(d.now * 0.9);
+  return { k: k, n: d.n, ar: d.ar, off: d.off, was: d.was, now: d.now, fin: fin, save: d.was - fin, items: d.items, miss: d.miss || "", link: STORES.cf.link(d.ph), code: STORES.cf.code };
+}
 function pharmLink(prod) { return STORES[prod.st].link(prod.ph); }
 function pharmStore(prod) { return STORES[prod.st].name; }
 /* the best-matching partner product for each step of a routine, kept on ONE store where possible:
@@ -1299,7 +1350,18 @@ function picksHTML(p) {
   var plan = tierPlan(p, S.tier), picks = plan.picks;
   var tb = function (k, t, sub) { return '<button data-tier="' + k + '" aria-pressed="' + (S.tier === k) + '"><b>' + t + '</b><small>' + sub + '</small></button>'; };
   return '<div class="picks" id="routine"><span class="kicker">روتينك المقترح</span><div class="tier" role="group" aria-label="مستوى الروتين">' + tb("eco", "اقتصادي", "ماركات صيدلية بسعر أقل") + tb("pro", "طبي فاخر", "منتجات طبية عالية الجودة") + '</div>' +
-    schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
+    packHTML(p) + schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
+}
+/* a ready-made Carefinity set in place of buying the steps one by one, with the saving spelled out */
+function packHTML(p) {
+  var k = packFor(p, S.tier); if (!k) return "";
+  return '<div class="pack"><span class="tag">باقة جاهزة توفّر عليك</span><b class="pk-n">' + esc(k.ar) + ' <span dir="ltr">' + esc(k.n) + '</span></b>' +
+    '<p class="small">' + G("بدل ما تطلب كل منتج لحاله، هذي الباقة فيها أغلب روتينك بسعر أقل.", "بدل ما تطلبين كل منتج لحاله، هذي الباقة فيها أغلب روتينك بسعر أقل.") + '</p>' +
+    '<ol class="pk-items">' + k.items.map(function (it) { return '<li><span class="sl">' + it[1] + '</span><span class="sn">' + esc(it[0]) + '</span><small>' + esc(W(it[2])) + '</small></li>'; }).join("") + '</ol>' +
+    (k.miss ? '<p class="small muted">الباقة ما فيها ' + k.miss + '، ' + G("خذه", "خذيه") + ' من الروتين تحت.</p>' : '') +
+    '<div class="pk-price"><div><span>المنتجات لحالها</span><s>' + k.was + ' ريال</s></div><div><span>سعر الباقة (خصم ' + k.off + '٪ من المتجر)</span><b>' + k.now + ' ريال</b></div><div><span>مع كود ' + k.code + ' (خصم ١٠٪ زيادة)</span><b>' + k.fin + ' ريال</b></div><div class="pk-save"><span>' + G("توفّر", "توفّرين") + '</span><b>' + k.save + ' ريال</b></div></div>' +
+    '<a class="btn" href="' + k.link + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(k.code) + '">' + G("اطلب الباقة", "اطلبي الباقة") + ' من Carefinity ' + ARROW + '</a>' +
+    '<p class="small muted">الأسعار من موقع Carefinity وممكن تتغير. ' + G("اضغط الزر وينسخ لك الكود", "اضغطي الزر وينسخ لك الكود") + ' ' + k.code + '.</p></div>';
 }
 function expectHTML(p) {
   return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="780" height="520" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li' + (e[0] === "وضعك الحين" ? ' class="now"' : '') + '><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + (p.mode === "hair" && p.issue === "dandruff" ? G("القشرة والحكة لازم تخف خلال ٤ أسابيع. إذا ما خفّت، احجز استشارة. باقي النتائج تحتاج ٣ شهور.", "القشرة والحكة لازم تخف خلال ٤ أسابيع. إذا ما خفّت، احجزي استشارة. باقي النتائج تحتاج ٣ شهور.") : G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.")) + '</p></div>';
