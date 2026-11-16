@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="741f2e9431";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="e19cab901d";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1866,8 +1866,18 @@ function resolveScan(j, mode, skipBase) {
     return { err: "تعرّفنا على المنتج. عشان نحلله بدقة، صوّر قائمة المكونات من ظهر العلبة.", name: full };
   });
 }
+/* private note of what was scanned and whether we had it, so missing products can be added */
+function logScan(j, mode, out) {
+  try {
+    if (!SCAN_URL) return;
+    var r = out.result, name = j && j.readable ? ((j.brand || "") + " " + (j.name || "")).trim() : "";
+    var src = !name ? "unread" : out.err ? (out.sw ? "" : "fail") : r.matched || /المسجلة عندنا/.test(r.src) ? "db" : r.approx ? "approx" : /من الصورة/.test(r.src) ? "inci" : "known";
+    if (src) fetch(SCAN_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode: mode, log: src, name: name }), keepalive: true }).catch(function () {});
+  } catch (e) {}
+}
 function finishScan(j, mode, skipBase) {
   return resolveScan(j, mode, skipBase).then(function (out) {
+    logScan(j, mode, out);
     S.busy = false; if (S.mode !== mode) return;
     if (out.err) { S.err = out.err; S.errName = out.name || ""; S.errSwitch = !!out.sw; S.view = "check"; render(); return; }
     S.result = out.result; go("result");
