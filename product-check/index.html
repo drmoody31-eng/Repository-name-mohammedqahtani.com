@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="d9145222e2";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="fa75c447c1";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -330,6 +330,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .pk-price .pk-save{margin-top:4px;padding-top:8px;border-top:1px solid var(--line);font-size:18px;color:var(--accent)}
 .pack .btn{text-align:center}
 .pack .tag{align-self:flex-start}.pack .btn{text-decoration:none}
+
+.pack .pk-lead{font-size:16px;line-height:1.8}
+.pack .pk-lead b{color:var(--accent);font-family:var(--font-en)}
 
 </style>
 </head>
@@ -1108,13 +1111,37 @@ var PACKS = {
     ["FCL Face Toner", "التونر", "بالليل بعد الغسول"],
     ["FCL Penta Peel Pads", "بادز التقشير", "مرة بالأسبوع بالليل بدل التونر"]], miss: "الغسول والمرطب وواقي الشمس" }
 };
-/* the set that fits this person, or nothing: sensitive skin gets no set because every set carries acids or strong vitamin C */
+var WASH = "صباح ومساء، دلّكه نص دقيقة على وجه مبلول ثم اشطفه";
+/* ZO Skin Health sets (medical-grade skin) and the RevitaLash lash and brow duo, read from each store's own pages */
+var PACKS2 = {
+  zoRet: { st: "zo", n: "ZO Retinol Brightening Set", ar: "باقة التفتيح بالريتينول", off: 12, ph: "retinol-brightening-bundle-مجموعة-التفتيح-بالريتينول", items: [
+    ["ZO Gentle Cleanser", "الغسول", WASH], ["ZO Exfoliating Polish", "المقشر", "مرتين بالأسبوع بعد الغسول، دلّكه بلطف دقيقة ثم اشطفه"],
+    ["ZO Complexion Renewal Pads", "بادز التجديد", "بالليل بعد الغسول على الوجه كله"], ["ZO Daily Power Defense", "سيروم الحماية اليومي", "الصبح بعد الغسول وقبل واقي الشمس"],
+    ["ZO Retinol Skin Brightener", "الريتينول", "بالليل. ابدأ ليلتين بالأسبوع"]], miss: "المرطب وواقي الشمس" },
+  zoNight: { st: "zo", n: "ZO Night Pigmentation Repair Duo", ar: "ثنائي التصبغات الليلي", off: 25, ph: "pigmentation-recovery-duo-ثنائي-التصبغات-والترميم", items: [
+    ["ZO Retinol Skin Brightener 1%", "الريتينول", "بالليل. ابدأ ليلتين بالأسبوع"], ["ZO Recovery Crème", "كريم الترميم", "بالليل بعد الريتينول"]], miss: "الغسول وواقي الشمس" },
+  zoRenew: { st: "zo", n: "ZO Daily Renewal Duo", ar: "ثنائي التجديد اليومي", off: 10, ph: "am-pm-aging-duo", items: [
+    ["ZO Daily Power Defense", "سيروم الحماية اليومي", "الصبح بعد الغسول وقبل واقي الشمس"], ["ZO Growth Factor Serum", "سيروم عوامل النمو", "صباح ومساء قبل المرطب"]], miss: "الغسول والمرطب وواقي الشمس" },
+  zoEye: { st: "zo", n: "ZO Face & Eye Retinol Brightening Duo", ar: "ثنائي تفتيح الوجه والهالات", off: 10, ph: "ثنائي-تفتيح-الوجه-والهالات", items: [
+    ["ZO Retinol Skin Brightener", "الريتينول", "بالليل. ابدأ ليلتين بالأسبوع"], ["ZO Eye Brightening Crème", "كريم الهالات", "صباح ومساء حول العين"]], miss: "الغسول والمرطب وواقي الشمس" },
+  zoBright: { st: "zo", n: "ZO Brightening Set", ar: "باقة التفتيح", off: 6, ph: "مجموعة-التفتيح-brightening-set", items: [
+    ["ZO Gentle Cleanser", "الغسول", WASH], ["ZO Exfoliating Polish", "المقشر", "مرتين بالأسبوع بعد الغسول، دلّكه بلطف دقيقة ثم اشطفه"],
+    ["ZO Complexion Renewal Pads", "بادز التجديد", "بالليل بعد الغسول على الوجه كله"], ["ZO Daily Power Defense", "سيروم الحماية اليومي", "الصبح بعد الغسول وقبل واقي الشمس"],
+    ["ZO Brightalive", "كريم التفتيح", "صباح ومساء على الوجه كله"]], miss: "المرطب وواقي الشمس" },
+  rlDuo: { st: "rl", n: "RevitaLash Hero Duo", ar: "ثنائي الرموش والحواجب", off: 20, ph: "hero-duo-1", items: [
+    ["RevitaLash Advanced Eyelash Conditioner", "سيروم الرموش", "مرة باليوم بالليل على خط الرموش العلوي"], ["RevitaBrow Advanced Eyebrow Conditioner", "سيروم الحواجب", "مرة باليوم على الحواجب"]], part: "سيروم الرموش وسيروم الحواجب" }
+};
+Object.keys(PACKS).forEach(function (k) { PACKS[k].st = "cf"; PACKS2[k] = PACKS[k]; });
+/* the set that fits this person, or nothing. sensitive skin gets no skin set because every one carries acids, retinol or strong vitamin C */
 function packFor(p, tier) {
-  if (p.mode !== "skin" || tier !== "eco" || p.sens === "yes") return null;
-  var k = p.acne === "yes" ? "acne" : p.acne === "some" ? "acneMini" : p.pig === "yes" ? "white" : (p.goal === "dull" || p.dark === "yes" || p.lines === "yes") ? "bright" : p.oil >= 3 ? "pore" : null;
+  var k = null;
+  if (p.mode === "hair") k = p.lash === "both" ? "rlDuo" : null;
+  else if (p.sens === "yes") k = null;
+  else if (tier === "eco") k = p.acne === "yes" ? "acne" : p.acne === "some" ? "acneMini" : p.pig === "yes" ? "white" : (p.goal === "dull" || p.dark === "yes" || p.lines === "yes") ? "bright" : p.oil >= 3 ? "pore" : null;
+  else k = p.pig === "yes" ? (p.oil <= 1 ? "zoNight" : "zoRet") : p.lines === "yes" ? "zoRenew" : p.dark === "yes" ? "zoEye" : p.goal === "dull" ? "zoBright" : null;
   if (!k) return null;
-  var d = PACKS[k], fin = Math.round(d.now * 0.9);
-  return { k: k, n: d.n, ar: d.ar, off: d.off, was: d.was, now: d.now, fin: fin, save: d.was - fin, items: d.items, miss: d.miss || "", link: STORES.cf.link(d.ph), code: STORES.cf.code };
+  var d = PACKS2[k], st = STORES[d.st];
+  return { k: k, n: d.n, ar: d.ar, off: d.off, items: d.items, miss: d.miss || "", part: d.part || "", store: st.name, link: st.link(d.ph), code: st.code };
 }
 function pharmLink(prod) { return STORES[prod.st].link(prod.ph); }
 function pharmStore(prod) { return STORES[prod.st].name; }
@@ -1299,6 +1326,8 @@ try { var t0 = localStorage.getItem("mqTier"); if (t0 === "eco" || t0 === "pro")
 try { var sv = JSON.parse(localStorage.getItem("mqProfiles") || "null"); if (sv) { if (sv.hair && sv.hair.mode === "hair") S.profiles.hair = sv.hair; if (sv.skin && sv.skin.mode === "skin") S.profiles.skin = sv.skin; } } catch (e) {}
 try { var g0 = localStorage.getItem("mqGender"); if (g0 === "m" || g0 === "f") S.gender = g0; } catch (e) {}
 var SCAN_URL = window.MQ_SCAN_URL || "";
+/* private usage counts: one tiny note to the doctor's own counter, no personal data */
+function track(ev) { try { if (SCAN_URL) fetch(SCAN_URL, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode: S.mode, event: ev }), keepalive: true }).catch(function () {}); } catch (e) {} }
 var HASAI = !!(window.claude && window.claude.use);
 var sampler = null, canPhoto = false, store = null, LIST = [];
 var V = document.getElementById("view");
@@ -1355,13 +1384,13 @@ function picksHTML(p) {
 /* a ready-made Carefinity set in place of buying the steps one by one, with the saving spelled out */
 function packHTML(p) {
   var k = packFor(p, S.tier); if (!k) return "";
-  return '<div class="pack"><span class="tag">باقة جاهزة توفّر عليك</span><b class="pk-n">' + esc(k.ar) + ' <span dir="ltr">' + esc(k.n) + '</span></b>' +
-    '<p class="small">' + G("بدل ما تطلب كل منتج لحاله، هذي الباقة فيها أغلب روتينك بسعر أقل.", "بدل ما تطلبين كل منتج لحاله، هذي الباقة فيها أغلب روتينك بسعر أقل.") + '</p>' +
+  var what = k.part ? "هذي الباقة فيها " + k.part + " مع بعض." : "هذي الباقة فيها أغلب منتجات روتينك.";
+  return '<div class="pack"><span class="tag">باقة جاهزة</span><b class="pk-n">' + esc(k.ar) + ' <span dir="ltr">' + esc(k.n) + '</span></b>' +
+    '<p class="pk-lead">' + what + ' عليها خصم ' + k.off + '٪ من المتجر، وخصم د. القحطاني الإضافي بكود <b dir="ltr">' + k.code + '</b>.</p>' +
     '<ol class="pk-items">' + k.items.map(function (it) { return '<li><span class="sl">' + it[1] + '</span><span class="sn">' + esc(it[0]) + '</span><small>' + esc(W(it[2])) + '</small></li>'; }).join("") + '</ol>' +
-    (k.miss ? '<p class="small muted">الباقة ما فيها ' + k.miss + '، ' + G("خذه", "خذيه") + ' من الروتين تحت.</p>' : '') +
-    '<div class="pk-price"><div><span>المنتجات لحالها</span><s>' + k.was + ' ريال</s></div><div><span>سعر الباقة (خصم ' + k.off + '٪ من المتجر)</span><b>' + k.now + ' ريال</b></div><div><span>مع كود ' + k.code + ' (خصم ١٠٪ زيادة)</span><b>' + k.fin + ' ريال</b></div><div class="pk-save"><span>' + G("توفّر", "توفّرين") + '</span><b>' + k.save + ' ريال</b></div></div>' +
-    '<a class="btn" href="' + k.link + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(k.code) + '">' + G("اطلب الباقة", "اطلبي الباقة") + ' من Carefinity ' + ARROW + '</a>' +
-    '<p class="small muted">الأسعار من موقع Carefinity وممكن تتغير. ' + G("اضغط الزر وينسخ لك الكود", "اضغطي الزر وينسخ لك الكود") + ' ' + k.code + '.</p></div>';
+    (k.miss ? '<p class="small muted">الباقة ما فيها ' + k.miss + '، ' + G("خذها", "خذيها") + ' من الروتين تحت.</p>' : '') +
+    '<a class="btn" href="' + k.link + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(k.code) + '">' + G("اطلب الباقة", "اطلبي الباقة") + ' من ' + esc(k.store) + ' ' + ARROW + '</a>' +
+    '<p class="small muted">' + G("اضغط الزر وينسخ لك الكود", "اضغطي الزر وينسخ لك الكود") + ' ' + k.code + '.</p></div>';
 }
 function expectHTML(p) {
   return '<div class="expect"><span class="kicker">' + G("وش تتوقع من الروتين؟", "وش تتوقعين من الروتين؟") + '</span><div class="ex-row"><figure><img src="media/expect-' + mediaKey() + '.jpg" width="780" height="520" alt="' + (S.mode === "hair" ? "شعر صحي ولامع" : "بشرة نضرة") + '" onerror="this.parentNode.remove()"></figure><ol>' + expectations(p, S.tier).map(function (e) { return '<li' + (e[0] === "وضعك الحين" ? ' class="now"' : '') + '><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol></div><p class="small muted">' + (p.mode === "hair" && p.issue === "dandruff" ? G("القشرة والحكة لازم تخف خلال ٤ أسابيع. إذا ما خفّت، احجز استشارة. باقي النتائج تحتاج ٣ شهور.", "القشرة والحكة لازم تخف خلال ٤ أسابيع. إذا ما خفّت، احجزي استشارة. باقي النتائج تحتاج ٣ شهور.") : G("التزم بالروتين ٣ شهور قبل ما تحكم عليه. إذا ما شفت فرق، احجز استشارة.", "التزمي بالروتين ٣ شهور قبل ما تحكمين عليه. إذا ما شفتي فرق، احجزي استشارة.")) + '</p></div>';
@@ -1470,6 +1499,7 @@ function shareCard() {
   bg.src = "media/card-" + S.mode + ".jpg";
 }
 function drawCard(bg) {
+  if (bg !== null || !drawCard.t) { drawCard.t = 1; track("card"); setTimeout(function () { drawCard.t = 0; }, 3000); }
   var p = P(), m = M().summary(p), plan = tierPlan(p, S.tier), extras = concernPicks(p, S.tier), cs = getComputedStyle(document.documentElement), ink = cs.getPropertyValue("--ink").trim() || "#070a0e", acc = cs.getPropertyValue("--accent").trim() || "#c59a6c", ivory = "#f3efe7";
   var groups = schedule(plan, p, extras), count = groups.reduce(function (n, gr) { return n + gr.steps.length; }, 0);
   var k = 1, px = function (n) { return Math.round(n * k); };
@@ -1530,7 +1560,7 @@ document.getElementById("brand").addEventListener("click", function () { go("hom
 V.addEventListener("click", function (e) {
   var chip = e.target.closest("[data-copy]");
   if (chip) { e.preventDefault(); var cc = chip.getAttribute("data-copy"); navigator.clipboard.writeText(cc).then(function () { toast("تم نسخ الكود " + cc); }).catch(function () { toast("الكود: " + cc); }); return; }
-  var link = e.target.closest("a[data-ph]");
+  var link = e.target.closest("a[data-ph]"); if (link) track("order");
   if (link) { var code = link.getAttribute("data-ph"); if (code) { navigator.clipboard.writeText(code).then(function () { toast("تم نسخ كود الخصم " + code); }).catch(function () {}); } return; }
   var b = e.target.closest("button"); if (!b) return;
   if (b.dataset.g) { S.gender = b.dataset.g; try { localStorage.setItem("mqGender", S.gender); } catch (err) {} S.step = 0; S.answers = {}; go("quiz"); return; }
@@ -1544,14 +1574,14 @@ V.addEventListener("click", function (e) {
     var Q = M().quiz, q = Q[S.step]; if (b.dataset.ans != null) S.answers[q.k] = q.o[+b.dataset.ans][0]; else if (!(S.answers[q.k] || []).length) return;
     if (S.step < Q.length - 1) { S.step++; render(); window.scrollTo(0, 0); }
     else {
-      S.profiles[S.mode] = M().build(S.answers); save();
+      S.profiles[S.mode] = M().build(S.answers); save(); track("quiz");
       if (S.after === "check") { S.after = null; go("check"); toast((S.mode === "hair" ? "نوع شعرك: " : "نوع بشرتك: ") + typeName(P()) + ". الحين " + (canPhoto ? G("صوّر", "صوّري") : G("افحص", "افحصي")) + " منتجك"); }
       else go("profile");
     }
     return;
   }
   if (b.dataset.tab) { S.tab = b.dataset.tab; S.q = ""; S.err = ""; S.errName = ""; S.errSwitch = false; render(); return; }
-  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; S.result = { prod: pr, src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
+  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; track("name"); S.result = { prod: pr, src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
   var a = b.dataset.a;
   if (a === "quiz") { S.after = null; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); }
   else if (a === "scanfirst") { if (P()) { go("check"); } else { S.after = "check"; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); } }
@@ -1571,7 +1601,7 @@ V.addEventListener("click", function (e) {
     var txt = document.getElementById("ing").value, cat = document.getElementById("pcat").value;
     var ck = checkIngredients(txt);
     if (!ck.ok) { S.err = W(ck.why === "short" ? "المعلومات المتوفرة ما تكفي للحكم. نحتاج قائمة المكونات كاملة عشان نعطيك نتيجة دقيقة." : "ما قدرنا نقرأ قائمة مكونات واضحة. الصق المكونات كاملة بالإنجليزي مثل ما هي مكتوبة على العلبة، أو صوّر ظهر العلبة بوضوح."); S.errName = ""; S.errSwitch = false; render(); return; }
-    var same = matchInci(txt, S.mode);
+    var same = matchInci(txt, S.mode); track("paste");
     S.result = same ? { prod: same, src: "هذي تركيبة " + same.n + " المسجلة عندنا." } : { prod: { n: "منتجك (" + M().cats[cat] + ")", c: cat, f: analyzeIngredients(txt, cat, S.mode, "") }, src: "حللنا المكونات اللي لصقتها." }; go("result");
   }
 });
