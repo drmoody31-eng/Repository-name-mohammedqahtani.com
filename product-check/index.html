@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="fa75c447c1";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="2039183e8e";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -333,6 +333,38 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
 .pack .pk-lead{font-size:16px;line-height:1.8}
 .pack .pk-lead b{color:var(--accent);font-family:var(--font-en)}
+
+.btn.ghost{background:transparent;color:var(--ivory);border:1px solid var(--line)}
+.oall{display:flex;flex-direction:column;gap:10px;margin:16px 0 12px}
+.oall .btn{justify-content:space-between;text-align:start;border-radius:22px;height:auto;padding:14px 20px;text-decoration:none}
+.oall .btn>span{display:flex;flex-direction:column;gap:3px;font-weight:600;font-size:16px;line-height:1.45}
+.oall .btn small{font-weight:400;font-size:13px;opacity:.75}
+.sheet h3{font-size:17px;font-weight:600;color:var(--accent);margin:22px 0 8px}
+.sheet .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md)}
+table.st{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.65}
+table.st th,table.st td{padding:9px 10px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line)}
+table.st tr:last-child td{border-bottom:0}
+table.st thead th{font-size:12.5px;color:var(--muted);font-weight:500}
+table.st tr.grp th{color:var(--accent);font-weight:600;font-size:15px;background:rgba(255,255,255,.04)}
+table.st .c1{white-space:nowrap;color:var(--muted);width:1%}
+table.st .c1 em{display:block;font-style:normal;font-size:11.5px}
+table.st .c2{font-family:var(--font-en);text-align:right;min-width:110px}
+.sheet .pre{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.7}
+.sh-act{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+@media print{
+  :root{--ink:#fff;--ivory:#111;--muted:#444;--line:#bbb;--accent:#8a5a2b}
+  html,body{background:#fff!important;color:#111!important}
+  header,footer,.noprint,.toast,#dept{display:none!important}
+  .sheet{color:#111} .sheet h2,.sheet h2 em{color:#111} table.st tr.grp th{background:#f1ece4}
+  table.st{font-size:11.5pt} .sheet .tw{overflow:visible;border-color:#bbb}
+  tr{break-inside:avoid}
+}
+
+table.st .c1{white-space:normal;width:34%}
+table.st .pn{display:block;font-family:var(--font-en);font-weight:600;text-align:right;font-size:14.5px}
+table.st .pu{display:block;color:var(--muted);margin-top:2px}
+.sheet h2{font-size:28px;line-height:1.35}
+@media print{table.st .pu,table.st .c1{color:#333}.sheet .pre{color:#111}}
 
 </style>
 </head>
@@ -1143,6 +1175,43 @@ function packFor(p, tier) {
   var d = PACKS2[k], st = STORES[d.st];
   return { k: k, n: d.n, ar: d.ar, off: d.off, items: d.items, miss: d.miss || "", part: d.part || "", store: st.name, link: st.link(d.ph), code: st.code };
 }
+/* shop items for the two stores that accept a ready-filled cart link (read from each store's product feed) */
+var VARS = {
+  zo: { "gentle-cleanser": "49921135739173", "exfoliating-cleanser": "49921126138149", "hydrating-cleanser": "49921134461221", "balancing-cleansing": "47657524920613", "hydrating-cream": "49921146618149", "recovery-creme": "47612333457701", "renewal-creme": "47612333588773", "daily-power-defense": "49921142948133", "sheer-fluid": "47657590194469", "complexion-clarifying": "48983489151269", "illuminating-aox": "52299331010853", "10-vitamin-c": "49921118961957", "retinol-skin-brightener-1": "49921152549157", "wrinkle-texture-repair": "49921148158245", "brightalive": "49921123549477", "rozatrol": "47612334145829", "instant-pore-refiner": "47612334211365", "exfoliation-accelerator": "47612332540197", "calming-toner": "52771901505829", "oil-control": "47612332998949", "complexion-renewal": "49921140130085", "intense-eye": "47612333490469", "eye-brightening": "47612333392165", "growth-factor-serum": "47612334276901" },
+  rl: { "thickening-conditioner": "42824055849115", "leave-in-hair-mask-conditioner": "49071653650587", "volume-enhancing-foam": "42824099856539", "eye-lash-conditioner": "43647058444443", "eyebrow-conditioner": "42821926224027" }
+};
+var SHOPHOST = { zo: "https://zoskinhealthsa.com", rl: "https://revitalash.sa" }, STOREHOME = { om: "https://onemedph.com/ar/", cf: "https://carefinity-sa.com/" };
+function variantOf(prod) { var m = VARS[prod.st], h = String(prod.ph); if (!m) return null; for (var k in m) if (h.indexOf(k) >= 0) return m[k]; return null; }
+/* the whole routine in one go, per store: a ready-filled cart where the store allows it, otherwise the list to copy and the store to open */
+function orderGroups(plan) {
+  var by = {}, order = [];
+  plan.picks.forEach(function (x) { var st = x.p.st; if (!by[st]) { by[st] = []; order.push(st); } if (by[st].indexOf(x.p) < 0) by[st].push(x.p); });
+  return order.map(function (st) {
+    var items = by[st], ids = items.map(variantOf), cart = SHOPHOST[st] && ids.every(Boolean);
+    return { st: st, store: STORES[st].name, code: STORES[st].code, items: items.map(function (i) { return i.n; }), cart: !!cart,
+      link: cart ? SHOPHOST[st] + "/cart/" + ids.map(function (i) { return i + ":1"; }).join(",") + "?discount=" + STORES[st].code : (STOREHOME[st] || pharmLink(items[0])) };
+  });
+}
+/* short safety notes for the saved routine sheet, only the ones that apply to this routine */
+function precautions(p, plan, extras) {
+  var all = plan.picks.concat(extras || []), names = all.map(function (x) { return x.p.n; }).join(" | "), has = function (f) { return all.some(function (x) { return x.p.f && x.p.f.indexOf(f) >= 0; }); }, out = [];
+  if (p.mode === "hair") {
+    if (p.issue === "dandruff") out.push("خلّ شامبو القشرة على الفروة ٣ إلى ٥ دقايق قبل الشطف، وإذا ما خفّت القشرة بعد ٤ أسابيع احجز استشارة.");
+    out.push("البلسم والماسك على الأطوال والأطراف فقط، بعيد عن الفروة.");
+    out.push("استخدم واقي حرارة قبل الاستشوار أو السيراميك، وخفّف الحرارة قد ما تقدر.");
+    if (/Eyelash|Eyebrow/.test(names)) out.push("سيروم الرموش على خط الرموش العلوي فقط ومرة باليوم. إذا احمرّت العين أو تهيّجت، وقّفه.");
+    out.push("إذا تهيّجت الفروة أو زادت الحكة من منتج، وقّفه.");
+    out.push("تساقط واضح، فراغات، أو خفّة تزيد مع الوقت تحتاج كشف طبيب، مو منتجات.");
+  } else {
+    out.push("واقي الشمس كل يوم الصبح، حتى في البيت جنب الشباك، وجدّده كل ساعتين وأنت برا.");
+    if (has("ret") || /retinol/i.test(names)) { out.push("الريتينول بالليل فقط. ابدأ ليلتين بالأسبوع وزِد بالتدريج."); out.push("الريتينول ما يُستخدم وقت الحمل أو الرضاعة."); }
+    if (has("aha") || has("sa") || has("bpo") || /Alpha Beta|AHA|Peel|Renewal Pads|Polish/i.test(names)) out.push("الأحماض والمقشرات بالليل، وما تجمعها مع الريتينول بنفس الليلة.");
+    out.push("أضف منتج جديد واحد كل أسبوع، عشان تعرف وش اللي ناسبك.");
+    out.push("إذا صار احمرار أو تقشّر قوي، خفّف عدد الليالي أو وقّف المنتج لين تهدأ البشرة.");
+    if (p.acne === "yes") out.push("لا تعصر الحبوب. إذا ما تحسّنت بعد ٨ أسابيع احجز استشارة.");
+  }
+  return out;
+}
 function pharmLink(prod) { return STORES[prod.st].link(prod.ph); }
 function pharmStore(prod) { return STORES[prod.st].name; }
 /* the best-matching partner product for each step of a routine, kept on ONE store where possible:
@@ -1379,7 +1448,39 @@ function picksHTML(p) {
   var plan = tierPlan(p, S.tier), picks = plan.picks;
   var tb = function (k, t, sub) { return '<button data-tier="' + k + '" aria-pressed="' + (S.tier === k) + '"><b>' + t + '</b><small>' + sub + '</small></button>'; };
   return '<div class="picks" id="routine"><span class="kicker">روتينك المقترح</span><div class="tier" role="group" aria-label="مستوى الروتين">' + tb("eco", "اقتصادي", "ماركات صيدلية بسعر أقل") + tb("pro", "طبي فاخر", "منتجات طبية عالية الجودة") + '</div>' +
-    packHTML(p) + schedHTML(plan, p) + expectHTML(p) + DISC() + '</div>';
+    packHTML(p) + schedHTML(plan, p) + orderAllHTML(plan) +
+    '<button class="btn ghost" data-a="sheet">' + G("احفظ روتينك كجدول", "احفظي روتينك كجدول") + ' ' + ARROW + '</button>' + expectHTML(p) + DISC() + '</div>';
+}
+/* the whole routine in one press, one button per store */
+function orderAllHTML(plan) {
+  var gs = orderGroups(plan); if (!gs.length) return "";
+  return '<div class="oall"><span class="kicker">' + G("اطلب الروتين كامل", "اطلبي الروتين كامل") + '</span>' + gs.map(function (g, i) {
+    return g.cart
+      ? '<a class="btn" href="' + g.link + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(g.code) + '"><span>' + G("حط", "حطي") + ' ' + g.items.length + ' منتجات في سلة ' + esc(g.store) + '<small>الكود ' + g.code + ' ينضاف لحاله</small></span>' + ARROW + '</a>'
+      : '<button class="btn" data-olist="' + i + '"><span>' + G("انسخ", "انسخي") + ' قائمة ' + g.items.length + ' منتجات ' + G("وافتح", "وافتحي") + ' ' + esc(g.store) + '<small>' + G("ننسخ لك الأسماء والكود", "ننسخ لك الأسماء والكود") + ' ' + g.code + '</small></span>' + ARROW + '</button>';
+  }).join("") + '</div>';
+}
+/* the saved routine: a clean sheet with tables, usage, what to expect and precautions, ready to print or save as PDF */
+function sheet() {
+  var p = P(), m = M().summary(p), plan = tierPlan(p, S.tier), extras = concernPicks(p, S.tier), groups = schedule(plan, p, extras), codes = {};
+  plan.picks.concat(extras).forEach(function (x) { var st = STORES[x.p.st]; if (st && st.code) codes[st.name] = st.code; });
+  var rows = groups.map(function (g) {
+    return '<tr class="grp"><th colspan="2">' + (SICON[g.ic] || "") + ' ' + g.t + (g.sub ? ' · ' + g.sub : '') + '</th></tr>' + g.steps.map(function (st, i) {
+      return '<tr><td class="c1">' + (i + 1) + '. ' + st.label + (st.opt ? ' <em>اختياري</em>' : '') + '</td><td><b class="pn" dir="ltr">' + esc(st.n) + '</b><span class="pu">' + esc(W(st.use || st.note || "")) + '</span></td></tr>';
+    }).join("");
+  }).join("");
+  return '<div class="sheet"><div class="sh-top"><span class="kicker">' + (S.mode === "hair" ? "روتين الشعر" : "روتين البشرة") + ' · ' + (S.tier === "pro" ? "طبي فاخر" : "اقتصادي") + '</span><h2>' + G("روتينك", "روتينك") + ' <em>' + esc(S.mode === "hair" ? m.share.replace("، ", " و") : m.rows[0][1]) + '</em></h2><p class="small muted">د. محمد القحطاني · mohammedqahtani.com/product-check</p></div>' +
+    '<h3>الروتين وطريقة الاستخدام</h3><div class="tw"><table class="st"><thead><tr><th>الخطوة</th><th>المنتج، وكيف ومتى</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '<h3>' + G("وش تتوقع", "وش تتوقعين") + '</h3><div class="tw"><table class="st"><tbody>' + expectations(p, S.tier).map(function (e) { return '<tr><td class="c1">' + e[0] + '</td><td>' + esc(e[1]) + '</td></tr>'; }).join("") + '</tbody></table></div>' +
+    '<h3>تنبيهات مهمة</h3><ul class="pre">' + precautions(p, plan, extras).map(function (t) { return '<li>' + esc(W(t)) + '</li>'; }).join("") + '</ul>' +
+    '<h3>أكواد الخصم</h3><div class="tw"><table class="st"><tbody>' + Object.keys(codes).map(function (k) { return '<tr><td class="c1">' + esc(k) + '</td><td dir="ltr"><b>' + codes[k] + '</b></td></tr>'; }).join("") + '</tbody></table></div>' +
+    '<div class="noprint sh-act"><button class="btn" data-a="print">' + G("نزّله PDF أو اطبعه", "نزّليه PDF أو اطبعيه") + ' ' + ARROW + '</button><button class="btn ghost" data-a="link">' + G("انسخ رابط روتينك", "انسخي رابط روتينك") + '</button><button class="text-btn" data-a="back">' + G("ارجع لنتيجتك", "ارجعي لنتيجتك") + '</button></div></div>';
+}
+function routineLink() { try { return location.origin + location.pathname + "#r=" + btoa(unescape(encodeURIComponent(JSON.stringify({ m: S.mode, t: S.tier, g: S.gender, p: P() })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); } catch (e) { return location.href; } }
+function openLink() {
+  var mt = location.hash.match(/^#r=([A-Za-z0-9_-]+)$/); if (!mt) return false;
+  try { var o = JSON.parse(decodeURIComponent(escape(atob(mt[1].replace(/-/g, "+").replace(/_/g, "/"))))); if (!MODES[o.m] || !o.p || o.p.mode !== o.m) return false;
+    S.mode = o.m; S.profiles[o.m] = o.p; if (o.t === "eco" || o.t === "pro") S.tier = o.t; if (o.g === "m" || o.g === "f") S.gender = o.g; S.view = "sheet"; save(); return true; } catch (e) { return false; }
 }
 /* a ready-made Carefinity set in place of buying the steps one by one, with the saving spelled out */
 function packHTML(p) {
@@ -1551,7 +1652,7 @@ function toast(t) { var el = document.getElementById("toast"); el.textContent = 
 function render() {
   if ((S.view === "profile" || S.view === "check" || S.view === "result") && !P()) S.view = "home";
   if (S.view === "result" && !S.result) S.view = "check";
-  V.innerHTML = { home: home, quiz: quiz, profile: profile, check: check, result: result }[S.view]();
+  V.innerHTML = { home: home, quiz: quiz, profile: profile, check: check, result: result, sheet: sheet }[S.view]();
   V.style.animation = "none"; void V.offsetWidth; V.style.animation = "";
 }
 
@@ -1560,6 +1661,8 @@ document.getElementById("brand").addEventListener("click", function () { go("hom
 V.addEventListener("click", function (e) {
   var chip = e.target.closest("[data-copy]");
   if (chip) { e.preventDefault(); var cc = chip.getAttribute("data-copy"); navigator.clipboard.writeText(cc).then(function () { toast("تم نسخ الكود " + cc); }).catch(function () { toast("الكود: " + cc); }); return; }
+  var ol = e.target.closest("[data-olist]");
+  if (ol) { var og = orderGroups(tierPlan(P(), S.tier))[+ol.getAttribute("data-olist")]; if (og) { var txt = og.items.join("\n") + "\nكود الخصم: " + og.code; track("order"); navigator.clipboard.writeText(txt).then(function () { toast("نسخنا القائمة والكود " + og.code); }).catch(function () {}); window.open(og.link, "_blank", "noopener"); } return; }
   var link = e.target.closest("a[data-ph]"); if (link) track("order");
   if (link) { var code = link.getAttribute("data-ph"); if (code) { navigator.clipboard.writeText(code).then(function () { toast("تم نسخ كود الخصم " + code); }).catch(function () {}); } return; }
   var b = e.target.closest("button"); if (!b) return;
@@ -1594,6 +1697,10 @@ V.addEventListener("click", function (e) {
   else if (a === "switch") { setMode(S.mode === "hair" ? "skin" : "hair"); }
   else if (a === "notmine") { S.result = null; S.tab = "main"; S.q = ""; go("check"); S.err = W("خلّينا نحدد المنتج الصحيح. اكتب اسمه الكامل، أو صوّر الواجهة مرة ثانية."); render(); }
   else if (a === "card") { shareCard(); }
+  else if (a === "sheet") { track("card"); go("sheet"); }
+  else if (a === "print") { window.print(); }
+  else if (a === "link") { var rl = routineLink(); navigator.clipboard.writeText(rl).then(function () { toast("نسخنا رابط روتينك"); }).catch(function () { toast(rl); }); }
+  else if (a === "back") { go("profile"); }
   else if (a === "copy") {
     var m = M().summary(P()), t = "نتيجتي في فاحص المنتجات: " + m.share + " (" + (P().oil + 1) + " من 5 على مقياس الدهون).\nد. محمد القحطاني";
     navigator.clipboard.writeText(t).then(function () { b.textContent = "تم النسخ"; }).catch(function () { b.textContent = "ما قدرنا ننسخ"; });
@@ -1726,7 +1833,8 @@ function fromHash() {
 }
 window.addEventListener("hashchange", fromHash);
 var h0 = location.hash.replace("#", ""), scan0 = /-scan$/.test(h0); h0 = h0.replace(/-scan$/, ""); if (MODES[h0]) { S.mode = h0; }
-setMode(S.mode, true); if (scan0 && MODES[h0]) scanIntent(); render();
+var linked = openLink();
+setMode(S.mode, true); if (linked) { S.view = "sheet"; } if (scan0 && MODES[h0]) scanIntent(); render();
 if (window.claude && window.claude.use) {
   window.claude.use("sample").then(function (s) {
     if (!s) return; sampler = s;
