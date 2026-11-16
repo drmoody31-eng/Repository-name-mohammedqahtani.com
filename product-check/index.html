@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="2039183e8e";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="454c194422";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -354,7 +354,7 @@ table.st .c2{font-family:var(--font-en);text-align:right;min-width:110px}
 @media print{
   :root{--ink:#fff;--ivory:#111;--muted:#444;--line:#bbb;--accent:#8a5a2b}
   html,body{background:#fff!important;color:#111!important}
-  header,footer,.noprint,.toast,#dept{display:none!important}
+  header.top,body>footer,.wrap>footer,.noprint,.toast,#dept{display:none!important}
   .sheet{color:#111} .sheet h2,.sheet h2 em{color:#111} table.st tr.grp th{background:#f1ece4}
   table.st{font-size:11.5pt} .sheet .tw{overflow:visible;border-color:#bbb}
   tr{break-inside:avoid}
@@ -365,6 +365,61 @@ table.st .pn{display:block;font-family:var(--font-en);font-weight:600;text-align
 table.st .pu{display:block;color:var(--muted);margin-top:2px}
 .sheet h2{font-size:28px;line-height:1.35}
 @media print{table.st .pu,table.st .c1{color:#333}.sheet .pre{color:#111}}
+
+/* saved routine sheet, designed */
+.sheet{display:flex;flex-direction:column}
+.sh-hero{position:relative;border-radius:22px;overflow:hidden;min-height:230px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(197,154,108,.22),transparent 60%)}
+.sh-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.sh-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--ink) 8%,rgba(0,0,0,.25) 70%,rgba(0,0,0,.45))}
+.sh-hero-t{position:relative;z-index:1;display:flex;flex-direction:column;gap:6px;justify-content:flex-end;min-height:230px;padding:18px 18px 20px}
+.sh-brand{position:absolute;top:16px;inset-inline-start:18px;font-weight:600;font-size:15px;display:flex;flex-direction:column;line-height:1.5}
+.sh-brand small{font-weight:400;font-size:12px;color:var(--accent)}
+.sh-hero h2{font-size:27px;line-height:1.35;margin:0;color:#fff}
+.sheet h3{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;color:var(--ivory);margin:28px 0 12px}
+.sheet h3 span{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;font-size:15px;font-weight:700}
+.sb{border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:12px;background:rgba(255,255,255,.025)}
+.sb header{display:flex;align-items:center;gap:8px;padding:12px 16px;background:linear-gradient(90deg,rgba(197,154,108,.20),rgba(197,154,108,.04));border-bottom:1px solid var(--line)}
+.sb header i{font-style:normal;font-size:18px}
+.sb header b{font-size:16.5px;font-weight:600}
+.sb header span{margin-inline-start:auto;font-size:12.5px;color:var(--ink);background:var(--accent);border-radius:999px;padding:2px 12px;font-weight:600}
+.sb ol{list-style:none;margin:0;padding:0}
+.sb li{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.sb li:last-child{border-bottom:0}
+.sb .num{flex:none;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);display:grid;place-items:center;font-size:14px;font-weight:600;margin-top:2px}
+.sb li>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sb .lb{font-size:13px;color:var(--accent)}
+.sb .lb em{font-style:normal;font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px;margin-inline-start:6px}
+.sb .pn{font-family:var(--font-en);font-size:16px;font-weight:600;text-align:right;line-height:1.4}
+.sb .pu{font-size:14.5px;line-height:1.7;color:var(--muted)}
+.tl{list-style:none;margin:0;padding:0 18px 0 0;position:relative}
+.tl::before{content:"";position:absolute;inset-inline-start:5px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--line),var(--accent))}
+.tl li{position:relative;display:flex;flex-direction:column;gap:2px;padding:0 14px 16px 0}
+.tl li::before{content:"";position:absolute;inset-inline-start:-18px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--ink)}
+.tl li.now::before{background:var(--ink);border:2px solid var(--muted)}
+.tl b{font-size:14px;color:var(--accent);font-weight:600}
+.tl li.now b{color:var(--muted)}
+.tl span{font-size:16px;line-height:1.65}
+.sheet .pre{list-style:none;margin:0;padding:14px 16px;border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:14px;background:rgba(197,154,108,.07);gap:10px}
+.sheet .pre li{position:relative;padding-inline-start:26px}
+.sheet .pre li::before{content:"!";position:absolute;inset-inline-start:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--accent);color:var(--ink);font-size:12px;font-weight:700;display:grid;place-items:center;line-height:1}
+.cds{display:flex;flex-wrap:wrap;gap:10px}
+.cds div{flex:1 1 140px;border:1px dashed var(--accent);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;text-align:center}
+.cds span{font-size:13px;color:var(--muted)}
+.cds b{font-family:var(--font-en);font-size:22px;letter-spacing:2px;color:var(--accent)}
+.sh-foot{margin:22px 0 0;text-align:center;font-family:var(--font-en);font-size:13px;color:var(--muted);direction:ltr}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sh-hero{min-height:150px;border-color:#d9c8b4} .sh-hero-t{min-height:150px}
+  .sh-hero img{opacity:1} .sh-hero::after{background:linear-gradient(to top,rgba(20,14,10,.92) 10%,rgba(20,14,10,.35) 75%)}
+  .sh-hero h2,.sh-brand{color:#fff!important} .sh-brand small,.sh-hero .kicker{color:#e3c29b!important}
+  .sheet h3{color:#111;margin:16px 0 8px;break-after:avoid} .sheet h3 span{color:#fff}
+  .sb{background:#fff;border-color:#d9c8b4;break-inside:avoid} .sb header{background:#f4ece1;border-color:#d9c8b4} .sb header span{color:#fff}
+  .sb li{border-color:#e6dccf;padding:9px 14px} .sb .pu{color:#333} .sb .pn{color:#111}
+  .tl li::before{box-shadow:0 0 0 4px #fff} .tl span{color:#111}
+  .sheet .pre{background:#faf5ee;border-color:#d9c8b4;border-inline-start-color:#8a5a2b;color:#111} .sheet .pre li::before{color:#fff}
+  .cds div{border-color:#8a5a2b} .sh-foot{color:#555}
+}
+@media print{footer{display:none!important}.sh-foot{margin-top:10px}}
 
 </style>
 </head>
@@ -1464,16 +1519,19 @@ function orderAllHTML(plan) {
 function sheet() {
   var p = P(), m = M().summary(p), plan = tierPlan(p, S.tier), extras = concernPicks(p, S.tier), groups = schedule(plan, p, extras), codes = {};
   plan.picks.concat(extras).forEach(function (x) { var st = STORES[x.p.st]; if (st && st.code) codes[st.name] = st.code; });
-  var rows = groups.map(function (g) {
-    return '<tr class="grp"><th colspan="2">' + (SICON[g.ic] || "") + ' ' + g.t + (g.sub ? ' · ' + g.sub : '') + '</th></tr>' + g.steps.map(function (st, i) {
-      return '<tr><td class="c1">' + (i + 1) + '. ' + st.label + (st.opt ? ' <em>اختياري</em>' : '') + '</td><td><b class="pn" dir="ltr">' + esc(st.n) + '</b><span class="pu">' + esc(W(st.use || st.note || "")) + '</span></td></tr>';
-    }).join("");
+  var type = S.mode === "hair" ? m.share.replace("، ", " و") : m.rows[0][1], exp = expectations(p, S.tier);
+  var blocks = groups.map(function (g) {
+    return '<section class="sb"><header><i aria-hidden="true">' + (SICON[g.ic] || "") + '</i><b>' + g.t + '</b>' + (g.sub ? '<span>' + g.sub + '</span>' : '') + '</header><ol>' + g.steps.map(function (st, i) {
+      return '<li><span class="num">' + (i + 1) + '</span><div><span class="lb">' + st.label + (st.opt ? ' <em>اختياري</em>' : '') + '</span><b class="pn" dir="ltr">' + esc(st.n) + '</b><span class="pu">' + esc(W(st.use || st.note || "")) + '</span></div></li>';
+    }).join("") + '</ol></section>';
   }).join("");
-  return '<div class="sheet"><div class="sh-top"><span class="kicker">' + (S.mode === "hair" ? "روتين الشعر" : "روتين البشرة") + ' · ' + (S.tier === "pro" ? "طبي فاخر" : "اقتصادي") + '</span><h2>' + G("روتينك", "روتينك") + ' <em>' + esc(S.mode === "hair" ? m.share.replace("، ", " و") : m.rows[0][1]) + '</em></h2><p class="small muted">د. محمد القحطاني · mohammedqahtani.com/product-check</p></div>' +
-    '<h3>الروتين وطريقة الاستخدام</h3><div class="tw"><table class="st"><thead><tr><th>الخطوة</th><th>المنتج، وكيف ومتى</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-    '<h3>' + G("وش تتوقع", "وش تتوقعين") + '</h3><div class="tw"><table class="st"><tbody>' + expectations(p, S.tier).map(function (e) { return '<tr><td class="c1">' + e[0] + '</td><td>' + esc(e[1]) + '</td></tr>'; }).join("") + '</tbody></table></div>' +
-    '<h3>تنبيهات مهمة</h3><ul class="pre">' + precautions(p, plan, extras).map(function (t) { return '<li>' + esc(W(t)) + '</li>'; }).join("") + '</ul>' +
-    '<h3>أكواد الخصم</h3><div class="tw"><table class="st"><tbody>' + Object.keys(codes).map(function (k) { return '<tr><td class="c1">' + esc(k) + '</td><td dir="ltr"><b>' + codes[k] + '</b></td></tr>'; }).join("") + '</tbody></table></div>' +
+  return '<div class="sheet">' +
+    '<div class="sh-hero"><img src="media/expect-' + mediaKey() + '.jpg" alt="" onerror="this.remove()"><div class="sh-hero-t"><span class="sh-brand">د. محمد القحطاني<small>استشاري الشعر والتجميل</small></span><span class="kicker">' + (S.mode === "hair" ? "روتين الشعر" : "روتين البشرة") + ' · ' + (S.tier === "pro" ? "طبي فاخر" : "اقتصادي") + '</span><h2>' + esc(type) + '</h2></div></div>' +
+    '<h3><span>١</span>الروتين وطريقة الاستخدام</h3>' + blocks +
+    '<h3><span>٢</span>' + G("وش تتوقع", "وش تتوقعين") + '</h3><ol class="tl">' + exp.map(function (e, i) { return '<li' + (i === 0 ? ' class="now"' : '') + '><b>' + e[0] + '</b><span>' + esc(e[1]) + '</span></li>'; }).join("") + '</ol>' +
+    '<h3><span>٣</span>تنبيهات مهمة</h3><ul class="pre">' + precautions(p, plan, extras).map(function (t) { return '<li>' + esc(W(t)) + '</li>'; }).join("") + '</ul>' +
+    '<h3><span>٤</span>أكواد الخصم</h3><div class="cds">' + Object.keys(codes).map(function (k) { return '<div><span>' + esc(k) + '</span><b dir="ltr">' + codes[k] + '</b></div>'; }).join("") + '</div>' +
+    '<p class="sh-foot">mohammedqahtani.com/product-check</p>' +
     '<div class="noprint sh-act"><button class="btn" data-a="print">' + G("نزّله PDF أو اطبعه", "نزّليه PDF أو اطبعيه") + ' ' + ARROW + '</button><button class="btn ghost" data-a="link">' + G("انسخ رابط روتينك", "انسخي رابط روتينك") + '</button><button class="text-btn" data-a="back">' + G("ارجع لنتيجتك", "ارجعي لنتيجتك") + '</button></div></div>';
 }
 function routineLink() { try { return location.origin + location.pathname + "#r=" + btoa(unescape(encodeURIComponent(JSON.stringify({ m: S.mode, t: S.tier, g: S.gender, p: P() })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); } catch (e) { return location.href; } }
