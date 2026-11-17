@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="a936c4d3be";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="52e69e8cdf";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -592,7 +592,10 @@ var HAIR = {
     ["oil", "light", is("heat", "high"), 8, "l", "يحمي من حرارة الاستشوار والسيراميك"],
     ["oil", "sil", is("heat", "high"), 4, "l", "السيليكون يسوّي طبقة حماية من الحرارة"],
     ["oil", "sil", is("texture", "fine"), -3, "l", "قطرة وحدة تكفي شعرك الناعم"],
-    ["oil", "frag", verySens, -8, "s", "زيوت عطرية ممكن تهيّج فروتك الحساسة"]
+    ["oil", "frag", verySens, -8, "s", "زيوت عطرية ممكن تهيّج فروتك الحساسة"],
+    ["wash", "eo", verySens, -14, "s", "فيه زيوت عطرية طبيعية، وهي عطور خفيفة ممكن تهيّج الفروة الحساسة. جرّبه على جزء صغير قبل ما تستخدمه على فروتك"],
+    ["care", "eo", verySens, -14, "s", "فيه زيوت عطرية طبيعية، وهي عطور خفيفة ممكن تهيّج الفروة الحساسة. جرّبه على جزء صغير قبل ما تستخدمه على فروتك"],
+    ["oil", "eo", verySens, -14, "s", "فيه زيوت عطرية طبيعية، وهي عطور خفيفة ممكن تهيّج الفروة الحساسة. جرّبه على جزء صغير قبل ما تستخدمه على فروتك"]
   ],
   /* [flag, pattern, only within the first N ingredients (0 = anywhere)] */
   ing: [
@@ -607,11 +610,16 @@ var HAIR = {
     ["bond", /bis-aminopropyl diglycol dimaleate/, 0],
     ["hum", /glycerin|panthenol|hyaluron|aloe/, 8],
     ["alc", /alcohol denat|sd alcohol|isopropyl alcohol|^alcohol$/, 6],
+    ["eo", /melaleuca|tea tree|mentha (piperita|arvensis|viridis)|peppermint|spearmint|rosmarinus[a-z ()]* oil|rosemary[a-z ()]* oil|eucalyptus|cinnamomum|citrus [a-z ()]* oil|thymus vulgaris|cymbopogon/, 0],
     ["frag", /parfum|fragrance|^aroma|^(linalool|limonene|citronellol|geraniol|citral|eugenol|coumarin|hexyl cinnamal|benzyl salicylate|alpha-isomethyl ionone|farnesol)$|(peel|flower|lavender|lavandula[a-z ()]*) oil$|essential oil/, 0]
   ],
-  hints: [],
+  hints: [["eo", ["shampoo", "conditioner", "mask", "leavein", "oil", "serum", "styling", "scalp", "other"], /tea tree|peppermint|\bmint\b|rosemary|eucalyptus/]],
   finishFlags: function (f, cat) {
     var i = f.indexOf("strong"), strong = i >= 0; if (strong) f.splice(i, 1);
+    /* essential oils are a light fragrance: never call such a product fragrance-free; "fragq" = fragrance not known */
+    var e = f.indexOf("eo"); if (e >= 0 && f.indexOf("frag") >= 0) f.splice(e, 1);
+    if (f.indexOf("eo") >= 0 || f.indexOf("fragq") >= 0) { var ff = f.indexOf("fragfree"); if (ff >= 0) f.splice(ff, 1); }
+    if (f.indexOf("eo") >= 0 || f.indexOf("fragq") >= 0) return (cat === "shampoo" && f.indexOf("ss") < 0 && f.indexOf("mild") < 0 && !strong ? f.push("mild") : 0, f);
     if (cat === "shampoo" && f.indexOf("ss") < 0 && f.indexOf("mild") < 0 && !strong) f.push("mild");
     if (f.indexOf("frag") < 0 && f.indexOf("fragfree") < 0) f.push("fragfree");
     return f;
@@ -1104,12 +1112,14 @@ function tonicNote(text, cat, mode) {
 }
 /* a leave-on hair product sold to treat a condition (hair loss, regrowth, dandruff) is not rated; one sold to improve the look or quality of hair is */
 var TREATW = /hair ?(loss|fall|growth|regrowth)|anti[- ]?(hair ?loss|hair ?fall|chute)|regrow|thinning|alopecia|تساقط|إنبات/i;
+var DANDRUFFW = /dandruff|pelliculaire|seborr|flak|ketoconazole|zinc pyrithione|pyrithione zinc|piroctone|selenium sul|climbazole|قشرة/i;
 var TREATMSG = "هذا منتج علاجي، مو منتج عناية، فما نقيّمه هنا. استخدامه يكون حسب تعليمات طبيبك.";
 function medMsg(text, cat, mode, purpose) {
   if (WASHOFF[cat]) return "";
   var t = String(text || "");
   if (DRUG.test(t)) return MEDMSG;
-  return mode === "hair" && cat !== "styling" && (purpose === "treat" || TREATW.test(t)) ? TREATMSG : "";
+  if (mode !== "hair" || cat === "styling" || DANDRUFFW.test(t)) return "";
+  return purpose === "treat" || TREATW.test(t) ? TREATMSG : "";
 }
 function isMed(text, cat, mode, purpose) { return !!medMsg(text, cat, mode, purpose); }
 function checkIngredients(text) {
@@ -1472,7 +1482,7 @@ var COPY = {
 };
 /* Arabic wording follows the visitor's answer to the first question: G(masculine, feminine) */
 function G(m, f) { return S.gender === "f" ? f : m; }
-var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مررت إصبعك", "لو مررتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["أو اكتب اسم", "أو اكتبي اسم"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"], ["اختر لين", "اختاري لين"], ["وجرّبه على منطقة", "وجرّبيه على منطقة"], ["لأنك تتحسس", "لأنك تتحسسين"], ["دلّك فيه الفروة وخله", "دلّكي فيه الفروة وخليه"], ["دلّك فيه الفروة", "دلّكي فيه الفروة"], ["خله ٣ إلى ٥", "خليه ٣ إلى ٥"], ["دلّك دقيقة", "دلّكي دقيقة"], ["دلّكه", "دلّكيه"], ["وابدأ ليلتين", "وابدئي ليلتين"], ["ابدأ ليلتين", "ابدئي ليلتين"], ["وخلك عليها", "وخليك عليها"], ["وربّتها", "وربّتيها"], ["جدّده كل ساعتين وأنت برا", "جدّديه كل ساعتين وأنتِ برا"], ["وجدّده كل ساعتين برا", "وجدّديه كل ساعتين برا"], ["ثم اشطفه", "ثم اشطفيه"], ["اغسل وجهك", "اغسلي وجهك"], ["وجدّده كل ساعتين لو طالع", "وجدّديه كل ساعتين لو طالعة"], ["دوّر على نوع", "دوّري على نوع"], ["وافحصه هنا قبل تشتريه", "وافحصيه هنا قبل تشترينه"], ["شيّك على", "شيّكي على"], ["تقدر تختار", "تقدرين تختارين"], ["شيل اختيار قبل تضيف", "شيلي اختيار قبل تضيفين"], ["اكتب اسمه", "اكتبي اسمه"], ["مرتاح عليه", "مرتاحة عليه"], ["ما تحتاج تغيّره", "ما تحتاجين تغيّرينه"], ["الصق المكونات", "الصقي المكونات"], ["صوّر ظهر", "صوّري ظهر"], ["اسأل طبيبك", "اسألي طبيبك"], ["أو تاخذ أدوية", "أو تاخذين أدوية"], ["الصق قائمة", "الصقي قائمة"]];
+var FEM = [["بعد ما تغسل شعرك", "بعد ما تغسلين شعرك"], ["متى تحس ", "متى تحسين "], ["لو مررت إصبعك", "لو مررتي إصبعك"], ["كم مرة تستخدم ", "كم مرة تستخدمين "], ["لو ما حطيت مرطب", "لو ما حطيتي مرطب"], ["تبي تحسّنه", "تبين تحسّنينه"], ["لا تحطه", "لا تحطينه"], ["حطه على", "حطيه على"], ["خله ", "خليه "], ["ابدأ فيه", "ابدئي فيه"], ["وأنت ما عندك", "وأنتِ ما عندك"], ["صوّر قائمة", "صوّري قائمة"], ["صوّر الواجهة", "صوّري الواجهة"], ["صوّر المنتج ونتعرّف", "صوّري المنتج ونتعرّف"], ["جرّب مرة", "جرّبي مرة"], ["جرّبه على", "جرّبيه على"], ["تستخدمه على فروتك", "تستخدمينه على فروتك"], ["أو اكتب اسم", "أو اكتبي اسم"], ["جرّب بعد", "جرّبي بعد"], ["اختر المنتج", "اختاري المنتج"], ["الصق مكوناته", "الصقي مكوناته"], ["اللي لصقتها", "اللي لصقتيها"], ["لو تبي تتأكد", "لو تبين تتأكدين"], ["اختر لين", "اختاري لين"], ["وجرّبه على منطقة", "وجرّبيه على منطقة"], ["لأنك تتحسس", "لأنك تتحسسين"], ["دلّك فيه الفروة وخله", "دلّكي فيه الفروة وخليه"], ["دلّك فيه الفروة", "دلّكي فيه الفروة"], ["خله ٣ إلى ٥", "خليه ٣ إلى ٥"], ["دلّك دقيقة", "دلّكي دقيقة"], ["دلّكه", "دلّكيه"], ["وابدأ ليلتين", "وابدئي ليلتين"], ["ابدأ ليلتين", "ابدئي ليلتين"], ["وخلك عليها", "وخليك عليها"], ["وربّتها", "وربّتيها"], ["جدّده كل ساعتين وأنت برا", "جدّديه كل ساعتين وأنتِ برا"], ["وجدّده كل ساعتين برا", "وجدّديه كل ساعتين برا"], ["ثم اشطفه", "ثم اشطفيه"], ["اغسل وجهك", "اغسلي وجهك"], ["وجدّده كل ساعتين لو طالع", "وجدّديه كل ساعتين لو طالعة"], ["دوّر على نوع", "دوّري على نوع"], ["وافحصه هنا قبل تشتريه", "وافحصيه هنا قبل تشترينه"], ["شيّك على", "شيّكي على"], ["تقدر تختار", "تقدرين تختارين"], ["شيل اختيار قبل تضيف", "شيلي اختيار قبل تضيفين"], ["اكتب اسمه", "اكتبي اسمه"], ["مرتاح عليه", "مرتاحة عليه"], ["ما تحتاج تغيّره", "ما تحتاجين تغيّرينه"], ["الصق المكونات", "الصقي المكونات"], ["صوّر ظهر", "صوّري ظهر"], ["اسأل طبيبك", "اسألي طبيبك"], ["أو تاخذ أدوية", "أو تاخذين أدوية"], ["الصق قائمة", "الصقي قائمة"]];
 function W(t) { if (S.gender !== "f") return t; FEM.forEach(function (r) { t = t.split(r[0]).join(r[1]); }); return t; }
 var S = { gender: null, mode: "hair", view: "home", step: 0, answers: {}, after: null, profiles: { hair: null, skin: null }, tab: "main", q: "", result: null, busy: false, err: "", errSwitch: false, tier: "eco" };
 try { var t0 = localStorage.getItem("mqTier"); if (t0 === "eco" || t0 === "pro") S.tier = t0; } catch (e) {}
@@ -1660,9 +1670,10 @@ function result() {
   var word = { good: "يناسبك", warn: x.cons.length ? "يناسبك بحذر" : "يناسبك", bad: "ما يناسبك" }[x.level];
   var top = x.level === "good" ? x.pros[0] : (x.cons[0] || x.pros[0]);
   if (x.level === "warn" && !x.cons.length) top = null;
-  var why = top ? W(top.t) : approx ? "يناسب نتيجتك حسب معلومات المنتج عندنا" : "ما فيه شي في تركيبته يتعارض مع نتيجتك";
+  var notSh = function (t) { return pr.c === "shampoo" ? t : t.replace("شامبو قشرة", "منتج قشرة"); };
+  var why = top ? notSh(W(top.t)) : approx ? "يناسب نتيجتك حسب معلومات المنتج عندنا" : "ما فيه شي في تركيبته يتعارض مع نتيجتك";
   var rest = (x.level === "good" ? x.pros.concat(x.cons) : x.cons.concat(x.pros)).filter(function (c) { return c !== top; });
-  var li = function (c) { var bad = x.cons.indexOf(c) >= 0; return '<li><span class="sign ' + (bad ? "bad" : "good") + '">' + (bad ? "−" : "+") + '</span><span>' + esc(W(c.t)) + '<small>' + c.part + '</small></span></li>'; };
+  var li = function (c) { var bad = x.cons.indexOf(c) >= 0; return '<li><span class="sign ' + (bad ? "bad" : "good") + '">' + (bad ? "−" : "+") + '</span><span>' + esc(notSh(W(c.t))) + '<small>' + c.part + '</small></span></li>'; };
   var src = pr.v ? "حللنا تركيبته المنشورة من الشركة، ونفس التحليل يطلع لو صوّرته أو لصقت مكوناته." : approx && !r.approx ? "حللناه حسب معلومات المنتج المسجلة عندنا." : r.src;
   var okLevel = x.level === "good" || (x.level === "warn" && !x.cons.length);
   var h = '<div class="paper"><div><span class="kicker">' + MM.cats[pr.c] + '</span><div class="pname">' + esc(pr.n) + '</div></div>' +
@@ -1864,7 +1875,7 @@ function resolveScan(j, mode, skipBase) {
     if (!MM.cats[cat]) return Promise.resolve({ err: "هذا النوع من المنتجات ما نفحصه حالياً." });
   }
   if (!db) db = skipBase ? null : matchProduct(full, mode, cat);
-  var mm = medMsg(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || ""), cat, mode, j.purpose);
+  var mm = medMsg(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || "") + ((j.traits || []).indexOf("ad") >= 0 ? " dandruff" : ""), cat, mode, j.purpose);
   if (mm) return Promise.resolve({ err: mm, name: full, med: true });
   if (j.ingredients && checkIngredients(j.ingredients).ok) {
     var mi = matchInci(j.ingredients, mode);
@@ -1883,6 +1894,7 @@ function resolveScan(j, mode, skipBase) {
       var f = analyzeIngredients(known, cat, mode, full);
       if (pureOil && f.indexOf("light") < 0 && f.indexOf("heavy") < 0) f.push(tr0.indexOf("heavy") >= 0 ? "heavy" : "light");
       (j.texture || []).forEach(function (x) { if (TEXTURE[x] && f.indexOf(x) < 0) f.push(x); });
+      if (j.confidence !== "high" && f.indexOf("frag") < 0) f.push("fragq");
       f = MM.finishFlags(f, cat);
       cachePut("scans", key, { mode: mode, name: full, cat: cat, flags: f, conf: j.confidence || "medium", ings: known.slice(0, 4000), status: "auto", at: new Date().toISOString() });
       return { result: { prod: { n: full, c: cat, f: f }, src: "تعرّفنا على المنتج وحللنا تركيبته المعروفة.", note: j.confidence === "high" ? "" : "لو تبي تتأكد أكثر، صوّر قائمة المكونات من ظهر العلبة." } };
@@ -1890,6 +1902,9 @@ function resolveScan(j, mode, skipBase) {
     var okf = {}; (MM.flagGuide.match(/"(\w+)"/g) || []).forEach(function (x) { okf[x.replace(/"/g, "")] = 1; });
     var tr = []; (Array.isArray(j.traits) ? j.traits : []).forEach(function (x) { if (okf[x] && tr.indexOf(x) < 0) tr.push(x); });
     (j.texture || []).forEach(function (x) { if (TEXTURE[x] && tr.indexOf(x) < 0) tr.push(x); });
+    /* a shampoo we know nothing about is not guessed: ask for the ingredient list */
+    if (cat === "shampoo") { cachePut("misses", key, { mode: mode, name: full, cat: cat, at: new Date().toISOString() }); return { err: "ما عندنا مكونات هذا الشامبو. صوّر قائمة المكونات من ظهر العلبة ونحلله لك.", name: full }; }
+    if (tr.indexOf("frag") < 0) { tr = tr.filter(function (x) { return x !== "fragfree"; }); tr.push("fragq"); }
     if (tr.filter(function (x) { return x !== "frag" && x !== "fragfree"; }).length) {
       cachePut("misses", key, { mode: mode, name: full, cat: cat, traits: tr, at: new Date().toISOString() });
       return { result: { prod: { n: full, c: cat, f: MM.finishFlags(tr, cat) }, approx: true, src: "حللناه حسب المكتوب على العلبة واللي نعرفه عن المنتج." } };
