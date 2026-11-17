@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="e7c1dc32c6";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="e6f814b629";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1093,7 +1093,12 @@ var INCIW = /water|aqua|eau|glycer|alcohol|acid|sodium|extract|\boil\b|peg-|cety
 var DRUG = /minoxidil|finasteride|dutasteride|tretinoin|hydroquinone|clobetasol|betamethasone|mometasone|hydrocortisone|fluocinolone|triamcinolone|desonide|clindamycin|erythromycin|fusidic|mupirocin|tacrolimus|pimecrolimus|spironolactone|clotrimazole|miconazole|terbinafine|ketoconazole|مينوكسيديل|فيناسترايد/i;
 var WASHOFF = { shampoo: 1, conditioner: 1, mask: 1, cleanser: 1 };
 var MEDMSG = "هذا علاج طبي، مو منتج عناية، فما نقيّمه هنا. استخدامه يكون حسب تعليمات طبيبك.";
-function isMed(text, cat) { return !WASHOFF[cat] && DRUG.test(String(text || "")); }
+/* growth actives (caffeine, rosemary, aminexil): fine in a shampoo or conditioner, not rated as a scalp spray or drops */
+var TONIC = /caffeine|cafeine|coffea|rosemary|rosmarinus|aminexil|diaminopyrimidine oxide|كافيين|روزماري|إكليل الجبل|امينكسيل|أمينكسيل/i;
+var DROPS = { scalp: 1, serum: 1 };
+var TONICMSG = "هذا علاج للفروة، مو منتج عناية، فما نقيّمه هنا. استخدامه يكون حسب تعليمات طبيبك.";
+function medMsg(text, cat, mode) { var t = String(text || ""); return !WASHOFF[cat] && DRUG.test(t) ? MEDMSG : mode === "hair" && DROPS[cat] && TONIC.test(t) ? TONICMSG : ""; }
+function isMed(text, cat, mode) { return !!medMsg(text, cat, mode); }
 function checkIngredients(text) {
   var raw = String(text || ""), list = splitIngredients(raw), latin = (raw.match(/[A-Za-z]/g) || []).length, letters = (raw.match(/[A-Za-z\u0600-\u06FF]/g) || []).length;
   var known = list.filter(function (x) { return x.length < 70 && INCIW.test(x); }).length;
@@ -1751,7 +1756,7 @@ V.addEventListener("click", function (e) {
     return;
   }
   if (b.dataset.tab) { S.tab = b.dataset.tab; S.q = ""; S.err = ""; S.errName = ""; S.errSwitch = false; render(); return; }
-  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; track("name"); if (isMed(pr.n, pr.c)) { S.err = MEDMSG; S.errName = pr.n; S.errSwitch = false; render(); window.scrollTo(0, 0); return; } S.result = { prod: pr, src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
+  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; track("name"); if (isMed(pr.n + " " + (pr.inci || ""), pr.c, S.mode)) { S.err = medMsg(pr.n + " " + (pr.inci || ""), pr.c, S.mode); S.errName = pr.n; S.errSwitch = false; render(); window.scrollTo(0, 0); return; } S.result = { prod: pr, src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
   var a = b.dataset.a;
   if (a === "quiz") { S.after = null; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); }
   else if (a === "scanfirst") { if (P()) { go("check"); } else { S.after = "check"; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); } }
@@ -1776,7 +1781,7 @@ V.addEventListener("click", function (e) {
     var ck = checkIngredients(txt);
     if (!ck.ok) { S.err = W(ck.why === "short" ? "المعلومات المتوفرة ما تكفي للحكم. نحتاج قائمة المكونات كاملة عشان نعطيك نتيجة دقيقة." : "ما قدرنا نقرأ قائمة مكونات واضحة. الصق المكونات كاملة بالإنجليزي مثل ما هي مكتوبة على العلبة، أو صوّر ظهر العلبة بوضوح."); S.errName = ""; S.errSwitch = false; render(); return; }
     var same = matchInci(txt, S.mode); track("paste");
-    if (isMed(txt, cat)) { S.err = MEDMSG; S.errName = ""; S.errSwitch = false; render(); return; }
+    if (isMed(txt, cat, S.mode)) { S.err = medMsg(txt, cat, S.mode); S.errName = ""; S.errSwitch = false; render(); return; }
     S.result = same ? { prod: same, src: "هذي تركيبة " + same.n + " المسجلة عندنا." } : { prod: { n: "منتجك (" + M().cats[cat] + ")", c: cat, f: analyzeIngredients(txt, cat, S.mode, "") }, src: "حللنا المكونات اللي لصقتها." }; go("result");
   }
 });
@@ -1844,7 +1849,8 @@ function resolveScan(j, mode, skipBase) {
     if (!MM.cats[cat]) return Promise.resolve({ err: "هذا النوع من المنتجات ما نفحصه حالياً." });
   }
   if (!db) db = skipBase ? null : matchProduct(full, mode, cat);
-  if (isMed(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || ""), cat)) return Promise.resolve({ err: MEDMSG, name: full, med: true });
+  var mm = medMsg(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || ""), cat, mode);
+  if (mm) return Promise.resolve({ err: mm, name: full, med: true });
   if (j.ingredients && checkIngredients(j.ingredients).ok) {
     var mi = matchInci(j.ingredients, mode);
     return Promise.resolve({ result: mi ? { prod: mi, src: "قرأنا قائمة المكونات من الصورة، وهي تركيبة " + mi.n + " المسجلة عندنا." } : { prod: { n: db && !db.inci ? db.n : (full || "منتجك"), c: cat, f: analyzeIngredients(j.ingredients, cat, mode, full) }, src: "قرأنا قائمة المكونات من الصورة وحللناها." } });
