@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="e6f814b629";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="a936c4d3be";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -426,6 +426,8 @@ table.st .pu{display:block;color:var(--muted);margin-top:2px}
 @media print{html,body,.wrap,main,#view{min-height:0!important;height:auto!important;padding-bottom:0!important;margin-bottom:0!important}.sheet{padding-bottom:0}}
 @media print{.app{min-height:0!important;height:auto!important;padding-bottom:0!important;display:block!important}main{animation:none!important;gap:0!important;display:block!important}}
 
+.paper .note.tonic{border-inline-start:3px solid #b98a5a;padding-inline-start:12px;font-size:15px;line-height:1.7;color:#2b2520}
+
 </style>
 </head>
 <body>
@@ -599,7 +601,7 @@ var HAIR = {
     ["ad", /ketoconazole|zinc pyrithione|pyrithione zinc|piroctone|selenium sul|climbazole/, 0],
     ["sal", /salicylic acid/, 0],
     ["sil", /dimethicon|siloxane|trimethicone|amodimethicone/, 10],
-    ["heavy", /cocos nucifera|coconut oil|ricinus|castor|olea europaea|olive (fruit )?oil|butyrospermum|shea|mineral oil|paraffinum|petrolatum|theobroma|mangifera indica seed butter|persea gratissima/, 8],
+    ["heavy", /phyllanthus emblica|\bamla\b|cocos nucifera|coconut oil|ricinus|castor|olea europaea|olive (fruit )?oil|butyrospermum|shea|mineral oil|paraffinum|petrolatum|theobroma|mangifera indica seed butter|persea gratissima/, 8],
     ["light", /argania|argan|simmondsia|jojoba|squalane|vitis vinifera|grape ?seed|prunus amygdalus|camellia|helianthus annuus/, 12],
     ["protein", /hydrolyzed [a-z ]*(protein|keratin|collagen|silk)|keratin|amino acids|silk amino/, 0],
     ["bond", /bis-aminopropyl diglycol dimaleate/, 0],
@@ -1090,15 +1092,26 @@ function pharmItems(mode) {
 /* is this text a usable ingredient list? "bad" = not a list at all, "short" = a list but too little of it to judge */
 var INCIW = /water|aqua|eau|glycer|alcohol|acid|sodium|extract|\boil\b|peg-|cetyl|cetear|stear|methicone|siloxane|parfum|fragrance|phenoxyethanol|benzoate|glycol|oxide|chloride|sulfate|betaine|tocopher|panthenol|butter|\bci \d|citrate|hydroxide|polysorbate|carbomer|xanthan|edta|glucoside|triglyceride|niacinamide|sorbate|paraben|palmitate|laurate|polyquaternium|dimethicon|squalane|urea|allantoin|retin|ascorb|zinc|titanium|silica|keratin|protein|amino|ceramide|hyaluron/;
 /* medicines: a leave-on product with a drug active is not rated; medicated wash-off products (shampoo, cleanser) are */
-var DRUG = /minoxidil|finasteride|dutasteride|tretinoin|hydroquinone|clobetasol|betamethasone|mometasone|hydrocortisone|fluocinolone|triamcinolone|desonide|clindamycin|erythromycin|fusidic|mupirocin|tacrolimus|pimecrolimus|spironolactone|clotrimazole|miconazole|terbinafine|ketoconazole|مينوكسيديل|فيناسترايد/i;
+var DRUG = /minoxidil|minoxi|preminox|regaine|rogaine|avogain|finasteride|dutasteride|tretinoin|hydroquinone|clobetasol|betamethasone|mometasone|hydrocortisone|fluocinolone|triamcinolone|desonide|clindamycin|erythromycin|fusidic|mupirocin|tacrolimus|pimecrolimus|spironolactone|clotrimazole|miconazole|terbinafine|ketoconazole|مينوكسيديل|فيناسترايد/i;
 var WASHOFF = { shampoo: 1, conditioner: 1, mask: 1, cleanser: 1 };
 var MEDMSG = "هذا علاج طبي، مو منتج عناية، فما نقيّمه هنا. استخدامه يكون حسب تعليمات طبيبك.";
-/* growth actives (caffeine, rosemary, aminexil): fine in a shampoo or conditioner, not rated as a scalp spray or drops */
-var TONIC = /caffeine|cafeine|coffea|rosemary|rosmarinus|aminexil|diaminopyrimidine oxide|كافيين|روزماري|إكليل الجبل|امينكسيل|أمينكسيل/i;
-var DROPS = { scalp: 1, serum: 1 };
-var TONICMSG = "هذا علاج للفروة، مو منتج عناية، فما نقيّمه هنا. استخدامه يكون حسب تعليمات طبيبك.";
-function medMsg(text, cat, mode) { var t = String(text || ""); return !WASHOFF[cat] && DRUG.test(t) ? MEDMSG : mode === "hair" && DROPS[cat] && TONIC.test(t) ? TONICMSG : ""; }
-function isMed(text, cat, mode) { return !!medMsg(text, cat, mode); }
+/* growth actives (caffeine, rosemary, aminexil): the product is still rated on its other ingredients, with a line saying these are treatment ingredients we do not rate */
+var TONICS = [[/caffeine|cafeine|coffea|كافيين/i, "كافيين"], [/rosemary|rosmarinus|روزماري|إكليل الجبل/i, "روزماري"], [/aminexil|diaminopyrimidine oxide|امينكسيل|أمينكسيل/i, "أمينكسيل"]];
+function tonicNote(text, cat, mode) {
+  if (mode !== "hair" || WASHOFF[cat]) return "";
+  var t = String(text || ""), f = TONICS.filter(function (x) { return x[0].test(t); }).map(function (x) { return x[1]; });
+  return f.length ? "فيه " + f.join(" و") + (f.length > 1 ? "، وهذي مكونات علاجية للفروة ما نقيّمها." : "، وهذا مكوّن علاجي للفروة ما نقيّمه.") + " التقييم مبني على باقي المكونات." : "";
+}
+/* a leave-on hair product sold to treat a condition (hair loss, regrowth, dandruff) is not rated; one sold to improve the look or quality of hair is */
+var TREATW = /hair ?(loss|fall|growth|regrowth)|anti[- ]?(hair ?loss|hair ?fall|chute)|regrow|thinning|alopecia|تساقط|إنبات/i;
+var TREATMSG = "هذا منتج علاجي، مو منتج عناية، فما نقيّمه هنا. استخدامه يكون حسب تعليمات طبيبك.";
+function medMsg(text, cat, mode, purpose) {
+  if (WASHOFF[cat]) return "";
+  var t = String(text || "");
+  if (DRUG.test(t)) return MEDMSG;
+  return mode === "hair" && cat !== "styling" && (purpose === "treat" || TREATW.test(t)) ? TREATMSG : "";
+}
+function isMed(text, cat, mode, purpose) { return !!medMsg(text, cat, mode, purpose); }
 function checkIngredients(text) {
   var raw = String(text || ""), list = splitIngredients(raw), latin = (raw.match(/[A-Za-z]/g) || []).length, letters = (raw.match(/[A-Za-z\u0600-\u06FF]/g) || []).length;
   var known = list.filter(function (x) { return x.length < 70 && INCIW.test(x); }).length;
@@ -1403,13 +1416,14 @@ function matchProduct(name, mode, cat) {
     for (t in Q) if (TYPEW[t] && !p.u[t]) qOnly = true;
     if (pOnly && qOnly) return;
     var sc = 0.65 * sh / p.w + 0.35 * shq / qw;
-    if (cat && p.c !== cat) sc -= 0.1;
+    if (cat && p.c !== cat) { if (HARDCAT[cat] || HARDCAT[p.c]) return; sc -= 0.1; }
     if (p.cur) sc += 0.02;
     if (sc > bs) { bs = sc; best = p; }
   });
   return bs >= MATCH_MIN ? best : null;
 }
 var MATCH_MIN = 0.84;
+var HARDCAT = { shampoo: 1, cleanser: 1, sunscreen: 1 };
 var TYPEW = {}; "shampoo conditioner mask masque oil serum cream creme cleanser wash toner lotion spray mousse scrub balm mist essence sunscreen gel foam milk peel exfoliator moisturizer treatment".split(" ").forEach(function (w) { TYPEW[w] = 1; });
 /* people type brand names in Arabic: map the common ones to the names in the base */
 var ARBRAND = [["هيد اند شولدرز", "head shoulders"], ["هيد اند شولدر", "head shoulders"], ["لا روش بوزيه", "la roche posay"], ["لاروش بوزيه", "la roche posay"], ["لا روش", "la roche"], ["لاروش", "la roche"], ["ذا اورديناري", "ordinary"], ["اورديناري", "ordinary"], ["موروكان اويل", "moroccanoil"], ["موروكان", "moroccanoil"],
@@ -1656,6 +1670,7 @@ function result() {
     '<div class="score ' + x.level + '"><span class="lbl">نسبة التوافق مع ' + COPY[S.mode].thing + '</span><div class="num" role="img" aria-label="نسبة التوافق ' + x.score + ' من 100">' + x.score + '<small>/100</small></div></div>' +
     '<div class="meter ' + x.level + '"><i style="width:' + x.score + '%"></i></div>' +
     '<p class="note">النسبة تقيس توافق مكونات المنتج مع نتيجتك في الاختبار.</p>' +
+    (r.tonic ? '<p class="note tonic">' + esc(r.tonic) + '</p>' : '') +
     (rest.length ? '<ul class="reasons">' + rest.map(li).join("") + '</ul>' : '') +
     '<p class="note">' + esc(W(src)) + (r.note ? ' ' + esc(W(r.note)) : '') + '</p>' +
     (okLevel && partner ? '<a class="pick light" href="' + pharmLink(pr) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[pr.st].code) + '"><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(pr)) + ' ' + ARROW + '</span>' + codeChip(pr) + '</span></a>' : '') +
@@ -1756,7 +1771,7 @@ V.addEventListener("click", function (e) {
     return;
   }
   if (b.dataset.tab) { S.tab = b.dataset.tab; S.q = ""; S.err = ""; S.errName = ""; S.errSwitch = false; render(); return; }
-  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; track("name"); if (isMed(pr.n + " " + (pr.inci || ""), pr.c, S.mode)) { S.err = medMsg(pr.n + " " + (pr.inci || ""), pr.c, S.mode); S.errName = pr.n; S.errSwitch = false; render(); window.scrollTo(0, 0); return; } S.result = { prod: pr, src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
+  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; track("name"); if (isMed(pr.n + " " + (pr.inci || ""), pr.c, S.mode)) { S.err = medMsg(pr.n + " " + (pr.inci || ""), pr.c, S.mode); S.errName = pr.n; S.errSwitch = false; render(); window.scrollTo(0, 0); return; } S.result = { prod: pr, tonic: tonicNote(pr.n + " " + (pr.inci || ""), pr.c, S.mode), src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
   var a = b.dataset.a;
   if (a === "quiz") { S.after = null; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); }
   else if (a === "scanfirst") { if (P()) { go("check"); } else { S.after = "check"; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); } }
@@ -1782,7 +1797,7 @@ V.addEventListener("click", function (e) {
     if (!ck.ok) { S.err = W(ck.why === "short" ? "المعلومات المتوفرة ما تكفي للحكم. نحتاج قائمة المكونات كاملة عشان نعطيك نتيجة دقيقة." : "ما قدرنا نقرأ قائمة مكونات واضحة. الصق المكونات كاملة بالإنجليزي مثل ما هي مكتوبة على العلبة، أو صوّر ظهر العلبة بوضوح."); S.errName = ""; S.errSwitch = false; render(); return; }
     var same = matchInci(txt, S.mode); track("paste");
     if (isMed(txt, cat, S.mode)) { S.err = medMsg(txt, cat, S.mode); S.errName = ""; S.errSwitch = false; render(); return; }
-    S.result = same ? { prod: same, src: "هذي تركيبة " + same.n + " المسجلة عندنا." } : { prod: { n: "منتجك (" + M().cats[cat] + ")", c: cat, f: analyzeIngredients(txt, cat, S.mode, "") }, src: "حللنا المكونات اللي لصقتها." }; go("result");
+    S.result = same ? { prod: same, src: "هذي تركيبة " + same.n + " المسجلة عندنا." } : { prod: { n: "منتجك (" + M().cats[cat] + ")", c: cat, f: analyzeIngredients(txt, cat, S.mode, "") }, src: "حللنا المكونات اللي لصقتها." }; S.result.tonic = tonicNote(txt, cat, S.mode); go("result");
   }
 });
 V.addEventListener("input", function (e) { if (e.target.id === "q") { S.q = e.target.value; document.getElementById("plist").innerHTML = listHTML(); } });
@@ -1849,7 +1864,7 @@ function resolveScan(j, mode, skipBase) {
     if (!MM.cats[cat]) return Promise.resolve({ err: "هذا النوع من المنتجات ما نفحصه حالياً." });
   }
   if (!db) db = skipBase ? null : matchProduct(full, mode, cat);
-  var mm = medMsg(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || ""), cat, mode);
+  var mm = medMsg(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || ""), cat, mode, j.purpose);
   if (mm) return Promise.resolve({ err: mm, name: full, med: true });
   if (j.ingredients && checkIngredients(j.ingredients).ok) {
     var mi = matchInci(j.ingredients, mode);
@@ -1895,6 +1910,7 @@ function logScan(j, mode, out) {
 function finishScan(j, mode, skipBase) {
   return resolveScan(j, mode, skipBase).then(function (out) {
     logScan(j, mode, out);
+    if (out.result && j) { var tn = tonicNote(((j.brand || "") + " " + (j.name || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || "") + " " + (out.result.prod.inci || "")), out.result.prod.c, mode); if (tn) out.result.tonic = tn; }
     S.busy = false; if (S.mode !== mode) return;
     if (out.err) { S.err = out.err; S.errName = out.name || ""; S.errSwitch = !!out.sw; S.view = "check"; render(); return; }
     S.result = out.result; go("result");
