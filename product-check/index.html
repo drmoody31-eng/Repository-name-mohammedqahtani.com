@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="1448b32635";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="577800911f";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1119,13 +1119,14 @@ function tonicNote(text, cat, mode) {
 /* a leave-on hair product sold to treat a condition (hair loss, regrowth, dandruff) is not rated; one sold to improve the look or quality of hair is */
 var TREATW = /hair ?(loss|fall|growth|regrowth)|anti[- ]?(hair ?loss|hair ?fall|chute)|regrow|thinning|alopecia|تساقط|إنبات/i;
 var DANDRUFFW = /dandruff|pelliculaire|seborr|flak|ketoconazole|zinc pyrithione|pyrithione zinc|piroctone|selenium sul|climbazole|قشرة/i;
-var TREATMSG = "هذا منتج علاجي، مو منتج عناية، فما نقيّمه هنا. استخدامه يكون حسب تعليمات طبيبك.";
+var TREATMSG = "هذا علاج، ما نقدر نقيّمه هنا. يحتاج استشارة ورأي طبيب.";
+var LOSSMSG = "هذا علاج لتساقط الشعر، ما نقدر نقيّمه هنا. يحتاج استشارة ورأي طبيب.";
 function medMsg(text, cat, mode, purpose) {
   if (WASHOFF[cat]) return "";
   var t = String(text || "");
   if (DRUG.test(t)) return MEDMSG;
   if (mode !== "hair" || cat === "styling" || DANDRUFFW.test(t)) return "";
-  return purpose === "treat" || TREATW.test(t) ? TREATMSG : "";
+  return TREATW.test(t) || /novophane|aminexil|neoptide|anacaps|sérum anti-?chute/i.test(t) && purpose === "treat" ? LOSSMSG : purpose === "treat" ? TREATMSG : "";
 }
 function isMed(text, cat, mode, purpose) { return !!medMsg(text, cat, mode, purpose); }
 function checkIngredients(text) {
