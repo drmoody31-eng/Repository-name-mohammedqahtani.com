@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="c6ba5113b2";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="de94c15208";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -536,6 +536,8 @@ var HAIR = {
     /* checked against published ingredient lists (18 Nov 2026) */
     { n: "L'Oréal Paris Elvive Hyaluron Moisture 72H Moisture Filling Shampoo", c: "shampoo", f: ["ss", "sil", "frag"] },
     { n: "L'Oréal Paris Elvive Collagen Lifter Volumizing Shampoo", c: "shampoo", f: ["ss", "frag"] },
+    /* sold with two formulas; Dr. Qahtani: the sulfate one is the one mostly sold in Saudi Arabia */
+    { n: "L'Oréal Paris Elvive Glycolic Gloss Shampoo", c: "shampoo", f: ["ss", "frag"] },
     { n: "L'Oréal Paris Elvive Collagen Lifter Fiber Thickening Conditioner", c: "conditioner", f: ["sil", "hum", "frag"] },
     { n: "Giovanni Frizz Be Gone Super Smoothing Anti-Frizz Hair Serum", c: "serum", f: ["sil", "heavy", "frag"] },
     { n: "Pantene 3 Minute Miracle Conditioner", c: "conditioner", f: ["sil", "hum", "frag"] },
@@ -1125,7 +1127,7 @@ function tonicNote(text, cat, mode) {
 /* a leave-on hair product sold to treat a condition (hair loss, regrowth, dandruff) is not rated; one sold to improve the look or quality of hair is */
 /* products sold with different formulas in different countries: never answered from memory, always from the pack */
 var VARIES = /elvive.*glycolic gloss.*shampoo|glycolic gloss.*shampoo.*elvive/i;
-var VARIESMSG = "تركيبة هذا المنتج تختلف من بلد لبلد. صوّر قائمة المكونات من ظهر العلبة ونحلله لك.";
+var VARIESMSG = "تركيبة هذا المنتج تختلف من بلد لبلد. حللنا التركيبة المتوفرة عندنا غالباً، وعشان تتأكد صوّر قائمة المكونات من ظهر العلبة.";
 var TREATW = /hair ?(loss|fall|growth|regrowth)|anti[- ]?(hair ?loss|hair ?fall|chute)|regrow|thinning|alopecia|تساقط|إنبات/i;
 var DANDRUFFW = /dandruff|pelliculaire|seborr|flak|ketoconazole|zinc pyrithione|pyrithione zinc|piroctone|selenium sul|climbazole|قشرة/i;
 var TREATMSG = "هذا علاج، ما نقدر نقيّمه هنا. يحتاج استشارة ورأي طبيب.";
@@ -1905,7 +1907,6 @@ function resolveScan(j, mode, skipBase) {
   if (!db) db = skipBase ? null : matchProduct(full, mode, cat);
   var mm = medMsg(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || "") + ((j.traits || []).indexOf("ad") >= 0 ? " dandruff" : ""), cat, mode, j.purpose);
   if (mm) return Promise.resolve({ err: mm, name: full, med: true });
-  if (VARIES.test(full) && !(j.ingredients && checkIngredients(j.ingredients).ok)) return Promise.resolve({ err: W(VARIESMSG), name: full });
   if (j.ingredients && checkIngredients(j.ingredients).ok) {
     var mi = matchInci(j.ingredients, mode);
     return Promise.resolve({ result: mi ? { prod: mi, src: "قرأنا قائمة المكونات من الصورة، وهي تركيبة " + mi.n + " المسجلة عندنا." } : { prod: { n: db && !db.inci ? db.n : (full || "منتجك"), c: cat, f: analyzeIngredients(j.ingredients, cat, mode, full) }, src: "قرأنا قائمة المكونات من الصورة وحللناها." } });
@@ -1955,6 +1956,7 @@ function finishScan(j, mode, skipBase) {
   return resolveScan(j, mode, skipBase).then(function (out) {
     logScan(j, mode, out);
     if (out.result && j) { var tn = tonicNote(((j.brand || "") + " " + (j.name || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || "") + " " + (out.result.prod.inci || "")), out.result.prod.c, mode); if (tn) out.result.tonic = tn; }
+    if (out.result && j && VARIES.test(((j.brand || "") + " " + (j.name || ""))) && !/من الصورة/.test(out.result.src || "")) out.result.tonic = (out.result.tonic ? out.result.tonic + " " : "") + W(VARIESMSG);
     S.busy = false; if (S.mode !== mode) return;
     if (out.err) { S.err = out.err; S.errName = out.name || ""; S.errSwitch = !!out.sw; S.view = "check"; render(); return; }
     S.result = out.result; go("result");
