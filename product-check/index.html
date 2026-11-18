@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="577800911f";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="c6ba5113b2";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -533,6 +533,11 @@ var HAIR = {
     { n: "Giovanni Tea Tree Triple Treat Invigorating Shampoo", c: "shampoo", f: ["ss", "eo"] },
     { n: "OUAI Leave In Conditioner", c: "leavein", f: ["sil", "light", "frag"] },
     { n: "HASK Argan Oil 5-in-1 Leave-In Spray", c: "leavein", f: ["light", "hum", "frag"] },
+    /* checked against published ingredient lists (18 Nov 2026) */
+    { n: "L'Oréal Paris Elvive Hyaluron Moisture 72H Moisture Filling Shampoo", c: "shampoo", f: ["ss", "sil", "frag"] },
+    { n: "L'Oréal Paris Elvive Collagen Lifter Volumizing Shampoo", c: "shampoo", f: ["ss", "frag"] },
+    { n: "L'Oréal Paris Elvive Collagen Lifter Fiber Thickening Conditioner", c: "conditioner", f: ["sil", "hum", "frag"] },
+    { n: "Giovanni Frizz Be Gone Super Smoothing Anti-Frizz Hair Serum", c: "serum", f: ["sil", "heavy", "frag"] },
     { n: "Pantene 3 Minute Miracle Conditioner", c: "conditioner", f: ["sil", "hum", "frag"] },
     { n: "L'Oréal Elvive Total Repair 5 Conditioner", c: "conditioner", f: ["sil", "protein", "frag"] },
     { n: "Herbal Essences Argan Oil Conditioner", c: "conditioner", f: ["sil", "light", "frag"] },
@@ -608,7 +613,7 @@ var HAIR = {
     ["ss", /sodium laur(yl|eth) sulfate|ammonium laur(yl|eth) sulfate|sodium coco-?sulfate|sodium myreth sulfate/, 6],
     ["strong", /olefin sulfonate/, 6],
     ["ad", /ketoconazole|zinc pyrithione|pyrithione zinc|piroctone|selenium sul|climbazole/, 0],
-    ["sal", /salicylic acid/, 0],
+    ["sal", /salicylic acid/, 15],
     ["sil", /dimethicon|siloxane|trimethicone|amodimethicone/, 10],
     ["heavy", /phyllanthus emblica|\bamla\b|cocos nucifera|coconut oil|ricinus|castor|olea europaea|olive (fruit )?oil|butyrospermum|shea|mineral oil|paraffinum|petrolatum|theobroma|mangifera indica seed butter|persea gratissima/, 8],
     ["light", /argania|argan|simmondsia|jojoba|squalane|vitis vinifera|grape ?seed|prunus amygdalus|camellia|helianthus annuus/, 12],
@@ -695,6 +700,7 @@ var SKIN = {
     { n: "Nivea Creme", c: "moisturizer", f: ["rich", "frag"] },
     { n: "Vaseline Petroleum Jelly", c: "moisturizer", f: ["rich", "fragfree"] },
     { n: "La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+", c: "sunscreen", f: ["spf", "light", "alc"] },
+    { n: "Beauty of Joseon Relief Sun Rice + Probiotics SPF50+", c: "sunscreen", f: ["nia", "spf", "fragfree"] },
     { n: "Eucerin Sun Oil Control Gel-Cream SPF50+", c: "sunscreen", f: ["spf", "light", "matte", "alc"] },
     { n: "Heliocare 360 Gel Oil-Free SPF50", c: "sunscreen", f: ["spf", "light", "matte"] },
     { n: "ISDIN Fotoprotector Fusion Water SPF50", c: "sunscreen", f: ["spf", "light", "alc", "frag"] },
@@ -1117,6 +1123,9 @@ function tonicNote(text, cat, mode) {
   return f.length ? "فيه " + f.join(" و") + (f.length > 1 ? "، وهذي مكونات علاجية للفروة ما نقيّمها." : "، وهذا مكوّن علاجي للفروة ما نقيّمه.") + " التقييم مبني على باقي المكونات." : "";
 }
 /* a leave-on hair product sold to treat a condition (hair loss, regrowth, dandruff) is not rated; one sold to improve the look or quality of hair is */
+/* products sold with different formulas in different countries: never answered from memory, always from the pack */
+var VARIES = /elvive.*glycolic gloss.*shampoo|glycolic gloss.*shampoo.*elvive/i;
+var VARIESMSG = "تركيبة هذا المنتج تختلف من بلد لبلد. صوّر قائمة المكونات من ظهر العلبة ونحلله لك.";
 var TREATW = /hair ?(loss|fall|growth|regrowth)|anti[- ]?(hair ?loss|hair ?fall|chute)|regrow|thinning|alopecia|تساقط|إنبات/i;
 var DANDRUFFW = /dandruff|pelliculaire|seborr|flak|ketoconazole|zinc pyrithione|pyrithione zinc|piroctone|selenium sul|climbazole|قشرة/i;
 var TREATMSG = "هذا علاج، ما نقدر نقيّمه هنا. يحتاج استشارة ورأي طبيب.";
@@ -1896,6 +1905,7 @@ function resolveScan(j, mode, skipBase) {
   if (!db) db = skipBase ? null : matchProduct(full, mode, cat);
   var mm = medMsg(full + " " + (j.drug || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || "") + ((j.traits || []).indexOf("ad") >= 0 ? " dandruff" : ""), cat, mode, j.purpose);
   if (mm) return Promise.resolve({ err: mm, name: full, med: true });
+  if (VARIES.test(full) && !(j.ingredients && checkIngredients(j.ingredients).ok)) return Promise.resolve({ err: W(VARIESMSG), name: full });
   if (j.ingredients && checkIngredients(j.ingredients).ok) {
     var mi = matchInci(j.ingredients, mode);
     return Promise.resolve({ result: mi ? { prod: mi, src: "قرأنا قائمة المكونات من الصورة، وهي تركيبة " + mi.n + " المسجلة عندنا." } : { prod: { n: db && !db.inci ? db.n : (full || "منتجك"), c: cat, f: analyzeIngredients(j.ingredients, cat, mode, full) }, src: "قرأنا قائمة المكونات من الصورة وحللناها." } });
