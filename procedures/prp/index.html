@@ -37,20 +37,30 @@
 <!-- JSON-LD: MedicalProcedure schema -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "MedicalProcedure",
-  "description": "حقن البلازما من أكثر الإجراءات التي أستخدمها في علاج الصلع الوراثي، وأدلته أقوى بكثير من معظم الإجراءات التجديدية الأخرى، لكنها ليست بقوة أدلة المينوكسيديل أو الفيناسترايد. التجارب العشوائية المضبوطة ومعظم التحليلات التجميعية تُظهر زيادة معتدلة في كثافة الشعر وقطر الشعرة مقارنة بالعلاج الوهمي، مع تباين كبير في النتائج سببه اختلاف طرق التحضير بين المراكز. أعتبره علاجاً مساعداً قوياً ضمن خطة، لا بديلاً عن الأدوية، ويحتاج جلسات متكررة وصيانة مستمرة للحفاظ على الأثر.",
-  "recognizingAuthority": {"@type": "Organization", "name": "Saudi Commission for Health Specialties"},
-  "relevantSpecialty": "Dermatology",
-  "name": "Platelet-Rich Plasma (PRP)",
-  "alternateName": "حقن البلازما (PRP)",
-  "procedureType": "https://schema.org/TherapeuticProcedure",
-  "bodyLocation": "Scalp",
-  "performer": {
-    "@type": "Physician",
-    "name": "Dr. Mohammed AlQahtani",
-    "url": "https://mohammedqahtani.com"
-  }
+ "@context": "https://schema.org",
+ "@type": "MedicalProcedure",
+ "description": "حقن البلازما من أكثر الإجراءات التي أستخدمها في علاج الصلع الوراثي، وأدلته أقوى بكثير من معظم الإجراءات التجديدية الأخرى، لكنها ليست بقوة أدلة المينوكسيديل أو الفيناسترايد. التجارب العشوائية المضبوطة ومعظم التحليلات التجميعية تُظهر زيادة معتدلة في كثافة الشعر وقطر الشعرة مقارنة بالعلاج الوهمي، مع تباين كبير في النتائج سببه اختلاف طرق التحضير بين المراكز. أعتبره علاجاً مساعداً قوياً ضمن خطة، لا بديلاً عن الأدوية، ويحتاج جلسات متكررة وصيانة مستمرة للحفاظ على الأثر.",
+ "recognizingAuthority": {
+  "@type": "Organization",
+  "name": "Saudi Commission for Health Specialties"
+ },
+ "relevantSpecialty": "Dermatology",
+ "name": "Platelet-Rich Plasma (PRP)",
+ "alternateName": "حقن البلازما (PRP)",
+ "procedureType": "https://schema.org/TherapeuticProcedure",
+ "bodyLocation": "Scalp",
+ "performer": {
+  "@type": "Physician",
+  "name": "Dr. Mohammed AlQahtani",
+  "alternateName": [
+   "د. محمد القحطاني",
+   "Dr. Mohammed Eid AlQahtani",
+   "د. محمد عيد القحطاني",
+   "Mohammed Eid AlQahtani",
+   "محمد عيد القحطاني"
+  ],
+  "url": "https://mohammedqahtani.com"
+ }
 }
 </script>
 
@@ -573,7 +583,13 @@ body.show-en { direction: ltr !important; text-align: start; }
   ],
   "@id": "https://mohammedqahtani.com/#person",
   "name": "Dr. Mohammed AlQahtani",
-  "alternateName": "د. محمد القحطاني",
+  "alternateName": [
+   "د. محمد القحطاني",
+   "Dr. Mohammed Eid AlQahtani",
+   "د. محمد عيد القحطاني",
+   "Mohammed Eid AlQahtani",
+   "محمد عيد القحطاني"
+  ],
   "honorificPrefix": "Dr.",
   "jobTitle": "Consultant Dermatologist / Hair Loss Consultant",
   "medicalSpecialty": "Dermatology",
@@ -607,7 +623,14 @@ body.show-en { direction: ltr !important; text-align: start; }
   "@type": "WebSite",
   "@id": "https://mohammedqahtani.com/#website",
   "url": "https://mohammedqahtani.com/",
-  "name": "Dr. Mohammed AlQahtani"
+  "name": "Dr. Mohammed AlQahtani",
+  "alternateName": [
+   "د. محمد القحطاني",
+   "Dr. Mohammed Eid AlQahtani",
+   "د. محمد عيد القحطاني",
+   "Mohammed Eid AlQahtani",
+   "محمد عيد القحطاني"
+  ]
  },
  "mainEntity": {
   "@type": "MedicalProcedure",
@@ -1226,6 +1249,7 @@ body.show-en { direction: ltr !important; text-align: start; }
       <li><a href="/conditions/aga/women/"><span class="ar-only">الصلع الوراثي عند النساء</span><span class="en-only">Female pattern hair loss</span></a></li>
       <li><a href="/conditions/mens-hair-loss-riyadh/"><span class="ar-only">تساقط الشعر عند الرجال في الرياض</span><span class="en-only">Men's hair loss in Riyadh</span></a></li>
       <li><a href="/conditions/womens-hair-loss-riyadh/"><span class="ar-only">تساقط الشعر عند النساء في الرياض</span><span class="en-only">Women's hair loss in Riyadh</span></a></li>
+      <li><a href="/procedures/prp-vs-mesotherapy/"><span class="ar-only">البلازما أم الميزوثيرابي؟</span><span class="en-only">PRP or mesotherapy? (Arabic)</span></a></li>
     </ul>
   </div>
 
@@ -1245,8 +1269,8 @@ body.show-en { direction: ltr !important; text-align: start; }
   </div>
 
   <p class="last-reviewed">
-    <span class="ar-only">كتبه وراجعه طبيًا: د. محمد القحطاني، استشاري الأمراض الجلدية والشعر (الهيئة السعودية للتخصصات الصحية). آخر مراجعة: سبتمبر 2026.</span>
-    <span class="en-only">Written and medically reviewed by Dr. Mohammed AlQahtani, Consultant Dermatologist (SCFHS). Last reviewed: September 2026.</span>
+    <span class="ar-only">كتبه وراجعه طبيًا: د. محمد عيد القحطاني، استشاري الأمراض الجلدية والشعر (الهيئة السعودية للتخصصات الصحية). آخر مراجعة: سبتمبر 2026.</span>
+    <span class="en-only">Written and medically reviewed by Dr. Mohammed Eid AlQahtani, Consultant Dermatologist (SCFHS). Last reviewed: September 2026.</span>
   </p>
 
 </article>
