@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="de94c15208";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="3aa8cf5bbe";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -538,6 +538,12 @@ var HAIR = {
     { n: "L'Oréal Paris Elvive Collagen Lifter Volumizing Shampoo", c: "shampoo", f: ["ss", "frag"] },
     /* sold with two formulas; Dr. Qahtani: the sulfate one is the one mostly sold in Saudi Arabia */
     { n: "L'Oréal Paris Elvive Glycolic Gloss Shampoo", c: "shampoo", f: ["ss", "frag"] },
+    { n: "Vichy Dercos Energy+ Stimulating Shampoo", c: "shampoo", f: ["ss", "frag"], act: "aminexil" },
+    { n: "Olaplex No. 6 Bond Smoother", c: "leavein", f: ["sil", "protein", "bond", "frag"] },
+    { n: "Difeel Rosemary & Mint Premium Hair Oil", c: "oil", f: ["heavy", "frag"] },
+    { n: "Shea Moisture Aloe Butter Scalp Moisture Shampoo", c: "shampoo", f: ["mild", "heavy", "hum", "frag"] },
+    { n: "Avalon Organics Therapy Thickening Shampoo Biotin B-Complex", c: "shampoo", f: ["ss", "light", "hum", "frag"] },
+    { n: "Cantu Avocado Hydrating Curling Cream", c: "styling", f: ["heavy", "protein", "hum", "frag"] },
     { n: "L'Oréal Paris Elvive Collagen Lifter Fiber Thickening Conditioner", c: "conditioner", f: ["sil", "hum", "frag"] },
     { n: "Giovanni Frizz Be Gone Super Smoothing Anti-Frizz Hair Serum", c: "serum", f: ["sil", "heavy", "frag"] },
     { n: "Pantene 3 Minute Miracle Conditioner", c: "conditioner", f: ["sil", "hum", "frag"] },
@@ -1120,13 +1126,13 @@ var MEDMSG = "هذا علاج طبي، مو منتج عناية، فما نقي�
 /* growth actives (caffeine, rosemary, aminexil): the product is still rated on its other ingredients, with a line saying these are treatment ingredients we do not rate */
 var TONICS = [[/caffeine|cafeine|coffea|كافيين/i, "كافيين"], [/rosemary|rosmarinus|روزماري|إكليل الجبل/i, "روزماري"], [/aminexil|diaminopyrimidine oxide|امينكسيل|أمينكسيل/i, "أمينكسيل"]];
 function tonicNote(text, cat, mode) {
-  if (mode !== "hair" || WASHOFF[cat]) return "";
+  if (mode !== "hair") return "";
   var t = String(text || ""), f = TONICS.filter(function (x) { return x[0].test(t); }).map(function (x) { return x[1]; });
   return f.length ? "فيه " + f.join(" و") + (f.length > 1 ? "، وهذي مكونات علاجية للفروة ما نقيّمها." : "، وهذا مكوّن علاجي للفروة ما نقيّمه.") + " التقييم مبني على باقي المكونات." : "";
 }
 /* a leave-on hair product sold to treat a condition (hair loss, regrowth, dandruff) is not rated; one sold to improve the look or quality of hair is */
 /* products sold with different formulas in different countries: never answered from memory, always from the pack */
-var VARIES = /elvive.*glycolic gloss.*shampoo|glycolic gloss.*shampoo.*elvive/i;
+var VARIES = /elvive.*glycolic gloss.*shampoo|glycolic gloss.*shampoo.*elvive|avalon organics.*(biotin|thickening).*shampoo/i;
 var VARIESMSG = "تركيبة هذا المنتج تختلف من بلد لبلد. حللنا التركيبة المتوفرة عندنا غالباً، وعشان تتأكد صوّر قائمة المكونات من ظهر العلبة.";
 var TREATW = /hair ?(loss|fall|growth|regrowth)|anti[- ]?(hair ?loss|hair ?fall|chute)|regrow|thinning|alopecia|تساقط|إنبات/i;
 var DANDRUFFW = /dandruff|pelliculaire|seborr|flak|ketoconazole|zinc pyrithione|pyrithione zinc|piroctone|selenium sul|climbazole|قشرة/i;
@@ -1812,7 +1818,7 @@ V.addEventListener("click", function (e) {
     return;
   }
   if (b.dataset.tab) { S.tab = b.dataset.tab; S.q = ""; S.err = ""; S.errName = ""; S.errSwitch = false; render(); return; }
-  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; track("name"); if (isMed(pr.n + " " + (pr.inci || ""), pr.c, S.mode)) { S.err = medMsg(pr.n + " " + (pr.inci || ""), pr.c, S.mode); S.errName = pr.n; S.errSwitch = false; render(); window.scrollTo(0, 0); return; } S.result = { prod: pr, tonic: tonicNote(pr.n + " " + (pr.inci || ""), pr.c, S.mode), src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
+  if (b.dataset.prod != null) { var pr = LIST[+b.dataset.prod]; if (!pr) return; track("name"); if (isMed(pr.n + " " + (pr.inci || ""), pr.c, S.mode)) { S.err = medMsg(pr.n + " " + (pr.inci || ""), pr.c, S.mode); S.errName = pr.n; S.errSwitch = false; render(); window.scrollTo(0, 0); return; } S.result = { prod: pr, tonic: tonicNote(pr.n + " " + (pr.inci || "") + " " + (pr.act || ""), pr.c, S.mode), src: pr.cur ? "تقييم آلي من قاعدة منتجاتنا حسب نتيجتك." : "حللنا قائمة مكوناته المسجلة في قاعدة منتجاتنا." }; go("result"); return; }
   var a = b.dataset.a;
   if (a === "quiz") { S.after = null; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); }
   else if (a === "scanfirst") { if (P()) { go("check"); } else { S.after = "check"; S.gq = !S.gender; S.step = 0; S.answers = {}; go("quiz"); } }
@@ -1955,7 +1961,7 @@ function logScan(j, mode, out) {
 function finishScan(j, mode, skipBase) {
   return resolveScan(j, mode, skipBase).then(function (out) {
     logScan(j, mode, out);
-    if (out.result && j) { var tn = tonicNote(((j.brand || "") + " " + (j.name || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || "") + " " + (out.result.prod.inci || "")), out.result.prod.c, mode); if (tn) out.result.tonic = tn; }
+    if (out.result && j) { var tn = tonicNote(((j.brand || "") + " " + (j.name || "") + " " + (j.known_ingredients || "") + " " + (j.ingredients || "") + " " + (out.result.prod.inci || "") + " " + (out.result.prod.act || "")), out.result.prod.c, mode); if (tn) out.result.tonic = tn; }
     if (out.result && j && VARIES.test(((j.brand || "") + " " + (j.name || ""))) && !/من الصورة/.test(out.result.src || "")) out.result.tonic = (out.result.tonic ? out.result.tonic + " " : "") + W(VARIESMSG);
     S.busy = false; if (S.mode !== mode) return;
     if (out.err) { S.err = out.err; S.errName = out.name || ""; S.errSwitch = !!out.sw; S.view = "check"; render(); return; }
