@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-mode="hair">
 <head>
-<script>(function(){var B="1f1b113045";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
+<script>(function(){var B="e3b175836b";try{fetch("version.json?"+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B&&location.search.indexOf("v="+j.v)<0){var q=location.search.replace(/[?&]v=[^&]*/g,"").replace(/^[?&]/,"");location.replace(location.pathname+"?v="+j.v+(q?"&"+q:"")+location.hash)}}).catch(function(){})}catch(e){}})();</script>
 <script>window.MQ_SCAN_URL="https://mq-scan.dr-moody31.workers.dev/";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -427,6 +427,8 @@ table.st .pu{display:block;color:var(--muted);margin-top:2px}
 @media print{.app{min-height:0!important;height:auto!important;padding-bottom:0!important;display:block!important}main{animation:none!important;gap:0!important;display:block!important}}
 
 .paper .note.tonic{border-inline-start:3px solid #b98a5a;padding-inline-start:12px;font-size:15px;line-height:1.7;color:#2b2520}
+
+.btn.ghost.wa{border-color:#1f9d55;color:#157a41}
 
 </style>
 </head>
@@ -1591,7 +1593,7 @@ function picksHTML(p) {
   var tb = function (k, t, sub) { return '<button data-tier="' + k + '" aria-pressed="' + (S.tier === k) + '"><b>' + t + '</b><small>' + sub + '</small></button>'; };
   return '<div class="picks" id="routine"><span class="kicker">روتينك المقترح</span><div class="tier" role="group" aria-label="مستوى الروتين">' + tb("eco", "اقتصادي", "ماركات صيدلية بسعر أقل") + tb("pro", "طبي فاخر", "منتجات طبية عالية الجودة") + '</div>' +
     packHTML(p) + schedHTML(plan, p) + orderAllHTML(plan) +
-    '<button class="btn ghost" data-a="sheet">' + G("احفظ روتينك كجدول", "احفظي روتينك كجدول") + ' ' + ARROW + '</button>' + expectHTML(p) + DISC() + '</div>';
+    '<button class="btn ghost" data-a="sheet">' + G("احفظ روتينك كجدول", "احفظي روتينك كجدول") + ' ' + ARROW + '</button><button class="btn ghost wa" data-a="wa2">' + G("ارسل الاختبار لأحد على واتساب", "ارسلي الاختبار لأحد على واتساب") + '</button>' + expectHTML(p) + DISC() + '</div>';
 }
 /* the whole routine in one press, one button per store */
 function orderAllHTML(plan) {
@@ -1737,7 +1739,8 @@ function result() {
     (r.scan && r.matched ? '<button class="text-btn dark" data-a="notmine">مو هذا منتجك؟</button>' : '') + '</div>';
   if (okLevel) alts = [];
   if (alts.length) h += '<div class="picks"><span class="kicker">' + "بدائل أنسب لك" + '</span>' + alts.map(function (a) { return '<a class="pick" href="' + pharmLink(a.p) + '" target="_blank" rel="sponsored noopener" data-ph="' + esc(STORES[a.p.st].code) + '"><span class="slot">توافق <b class="s">' + a.s + '</b></span><span class="pname">' + esc(a.p.n) + '</span><span class="buy"><span class="go">' + G("اطلبه", "اطلبيه") + ' من ' + esc(pharmStore(a.p)) + ' ' + ARROW + '</span>' + codeChip(a.p) + '</span></a>'; }).join("") + DISC() + '</div>';
-  return h + '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتج ثاني ' + ARROW + '</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
+  S.share = { name: pr.n, word: word, score: x.score };
+  return h + '<div class="actions"><button class="btn" data-a="check">' + G("افحص", "افحصي") + ' منتج ثاني ' + ARROW + '</button><button class="btn ghost wa" data-a="wa">' + G("ارسل النتيجة على واتساب", "ارسلي النتيجة على واتساب") + '</button><button class="text-btn" data-a="profile">' + G("ارجع", "ارجعي") + ' لنتيجتك</button></div>';
 }
 /* a 1080 x 1920 story card of the result with the whole routine, drawn on a canvas and downloaded */
 function shareCard() {
@@ -1844,6 +1847,15 @@ V.addEventListener("click", function (e) {
   else if (a === "notmine") { S.result = null; S.tab = "main"; S.q = ""; go("check"); S.err = W("خلّينا نحدد المنتج الصحيح. اكتب اسمه الكامل، أو صوّر الواجهة مرة ثانية."); render(); }
   else if (a === "card") { shareCard(); }
   else if (a === "sheet") { track("card"); go("sheet"); }
+  else if (a === "wa" || a === "wa2") {
+    /* send to a friend on WhatsApp; the link is tagged so arrivals are counted as "wa" */
+    var hair = S.mode === "hair", link = "https://mohammedqahtani.com/product-check/?s=wa";
+    var msg = a === "wa" && S.share
+      ? "فحصت «" + S.share.name + "» في فاحص المنتجات من د. محمد القحطاني، والنتيجة: " + S.share.word.replace("يناسبك", "يناسبني") + " (" + S.share.score + "/100 على " + (hair ? "شعري" : "بشرتي") + ").\nالفاحص مجاني، صوّر منتجك وشوف نتيجته:\n" + link
+      : "سوّيت اختبار " + (hair ? "الشعر" : "البشرة") + " من د. محمد القحطاني وطلع لي روتين كامل حسب نوع " + (hair ? "شعري" : "بشرتي") + ".\nالاختبار مجاني وياخذ دقيقة:\n" + link;
+    var wu = "https://wa.me/?text=" + encodeURIComponent(msg);
+    if (!window.open(wu, "_blank")) location.href = wu;
+  }
   else if (a === "print") { window.print(); }
   else if (a === "link") { var rl = routineLink(); navigator.clipboard.writeText(rl).then(function () { toast("نسخنا رابط روتينك"); }).catch(function () { toast(rl); }); }
   else if (a === "back") { go("profile"); }
