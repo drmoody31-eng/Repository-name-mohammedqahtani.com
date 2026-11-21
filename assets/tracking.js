@@ -49,3 +49,33 @@
     setTimeout(go, 800);
   }, true);
 })();
+
+/*
+ * Ad code on WhatsApp messages, site-wide.
+ * A visit with ?ad=6a adds " [AD-6-A]" to the prefilled WhatsApp message on
+ * every WhatsApp link that does not already carry a code, so sitelink and
+ * sub-page leads can be matched to their campaign.
+ */
+(function () {
+  var ad = '';
+  try { ad = (new URLSearchParams(location.search).get('ad') || '').trim(); } catch (e) { return; }
+  if (!/^[0-9a-zA-Z-]{1,12}$/.test(ad)) return;
+  var m = ad.match(/^(\d+)([a-zA-Z]+)$/);
+  var code = '[AD-' + (m ? m[1] + '-' + m[2].toUpperCase() : ad.toUpperCase()) + ']';
+  function tag() {
+    var links = document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href*="whatsapp.com/send"]');
+    for (var i = 0; i < links.length; i++) {
+      try {
+        var u = new URL(links[i].href);
+        var t = u.searchParams.get('text') || '';
+        if (t.indexOf('[AD-') !== -1) continue;
+        var parts = [];
+        u.searchParams.forEach(function (v, k) { if (k !== 'text') parts.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)); });
+        parts.push('text=' + encodeURIComponent((t ? t + ' ' : '') + code));
+        links[i].href = u.origin + u.pathname + '?' + parts.join('&');
+      } catch (e) {}
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tag); else tag();
+  window.addEventListener('load', tag);
+})();
