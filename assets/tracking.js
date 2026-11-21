@@ -53,13 +53,20 @@
 /*
  * Ad code on WhatsApp messages, site-wide.
  * A visit with ?ad=6a adds " [AD-6-A]" to the prefilled WhatsApp message on
- * every WhatsApp link that does not already carry a code, so sitelink and
- * sub-page leads can be matched to their campaign.
+ * every WhatsApp link that does not already carry a code, on the landing
+ * page and on every page visited after it, so leads can be matched to
+ * their campaign.
  */
 (function () {
-  var ad = '';
-  try { ad = (new URLSearchParams(location.search).get('ad') || '').trim(); } catch (e) { return; }
-  if (!/^[0-9a-zA-Z-]{1,12}$/.test(ad)) return;
+  var ad = '', ok = /^[0-9a-zA-Z-]{1,12}$/;
+  try { ad = (new URLSearchParams(location.search).get('ad') || '').trim(); } catch (e) {}
+  // Remember the code for the rest of the visit, so it survives the click
+  // from the landing page to the consultation page.
+  try {
+    if (ok.test(ad)) sessionStorage.setItem('mq_ad', ad);
+    else ad = sessionStorage.getItem('mq_ad') || '';
+  } catch (e) {}
+  if (!ok.test(ad)) return;
   var m = ad.match(/^(\d+)([a-zA-Z]+)$/);
   var code = '[AD-' + (m ? m[1] + '-' + m[2].toUpperCase() : ad.toUpperCase()) + ']';
   function tag() {
